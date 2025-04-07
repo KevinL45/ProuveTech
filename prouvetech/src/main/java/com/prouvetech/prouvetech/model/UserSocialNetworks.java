@@ -4,9 +4,9 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "user_social_networks", uniqueConstraints = {
-        @UniqueConstraint(columnNames = { "user_id", "social_network_id" })
+        @UniqueConstraint(columnNames = { "user_id", "social_networks_id" })
 })
-public class UserSocialNetwork {
+public class UserSocialNetworks {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,16 +17,16 @@ public class UserSocialNetwork {
     private User user;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "social_network_id")
-    private SocialNetwork socialNetwork;
+    @JoinColumn(name = "social_networks_id")
+    private SocialNetworks socialNetwork;
 
     @Column(nullable = false, length = 255)
     private String profileUrl;
 
-    public UserSocialNetwork() {
+    public UserSocialNetworks() {
     }
 
-    public UserSocialNetwork(User user, SocialNetwork socialNetwork, String profileUrl) {
+    public UserSocialNetworks(User user, SocialNetworks socialNetwork, String profileUrl) {
         this.user = user;
         this.socialNetwork = socialNetwork;
         this.profileUrl = profileUrl;
@@ -44,11 +44,11 @@ public class UserSocialNetwork {
         this.user = user;
     }
 
-    public SocialNetwork getSocialNetwork() {
+    public SocialNetworks getSocialNetwork() {
         return socialNetwork;
     }
 
-    public void setSocialNetwork(SocialNetwork socialNetwork) {
+    public void setSocialNetwork(SocialNetworks socialNetwork) {
         this.socialNetwork = socialNetwork;
     }
 

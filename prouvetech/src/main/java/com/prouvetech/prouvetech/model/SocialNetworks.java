@@ -9,7 +9,7 @@ import java.util.List;
 @Table(name = "social_networks", uniqueConstraints = {
         @UniqueConstraint(columnNames = "name")
 })
-public class SocialNetwork implements Serializable {
+public class SocialNetworks implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,12 +22,12 @@ public class SocialNetwork implements Serializable {
     private String logo;
 
     @OneToMany(mappedBy = "socialNetwork", cascade = CascadeType.ALL)
-    private List<UserSocialNetwork> users = new ArrayList<>();
+    private List<UserSocialNetworks> users = new ArrayList<>();
 
-    public SocialNetwork() {
+    public SocialNetworks() {
     }
 
-    public SocialNetwork(String name, String logo) {
+    public SocialNetworks(String name, String logo) {
         this.name = name;
         this.logo = logo;
     }
