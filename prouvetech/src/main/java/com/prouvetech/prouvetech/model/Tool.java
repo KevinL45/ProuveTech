@@ -5,7 +5,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Table(name = "tool", uniqueConstraints = {
+@Entity
+@Table(name = "tools", uniqueConstraints = {
         @UniqueConstraint(columnNames = "name")
 })
 public class Tool implements Serializable {

@@ -25,13 +25,12 @@ public class Comment {
     @Column(nullable = false)
     private LocalDateTime createDate;
 
-    @Column
+    @Column(nullable = false)
     private LocalDateTime updateDate;
 
-    @Column
+    @Column(nullable = true)
     private LocalDateTime deleteDate;
 
-    // === CONSTRUCTEURS ===
     public Comment() {
         this.createDate = LocalDateTime.now();
     }
@@ -43,7 +42,6 @@ public class Comment {
         this.createDate = LocalDateTime.now();
     }
 
-    // === GETTERS & SETTERS ===
     public Long getId() {
         return id;
     }

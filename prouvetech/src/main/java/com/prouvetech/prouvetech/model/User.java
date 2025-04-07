@@ -28,18 +28,24 @@ public class User {
     @Column(nullable = false, length = 255)
     private String password;
 
-    @Column(length = 50)
+    @Column(length = 50, nullable = true)
     private String title;
 
-    @Column(length = 1000)
+    @Column(length = 1000, nullable = true)
     private String description;
 
-    @Column(length = 10)
+    @Column(length = 10, nullable = true)
     private String telephone;
 
+    @Column(nullable = true)
     private String cv;
 
+    @Column(nullable = true)
     private String photo;
+
+    @ManyToOne
+    @JoinColumn(name = "status_id", nullable = false)
+    private Status status;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserSocialNetwork> socialNetworks = new ArrayList<>();

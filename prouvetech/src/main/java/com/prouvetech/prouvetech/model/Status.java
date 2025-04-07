@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "statuses", uniqueConstraints = {
+@Table(name = "status", uniqueConstraints = {
         @UniqueConstraint(columnNames = "name")
 })
 public class Status implements Serializable {

@@ -19,20 +19,30 @@ public class Project {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
+    @Column(nullable = false)
     private String video;
 
+    @Column(nullable = false)
     private String sourceCode;
 
+    @Column(nullable = true)
     private String videoExplained;
 
+    @Column(nullable = false)
     private LocalDateTime createDate;
 
+    @Column(nullable = false)
     private LocalDateTime updateDate;
 
+    @Column(nullable = true)
     private LocalDateTime deleteDate;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     // Relation Many-to-Many avec Tool
     @ManyToMany
