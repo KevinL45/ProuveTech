@@ -30,28 +30,12 @@ public class SecurityConfig {
                                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS
                                 .authorizeHttpRequests(auth -> auth
                                                 .requestMatchers(
-                                                                "/",
-                                                                "/users/login",
-                                                                "/users/add",
-                                                                "/categories/list",
-                                                                "/categories/details/{id}",
-                                                                "/articles/list",
-                                                                "/articles/details/{id}",
-                                                                // "/galleries/list",
-                                                                // "/galleries/details/{id}",
-                                                                "/uploads/{filename}")
+                                                                "/user/register",
+                                                                "/user/login",
+                                                                "/user/details/{id}")
                                                 .permitAll()
-                                                .requestMatchers(
-                                                                "/articles/add",
-                                                                "articles/update/{id}",
-                                                                "articles/delete/{id}",
-                                                                "categories/add",
-                                                                "categories/update/{id}",
-                                                                "categories/delete/{id}",
-                                                                // "galleries/add",
-                                                                // "galleries/update/{id}",
-                                                                // "galleries/delete/{id}",
-                                                                "users/details/{id}")
+                                                .requestMatchers("/user/remove/{id}",
+                                                                "/user/edit/{id}")
                                                 .authenticated())
                                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

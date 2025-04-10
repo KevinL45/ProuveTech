@@ -19,10 +19,10 @@ public class JwtTokenProvider {
     private long validityInMilliseconds = 7200000; // 2 heures
 
     // Créer un token JWT à partir des informations utilisateur
-    public String createToken(String username) {
+    public String createToken(String mail) {
         Key key = Keys.hmacShaKeyFor(secretKey.getBytes()); // Création de la clé secrète à partir du texte
 
-        Claims claims = Jwts.claims().setSubject(username);
+        Claims claims = Jwts.claims().setSubject(mail);
 
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);

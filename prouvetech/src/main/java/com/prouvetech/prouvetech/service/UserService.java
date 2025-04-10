@@ -26,22 +26,31 @@ public class UserService implements UserDetailsService {
     }
 
     public String authenticateUser(String email, String password) {
+
+        if (email == null || email.isEmpty() || password == null || password.isEmpty()) {
+            return "Email et mot de passe ne doivent pas être vides.";
+        }
+
         User user = userRepository.findByMail(email);
 
-        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
-            String token = jwtTokenProvider.createToken(user.getMail());
-            return token;
+        if (user == null) {
+            return "Utilisateur introuvable avec cet email.";
         }
-        return null;
+
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            return "Mot de passe incorrect.";
+        }
+
+        String token = jwtTokenProvider.createToken(user.getMail());
+        return token;
     }
 
     public String createUser(User user) {
 
         User emailExist = userRepository.findByMail(user.getMail());
 
-        if (emailExist != null) {
+        if (emailExist != null)
             return "Un utilisateur avec cet email existe déjà.";
-        }
 
         user.setPassword(hashPassword(user.getPassword()));
         userRepository.save(user);

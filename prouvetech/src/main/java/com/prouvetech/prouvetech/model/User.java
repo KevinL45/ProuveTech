@@ -67,7 +67,7 @@ public class User implements UserDetails {
     }
 
     public User(String firstname, String lastname, String mail, String password,
-            String title, String description, String telephone, String cv, String photo) {
+            String title, String description, String telephone, String cv, String photo, Status status) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.mail = mail;
@@ -77,6 +77,21 @@ public class User implements UserDetails {
         this.telephone = telephone;
         this.cv = cv;
         this.photo = photo;
+        this.status = status;
+    }
+
+    public User(String firstname, String lastname, String mail, String password,
+            Status status) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.mail = mail;
+        this.password = password;
+        this.status = status;
+    }
+
+    public User(String mail, String password) {
+        this.mail = mail;
+        this.password = password;
     }
 
     public Long getId() {
