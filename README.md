@@ -7,6 +7,8 @@ Voici les principales dépendances utilisées dans ce projet **Spring Boot 3.4.4
 - **Spring Boot JPA** → ORM & Base de données (`spring-boot-starter-data-jpa`)
 - **MySQL DRIVER** → MySQL (`mysql-connector-j`)
 - **Lombok** → Réduction du boilerplate (`lombok`)
+- **JWT API** → Jsonwebtoken (`io.jsonwebtoken`)
+
 
 ### 🔐 Sécurité et Authentification
 - **Spring Security** → Authentification et protection des routes (`spring-boot-starter-security`)

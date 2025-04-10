@@ -7,4 +7,6 @@ import com.prouvetech.prouvetech.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+    User findByMail(String mail);
+
 }
