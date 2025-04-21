@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "document", uniqueConstraints = {
+@Table(name = "documents", uniqueConstraints = {
         @UniqueConstraint(columnNames = "name")
 })
 public class Document implements Serializable {

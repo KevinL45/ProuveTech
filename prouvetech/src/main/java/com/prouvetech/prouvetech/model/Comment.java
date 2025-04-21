@@ -3,19 +3,22 @@ package com.prouvetech.prouvetech.model;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+import com.prouvetech.prouvetech.compositekey.CommentId;
+
 @Entity
-@Table(name = "comment")
+@Table(name = "comments")
 public class Comment {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @EmbeddedId
+    private CommentId commentId;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("userId")
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("projectId")
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
@@ -42,12 +45,12 @@ public class Comment {
         this.createDate = LocalDateTime.now();
     }
 
-    public Long getId() {
-        return id;
+    public CommentId getCommentId() {
+        return this.commentId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCommentId(CommentId commentId) {
+        this.commentId = commentId;
     }
 
     public User getUser() {

@@ -1,5 +1,7 @@
 package com.prouvetech.prouvetech.model;
 
+import com.prouvetech.prouvetech.compositekey.UserSocialNetworksId;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -8,16 +10,17 @@ import jakarta.persistence.*;
 })
 public class UserSocialNetworks {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @EmbeddedId
+    private UserSocialNetworksId userSocialNetworksId;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id")
+    @MapsId("userId")
+    @JoinColumn(name = "user_id", nullable = true)
     private User user;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "social_networks_id")
+    @MapsId("socialNetworkId")
+    @JoinColumn(name = "social_networks_id", nullable = true)
     private SocialNetworks socialNetwork;
 
     @Column(nullable = false, length = 255)
@@ -32,8 +35,8 @@ public class UserSocialNetworks {
         this.profileUrl = profileUrl;
     }
 
-    public Long getId() {
-        return id;
+    public UserSocialNetworksId getUserSocialNetworksId() {
+        return this.userSocialNetworksId;
     }
 
     public User getUser() {
@@ -63,7 +66,6 @@ public class UserSocialNetworks {
     @Override
     public String toString() {
         return "UserSocialNetwork{" +
-                "id=" + id +
                 ", user=" + user.getId() +
                 ", socialNetwork=" + socialNetwork.getName() +
                 ", profileUrl='" + profileUrl + '\'' +
