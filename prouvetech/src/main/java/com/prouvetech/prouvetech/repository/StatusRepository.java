@@ -7,5 +7,5 @@ import com.prouvetech.prouvetech.model.Status;
 
 @Repository
 public interface StatusRepository extends JpaRepository<Status, Long> {
-
+    Status findByName(String name);
 }

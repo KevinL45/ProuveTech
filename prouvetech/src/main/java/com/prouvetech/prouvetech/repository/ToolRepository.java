@@ -7,5 +7,6 @@ import com.prouvetech.prouvetech.model.Tool;
 
 @Repository
 public interface ToolRepository extends JpaRepository<Tool, Long> {
+    Tool findByName(String name);
 
 }

@@ -7,5 +7,6 @@ import com.prouvetech.prouvetech.model.SocialNetworks;
 
 @Repository
 public interface SocialNetworksRepository extends JpaRepository<SocialNetworks, Long> {
+    SocialNetworks findByName(String name);
 
 }
