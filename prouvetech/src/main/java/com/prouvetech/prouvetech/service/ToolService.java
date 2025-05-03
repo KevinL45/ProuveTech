@@ -1,10 +1,13 @@
 package com.prouvetech.prouvetech.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.prouvetech.prouvetech.model.Tool;
 import com.prouvetech.prouvetech.repository.ToolRepository;
+import com.prouvetech.prouvetech.utils.ResponseMessage;
 
 @Service
 public class ToolService {
@@ -12,39 +15,47 @@ public class ToolService {
     @Autowired
     private ToolRepository toolRepository;
 
+    public boolean toolExistsByName(String name) {
+        return toolRepository.findByName(name) != null;
+    }
+
     public Tool getTool(Long id) {
         return toolRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Aucun outil trouvé avec l'ID : " + id));
     }
 
-    public String createTool(Tool tool) {
+    public ResponseMessage createTool(Tool tool) {
         if (toolRepository.findByName(tool.getName()) != null) {
-            return "Le nom existe déjà, choisissez un autre nom.";
+            return new ResponseMessage(false, "Nom déjà utilisé.");
         }
         toolRepository.save(tool);
-        return tool.getName() + " a été bien ajouté.";
+        return new ResponseMessage(true, tool.getName() + " ajouté avec succès.");
     }
 
-    public String updateTool(Long id, Tool tool) {
+    public ResponseMessage updateTool(Long id, Tool tool) {
         Tool toolExist = getTool(id);
 
         if (toolRepository.findByName(tool.getName()) != null &&
                 !tool.getName().equalsIgnoreCase(tool.getName())) {
-            return "Le nom existe déjà, choisissez un autre nom.";
+            return new ResponseMessage(false, "Nom déjà utilisé.");
         }
 
         toolExist.setName(tool.getName());
         toolExist.setLogo(tool.getLogo());
         toolRepository.save(tool);
-        return tool.getName() + " a été mis à jour avec succès.";
+        return new ResponseMessage(true, tool.getName() + " ajouté avec succès.");
     }
 
-    public String deleteTool(Long id) {
+    public ResponseMessage deleteTool(Long id) {
         if (!toolRepository.existsById(id)) {
-            return "Aucun outil trouvé avec l'ID : " + id;
+            return new ResponseMessage(false, "Aucun outil trouvé avec l'ID : " + id);
         }
         toolRepository.deleteById(id);
-        return "L'outil a été supprimé avec succès.";
+        return new ResponseMessage(true, "L'outil a été supprimé.");
+    }
+
+    public List<Tool> getAllTools() {
+        return toolRepository.findAll();
     }
 
 }

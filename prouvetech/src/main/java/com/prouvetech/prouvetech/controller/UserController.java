@@ -4,6 +4,7 @@ import com.prouvetech.prouvetech.model.Status;
 import com.prouvetech.prouvetech.model.User;
 import com.prouvetech.prouvetech.service.StatusService;
 import com.prouvetech.prouvetech.service.UserService;
+import com.prouvetech.prouvetech.utils.ResponseMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,13 +36,13 @@ public class UserController {
         Status status = this.statusService.getStatus(statusId);
 
         User user = new User(firstname, lastname, mail, password, status);
-        String response = userService.createUser(user);
+        ResponseMessage result = userService.createUser(user);
 
-        if (response.equals("Vous êtes inscrit")) {
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+        if (!result.isSuccess()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(result.getMessage());
         }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(result.getMessage());
     }
 
     @GetMapping("details/{id}")
@@ -55,14 +56,13 @@ public class UserController {
             @RequestParam("password") String password) {
 
         User user = new User(mail, password);
-        String token = userService.authenticateUser(user.getMail(), user.getPassword());
+        ResponseMessage token = userService.authenticateUser(user.getMail(), user.getPassword());
 
-        // Vérifie si c'est un token (par exemple commence par "eyJ" dans un JWT)
-        if (token != null && token.startsWith("eyJ")) {
-            return new ResponseEntity<>(token, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(token, HttpStatus.UNAUTHORIZED);
+        if (!token.isSuccess()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(token.getMessage());
         }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(token.getMessage());
     }
 
 }

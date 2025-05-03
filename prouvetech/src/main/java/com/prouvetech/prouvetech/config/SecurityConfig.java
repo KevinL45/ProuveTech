@@ -35,7 +35,16 @@ public class SecurityConfig {
                                                                 "/user/details/{id}")
                                                 .permitAll()
                                                 .requestMatchers("/user/remove/{id}",
-                                                                "/user/edit/{id}")
+                                                                "/user/edit/{id}",
+                                                                "/tool/create",
+                                                                "/tool/update/{id}",
+                                                                "/tool/list",
+                                                                "/tool/details/{id}",
+                                                                "/status/create",
+                                                                "/status/update/{id}",
+                                                                "/status/list",
+                                                                "/status/details/{id}",
+                                                                "/status/delete/{id}")
                                                 .authenticated())
                                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

@@ -3,6 +3,8 @@ package com.prouvetech.prouvetech.service;
 import com.prouvetech.prouvetech.config.JwtTokenProvider;
 import com.prouvetech.prouvetech.model.User;
 import com.prouvetech.prouvetech.repository.UserRepository;
+import com.prouvetech.prouvetech.utils.ResponseMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,36 +27,36 @@ public class UserService implements UserDetailsService {
         return passwordEncoder.encode(plainPassword);
     }
 
-    public String authenticateUser(String email, String password) {
+    public ResponseMessage authenticateUser(String email, String password) {
 
         if (email == null || email.isEmpty() || password == null || password.isEmpty()) {
-            return "Email et mot de passe ne doivent pas être vides.";
+            return new ResponseMessage(false, "Email ou mot de passe ne doivent pas être vides.");
         }
 
         User user = userRepository.findByMail(email);
 
         if (user == null) {
-            return "Utilisateur introuvable avec cet email.";
+            return new ResponseMessage(false, "Identifiants invalides");
         }
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            return "Mot de passe incorrect.";
+            return new ResponseMessage(false, "Identifiants invalides");
         }
 
         String token = jwtTokenProvider.createToken(user.getMail());
-        return token;
+        return new ResponseMessage(true, token);
     }
 
-    public String createUser(User user) {
+    public ResponseMessage createUser(User user) {
 
         User emailExist = userRepository.findByMail(user.getMail());
 
         if (emailExist != null)
-            return "Un utilisateur avec cet email existe déjà.";
+            return new ResponseMessage(false, "Vous avez déja un compte");
 
         user.setPassword(hashPassword(user.getPassword()));
         userRepository.save(user);
-        return "Vous êtes inscrit";
+        return new ResponseMessage(true, "Vous êtes inscrit");
     }
 
     public User getUser(Long id) {

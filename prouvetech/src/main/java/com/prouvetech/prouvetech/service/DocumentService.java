@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.prouvetech.prouvetech.model.Document;
 import com.prouvetech.prouvetech.repository.DocumentRepository;
+import com.prouvetech.prouvetech.utils.ResponseMessage;
 
 @Service
 public class DocumentService {
@@ -17,26 +18,26 @@ public class DocumentService {
                 .orElseThrow(() -> new RuntimeException("Aucun document trouvé avec l'ID : " + id));
     }
 
-    public String createDocument(Document document) {
+    public ResponseMessage createDocument(Document document) {
         documentRepository.save(document);
-        return document.getName() + " a été bien ajouté.";
+        return new ResponseMessage(true, document.getName() + " ajouté avec succès.");
     }
 
-    public String updateDocument(Long id, Document document) {
+    public ResponseMessage updateDocument(Long id, Document document) {
         Document documentExist = getDocument(id);
 
         documentExist.setName(document.getName());
         documentExist.setFile(document.getFile());
         documentRepository.save(document);
-        return document.getName() + " a été mis à jour avec succès.";
+        return new ResponseMessage(true, document.getName() + " ajouté avec succès.");
     }
 
-    public String deleteDocument(Long id) {
+    public ResponseMessage deleteDocument(Long id) {
         if (!documentRepository.existsById(id)) {
-            return "Aucun document trouvé avec l'ID : " + id;
+            return new ResponseMessage(false, "Aucun document trouvé avec l'ID : " + id);
         }
         documentRepository.deleteById(id);
-        return "Le document a été supprimé avec succès.";
+        return new ResponseMessage(true, "Le document a été avec succès.");
     }
 
 }

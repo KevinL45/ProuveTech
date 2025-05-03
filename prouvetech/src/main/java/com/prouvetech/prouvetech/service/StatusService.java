@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.prouvetech.prouvetech.model.Status;
 import com.prouvetech.prouvetech.repository.StatusRepository;
+import com.prouvetech.prouvetech.utils.ResponseMessage;
 
 @Service
 public class StatusService {
@@ -16,32 +17,32 @@ public class StatusService {
                 .orElseThrow(() -> new RuntimeException("Aucun statut trouvé avec l'ID : " + id));
     }
 
-    public String createStatus(Status status) {
+    public ResponseMessage createStatus(Status status) {
         if (statusRepository.findByName(status.getName()) != null) {
-            return "Le nom existe déjà, choisissez un autre nom.";
+            return new ResponseMessage(false, "Nom déjà utilisé.");
         }
         statusRepository.save(status);
-        return "Le statut a été bien ajouté.";
+        return new ResponseMessage(true, status.getName() + " ajouté avec succès.");
     }
 
-    public String updateStatus(Long id, Status status) {
+    public ResponseMessage updateStatus(Long id, Status status) {
         Status statusExist = getStatus(id);
 
         if (statusRepository.findByName(status.getName()) != null &&
                 !statusExist.getName().equalsIgnoreCase(status.getName())) {
-            return "Le nom existe déjà, choisissez un autre nom.";
+            return new ResponseMessage(false, "Nom déjà utilisé.");
         }
 
         statusExist.setName(status.getName());
         statusRepository.save(statusExist);
-        return "Le statut a été mis à jour avec succès.";
+        return new ResponseMessage(true, status.getName() + " ajouté avec succès.");
     }
 
-    public String deleteStatus(Long id) {
+    public ResponseMessage deleteStatus(Long id) {
         if (!statusRepository.existsById(id)) {
-            return "Aucun statut trouvé avec l'ID : " + id;
+            return new ResponseMessage(false, "Aucun statut trouvé avec l'ID : " + id);
         }
         statusRepository.deleteById(id);
-        return "Le statut a été supprimé avec succès.";
+        return new ResponseMessage(true, "Le statut a été supprimé avec succès.");
     }
 }
