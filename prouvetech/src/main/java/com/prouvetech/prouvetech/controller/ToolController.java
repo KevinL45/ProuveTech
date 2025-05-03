@@ -43,7 +43,7 @@ public class ToolController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Le nom existe déjà, choisissez un autre nom.");
         }
 
-        String logoUrl = uploads.saveImage(logo);
+        String logoUrl = uploads.saveFile(logo);
         Tool tool = new Tool(name, logoUrl);
 
         ResponseMessage result = toolService.createTool(tool);
@@ -67,7 +67,7 @@ public class ToolController {
         }
 
         Tool tool = this.getTool(id);
-        String logoUrl = uploads.updateImage(logo, tool.getLogo());
+        String logoUrl = uploads.updateFile(logo, tool.getLogo());
         Tool updateTool = new Tool(name, logoUrl);
 
         ResponseMessage result = this.toolService.updateTool(id, updateTool);

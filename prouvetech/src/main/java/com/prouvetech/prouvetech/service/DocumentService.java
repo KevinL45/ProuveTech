@@ -1,5 +1,7 @@
 package com.prouvetech.prouvetech.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +14,6 @@ public class DocumentService {
 
     @Autowired
     private DocumentRepository documentRepository;
-
-    public Document getDocument(Long id) {
-        return documentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Aucun document trouvé avec l'ID : " + id));
-    }
 
     public ResponseMessage createDocument(Document document) {
         documentRepository.save(document);
@@ -38,6 +35,15 @@ public class DocumentService {
         }
         documentRepository.deleteById(id);
         return new ResponseMessage(true, "Le document a été avec succès.");
+    }
+
+    public Document getDocument(Long id) {
+        return documentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Aucun document trouvé avec l'ID : " + id));
+    }
+
+    public List<Document> getAllDocuments() {
+        return documentRepository.findAll();
     }
 
 }

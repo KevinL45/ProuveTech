@@ -41,7 +41,7 @@ public class SocialNetworksController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Le nom existe déjà, choisissez un autre nom.");
         }
 
-        String logoUrl = uploads.saveImage(logo);
+        String logoUrl = uploads.saveFile(logo);
         SocialNetworks socialNetworks = new SocialNetworks(name, logoUrl);
 
         ResponseMessage result = socialNetworksService.createSocialNetworks(socialNetworks);
@@ -65,7 +65,7 @@ public class SocialNetworksController {
         }
 
         SocialNetworks socialNetworks = this.socialNetworksService.getSocialNetworks(id);
-        String logoUrl = uploads.updateImage(logo, socialNetworks.getLogoUrl());
+        String logoUrl = uploads.updateFile(logo, socialNetworks.getLogoUrl());
         SocialNetworks socialNetworksUpdate = new SocialNetworks(name, logoUrl);
 
         ResponseMessage result = this.socialNetworksService.updateSocialNetworks(id, socialNetworksUpdate);
