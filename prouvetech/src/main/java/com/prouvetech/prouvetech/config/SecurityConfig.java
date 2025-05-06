@@ -32,19 +32,27 @@ public class SecurityConfig {
                                                 .requestMatchers(
                                                                 "/user/register",
                                                                 "/user/login",
-                                                                "/user/details/{id}")
+                                                                "/user/details/{id}",
+                                                                "/user/list",
+                                                                "/status/list",
+                                                                "/status/details/{id}",
+                                                                "/document/list",
+                                                                "/document/details/{id}",
+                                                                "/tool/list",
+                                                                "/tool/details/{id}")
                                                 .permitAll()
                                                 .requestMatchers("/user/remove/{id}",
                                                                 "/user/edit/{id}",
                                                                 "/tool/create",
                                                                 "/tool/update/{id}",
-                                                                "/tool/list",
-                                                                "/tool/details/{id}",
                                                                 "/status/create",
                                                                 "/status/update/{id}",
-                                                                "/status/list",
-                                                                "/status/details/{id}",
-                                                                "/status/delete/{id}")
+                                                                "/status/delete/{id}",
+                                                                "/document/create",
+                                                                "/document/update/{id}",
+                                                                "/document/delete/{id}"
+
+                                                )
                                                 .authenticated())
                                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

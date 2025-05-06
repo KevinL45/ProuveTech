@@ -4,6 +4,8 @@ import com.prouvetech.prouvetech.model.Status;
 import com.prouvetech.prouvetech.service.StatusService;
 import com.prouvetech.prouvetech.utils.ResponseMessage;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +30,13 @@ public class StatusController {
     }
 
     @GetMapping("/details/{id}")
-    public ResponseEntity<Status> getStatus(@PathVariable Long id) {
-        return ResponseEntity.ok(statusService.getStatus(id));
+    public Status getStatus(@PathVariable Long id) {
+        return statusService.getStatus(id);
+    }
+
+    @GetMapping("/list")
+    public List<Status> getAllStatus() {
+        return statusService.getAllStatus();
     }
 
     @PutMapping("/update/{id}")

@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class Uploads {
 
     public String saveFile(MultipartFile file) throws IOException {
+
         // Définir l'emplacement de stockage
         String uploadDir = "uploads/";
         File uploadPath = new File(uploadDir);
@@ -29,7 +30,7 @@ public class Uploads {
         Path filePath = Paths.get(uploadDir + fileName);
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-        // Retourner l'URL de l'image (ici juste le chemin, à adapter si besoin)
+        // Retourner l'URL de l'image
         return "/uploads/" + fileName;
     }
 
@@ -38,11 +39,9 @@ public class Uploads {
             throw new IllegalArgumentException("Le fichier est vide ou invalide.");
         }
 
-        // Définir l'emplacement de stockage
         String uploadDir = "uploads/";
         File uploadPath = new File(uploadDir);
 
-        // Créer le dossier s'il n'existe pas
         if (!uploadPath.exists()) {
             uploadPath.mkdirs();
         }

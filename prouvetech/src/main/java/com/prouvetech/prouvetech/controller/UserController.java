@@ -6,6 +6,8 @@ import com.prouvetech.prouvetech.service.StatusService;
 import com.prouvetech.prouvetech.service.UserService;
 import com.prouvetech.prouvetech.utils.ResponseMessage;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,9 +47,14 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result.getMessage());
     }
 
-    @GetMapping("details/{id}")
+    @GetMapping("/details/{id}")
     public User getUser(@PathVariable Long id) {
         return userService.getUser(id);
+    }
+
+    @GetMapping("/list")
+    public List<User> getAllUser() {
+        return userService.getAllUsers();
     }
 
     @PostMapping("/login")

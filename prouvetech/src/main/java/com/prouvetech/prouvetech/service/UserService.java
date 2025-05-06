@@ -5,6 +5,8 @@ import com.prouvetech.prouvetech.model.User;
 import com.prouvetech.prouvetech.repository.UserRepository;
 import com.prouvetech.prouvetech.utils.ResponseMessage;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -61,6 +63,10 @@ public class UserService implements UserDetailsService {
 
     public User getUser(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new RuntimeException("Aucun utilisateur"));
+    }
+
+    public List<User> getAllUsers() {
+        return this.userRepository.findAll();
     }
 
     @Override

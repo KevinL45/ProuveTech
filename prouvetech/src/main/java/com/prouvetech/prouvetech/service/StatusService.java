@@ -1,5 +1,7 @@
 package com.prouvetech.prouvetech.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.prouvetech.prouvetech.model.Status;
@@ -15,6 +17,10 @@ public class StatusService {
     public Status getStatus(Long id) {
         return statusRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Aucun statut trouvé avec l'ID : " + id));
+    }
+
+    public List<Status> getAllStatus() {
+        return statusRepository.findAll();
     }
 
     public ResponseMessage createStatus(Status status) {
