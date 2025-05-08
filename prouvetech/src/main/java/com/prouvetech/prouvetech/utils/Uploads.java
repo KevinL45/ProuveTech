@@ -34,7 +34,7 @@ public class Uploads {
         return "/uploads/" + fileName;
     }
 
-    public String updateFile(MultipartFile file, String oldImageUrl) throws IOException {
+    public String updateFile(MultipartFile file, String old) throws IOException {
         if (file == null || file.isEmpty()) {
             throw new IllegalArgumentException("Le fichier est vide ou invalide.");
         }
@@ -47,8 +47,8 @@ public class Uploads {
         }
 
         // Supprimer l'ancienne image si elle existe
-        if (oldImageUrl != null && !oldImageUrl.isEmpty()) {
-            Path oldFilePath = Paths.get(oldImageUrl.replace("/uploads/", uploadDir));
+        if (old != null && !old.isEmpty()) {
+            Path oldFilePath = Paths.get(old.replace("/uploads/", uploadDir));
             File oldFile = oldFilePath.toFile();
             if (oldFile.exists()) {
                 oldFile.delete(); // Suppression du fichier

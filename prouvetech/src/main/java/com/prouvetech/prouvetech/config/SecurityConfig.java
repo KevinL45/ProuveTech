@@ -38,6 +38,8 @@ public class SecurityConfig {
                                                                 "/status/details/{id}",
                                                                 "/document/list",
                                                                 "/document/details/{id}",
+                                                                "/project/list",
+                                                                "/project/details/{id}",
                                                                 "/tool/list",
                                                                 "/tool/details/{id}")
                                                 .permitAll()
@@ -45,6 +47,8 @@ public class SecurityConfig {
                                                                 "/user/edit/{id}",
                                                                 "/tool/create",
                                                                 "/tool/update/{id}",
+                                                                "/project/create",
+                                                                "/project/update/{id}",
                                                                 "/status/create",
                                                                 "/status/update/{id}",
                                                                 "/status/delete/{id}",

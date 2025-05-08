@@ -1,6 +1,7 @@
 package com.prouvetech.prouvetech.model;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,16 +58,28 @@ public class Project {
     private List<Document> documents = new ArrayList<>();
 
     public Project() {
-        this.createDate = LocalDateTime.now();
     }
 
-    public Project(String name, String description, String video, String sourceCode, String videoExplained) {
+    public Project(String name, String description, String video, String sourceCode, User user,
+            LocalDateTime createDate,
+            LocalDateTime updateDate) {
         this.name = name;
         this.description = description;
         this.video = video;
         this.sourceCode = sourceCode;
-        this.videoExplained = videoExplained;
-        this.createDate = LocalDateTime.now();
+        this.user = user;
+        this.createDate = createDate;
+        this.updateDate = updateDate;
+    }
+
+    public Project(String name, String description, String video, String sourceCode, User user,
+            LocalDateTime updateDate) {
+        this.name = name;
+        this.description = description;
+        this.video = video;
+        this.sourceCode = sourceCode;
+        this.user = user;
+        this.updateDate = updateDate;
     }
 
     public Long getId() {
