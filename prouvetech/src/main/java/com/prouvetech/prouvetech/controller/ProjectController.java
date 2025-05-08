@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +48,14 @@ public class ProjectController {
             @RequestParam("video") MultipartFile video,
             @RequestParam("userId") Long userId) throws IOException {
 
+        Tika tika = new Tika();
+
+        String detectedType = tika.detect(video.getInputStream());
+
+        if (!detectedType.startsWith("video/")) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Le fichier doit être une vidéo");
+        }
+
         String newVideo = uploads.saveFile(video);
         Project project = new Project(name, description, newVideo, sourcecode, userService.getUser(userId),
                 LocalDateTime.now(),
@@ -70,6 +79,14 @@ public class ProjectController {
             @RequestParam("sourcecode") String sourcecode,
             @RequestParam("video") MultipartFile video,
             @RequestParam("userId") Long userId) throws IOException {
+
+        Tika tika = new Tika();
+
+        String detectedType = tika.detect(video.getInputStream());
+
+        if (!detectedType.startsWith("video/")) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Le fichier doit être une vidéo");
+        }
 
         Project projectExist = projectService.getProject(id);
         String newVideo = uploads.updateFile(video, projectExist.getVideo());

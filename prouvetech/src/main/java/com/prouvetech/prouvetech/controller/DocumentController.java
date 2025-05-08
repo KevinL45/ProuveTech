@@ -3,6 +3,7 @@ package com.prouvetech.prouvetech.controller;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,14 @@ public class DocumentController {
             @RequestParam("name") String name,
             @RequestParam("file") MultipartFile file) throws IOException {
 
+        Tika tika = new Tika();
+
+        String detectedType = tika.detect(file.getInputStream());
+
+        if (!detectedType.startsWith("application/pdf")) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Le fichier doit être un pdf");
+        }
+
         String newFile = uploads.saveFile(file);
         Document document = new Document(name, newFile);
 
@@ -53,6 +62,14 @@ public class DocumentController {
             @PathVariable Long id,
             @RequestParam("name") String name,
             @RequestParam("file") MultipartFile file) throws IOException {
+
+        Tika tika = new Tika();
+
+        String detectedType = tika.detect(file.getInputStream());
+
+        if (!detectedType.startsWith("application/pdf")) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Le fichier doit être un pdf");
+        }
 
         Document document = this.getDocument(id);
         String newFile = uploads.updateFile(file, document.getFile());

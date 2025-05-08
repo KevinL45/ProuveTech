@@ -18,4 +18,6 @@ Ce projet utilise **Spring Boot 3.4.4** avec **Java 21**.
 | `jjwt-api`                 | API JWT pour création/validation de tokens | 0.11.5      |
 | `jjwt-impl`                | Implémentation interne JWT                  | 0.11.5      |
 | `jjwt-jackson`             | Sérialisation JSON pour JWT                 | 0.11.5      |
+| `tika-core`             | Détection plus fiable du type réel du fichier                 | 2.9.0      |
+
 

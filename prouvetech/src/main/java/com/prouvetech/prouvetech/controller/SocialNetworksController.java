@@ -3,6 +3,7 @@ package com.prouvetech.prouvetech.controller;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,14 @@ public class SocialNetworksController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Le nom existe déjà, choisissez un autre nom.");
         }
 
+        Tika tika = new Tika();
+
+        String detectedType = tika.detect(logo.getInputStream());
+
+        if (!detectedType.startsWith("image/")) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Le fichier doit être une image");
+        }
+
         String logoUrl = uploads.saveFile(logo);
         SocialNetworks socialNetworks = new SocialNetworks(name, logoUrl);
 
@@ -62,6 +71,14 @@ public class SocialNetworksController {
 
         if (socialNetworksService.SNExistsByName(name)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Le nom existe déjà, choisissez un autre nom.");
+        }
+
+        Tika tika = new Tika();
+
+        String detectedType = tika.detect(logo.getInputStream());
+
+        if (!detectedType.startsWith("image/")) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Le fichier doit être une image");
         }
 
         SocialNetworks socialNetworks = this.socialNetworksService.getSocialNetworks(id);
