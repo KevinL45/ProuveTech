@@ -25,25 +25,15 @@ public class ToolService {
     }
 
     public ResponseMessage createTool(Tool tool) {
-        if (toolRepository.findByName(tool.getName()) != null) {
-            return new ResponseMessage(false, "Nom déjà utilisé.");
-        }
+
         toolRepository.save(tool);
         return new ResponseMessage(true, tool.getName() + " ajouté avec succès.");
     }
 
     public ResponseMessage updateTool(Long id, Tool tool) {
-        Tool toolExist = getTool(id);
 
-        if (toolRepository.findByName(tool.getName()) != null &&
-                !tool.getName().equalsIgnoreCase(tool.getName())) {
-            return new ResponseMessage(false, "Nom déjà utilisé.");
-        }
-
-        toolExist.setName(tool.getName());
-        toolExist.setLogo(tool.getLogo());
         toolRepository.save(tool);
-        return new ResponseMessage(true, tool.getName() + " ajouté avec succès.");
+        return new ResponseMessage(true, tool.getName() + " modifié avec succès.");
     }
 
     public ResponseMessage deleteTool(Long id) {

@@ -7,12 +7,14 @@ import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.prouvetech.prouvetech.model.SocialNetworks;
@@ -20,7 +22,8 @@ import com.prouvetech.prouvetech.service.SocialNetworksService;
 import com.prouvetech.prouvetech.utils.ResponseMessage;
 import com.prouvetech.prouvetech.utils.Uploads;
 
-@RequestMapping("/social_networks")
+@RestController
+@RequestMapping("/socialnetworks")
 public class SocialNetworksController {
 
     public SocialNetworksController() {
@@ -83,9 +86,10 @@ public class SocialNetworksController {
 
         SocialNetworks socialNetworks = this.socialNetworksService.getSocialNetworks(id);
         String logoUrl = uploads.updateFile(logo, socialNetworks.getLogoUrl());
-        SocialNetworks socialNetworksUpdate = new SocialNetworks(name, logoUrl);
+        socialNetworks.setLogoUrl(logoUrl);
+        socialNetworks.setName(name);
 
-        ResponseMessage result = this.socialNetworksService.updateSocialNetworks(id, socialNetworksUpdate);
+        ResponseMessage result = this.socialNetworksService.updateSocialNetworks(socialNetworks);
 
         if (!result.isSuccess()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(result.getMessage());
@@ -102,6 +106,13 @@ public class SocialNetworksController {
     @GetMapping("/details/{id}")
     public SocialNetworks getSocialNetworks(@PathVariable Long id) {
         return socialNetworksService.getSocialNetworks(id);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseMessage deleteSocialNetworks(@PathVariable Long id) {
+        SocialNetworks socialNetworks = getSocialNetworks(id);
+        uploads.deleteFile(socialNetworks.getLogoUrl());
+        return socialNetworksService.deleteSocialNetworks(id);
     }
 
 }

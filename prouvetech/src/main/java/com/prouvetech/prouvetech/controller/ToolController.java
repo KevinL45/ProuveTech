@@ -7,6 +7,7 @@ import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -85,9 +86,11 @@ public class ToolController {
 
         Tool tool = this.getTool(id);
         String logoUrl = uploads.updateFile(logo, tool.getLogo());
-        Tool updateTool = new Tool(name, logoUrl);
 
-        ResponseMessage result = this.toolService.updateTool(id, updateTool);
+        tool.setName(name);
+        tool.setLogo(logoUrl);
+
+        ResponseMessage result = this.toolService.updateTool(id, tool);
 
         if (!result.isSuccess()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(result.getMessage());
@@ -104,6 +107,13 @@ public class ToolController {
     @GetMapping("/details/{id}")
     public Tool getTool(@PathVariable Long id) {
         return toolService.getTool(id);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseMessage deleteTool(@PathVariable Long id) {
+        Tool tool = getTool(id);
+        uploads.deleteFile(tool.getLogo());
+        return toolService.deleteTool(id);
     }
 
 }

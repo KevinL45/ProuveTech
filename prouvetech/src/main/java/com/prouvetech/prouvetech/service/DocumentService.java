@@ -20,13 +20,9 @@ public class DocumentService {
         return new ResponseMessage(true, document.getName() + " ajouté avec succès.");
     }
 
-    public ResponseMessage updateDocument(Long id, Document document) {
-        Document documentExist = getDocument(id);
-
-        documentExist.setName(document.getName());
-        documentExist.setFile(document.getFile());
+    public ResponseMessage updateDocument(Document document) {
         documentRepository.save(document);
-        return new ResponseMessage(true, document.getName() + " ajouté avec succès.");
+        return new ResponseMessage(true, document.getName() + " modifié avec succès.");
     }
 
     public ResponseMessage deleteDocument(Long id) {

@@ -26,10 +26,8 @@ public class SocialNetworksService {
         return new ResponseMessage(true, socialNetworks.getName() + " ajouté avec succès.");
     }
 
-    public ResponseMessage updateSocialNetworks(Long id, SocialNetworks socialNetworks) {
-        SocialNetworks socialNetworksExist = getSocialNetworks(id);
-        socialNetworksExist.setName(socialNetworks.getName());
-        socialNetworksExist.setLogoUrl(socialNetworks.getLogoUrl());
+    public ResponseMessage updateSocialNetworks(SocialNetworks socialNetworks) {
+
         socialNetworksRepository.save(socialNetworks);
         return new ResponseMessage(true, socialNetworks.getName() + " a été mise à jour avec succès.");
     }

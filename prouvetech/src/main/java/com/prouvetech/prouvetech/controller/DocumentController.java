@@ -7,6 +7,7 @@ import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -73,9 +74,11 @@ public class DocumentController {
 
         Document document = this.getDocument(id);
         String newFile = uploads.updateFile(file, document.getFile());
-        Document updateDocument = new Document(name, newFile);
 
-        ResponseMessage result = this.documentService.updateDocument(id, updateDocument);
+        document.setName(name);
+        document.setFile(newFile);
+
+        ResponseMessage result = this.documentService.updateDocument(document);
 
         if (!result.isSuccess()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(result.getMessage());
@@ -92,6 +95,13 @@ public class DocumentController {
     @GetMapping("/details/{id}")
     public Document getDocument(@PathVariable Long id) {
         return documentService.getDocument(id);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseMessage deleteDocument(@PathVariable Long id) {
+        Document document = getDocument(id);
+        uploads.deleteFile(document.getFile());
+        return documentService.deleteDocument(id);
     }
 
 }
