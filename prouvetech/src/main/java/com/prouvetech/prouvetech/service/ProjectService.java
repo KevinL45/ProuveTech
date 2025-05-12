@@ -25,22 +25,14 @@ public class ProjectService {
     }
 
     public ResponseMessage addProject(Project project) {
+
         projectRepository.save(project);
         return new ResponseMessage(true, "Le projet a été ajouté");
     }
 
-    public ResponseMessage updateProject(Project project, Long id) {
-        Project projectExsist = getProject(id);
-
-        projectExsist.setUpdateDate(project.getUpdateDate());
-        projectExsist.setName(project.getName());
-        projectExsist.setDescription(project.getDescription());
-        projectExsist.setSourceCode(project.getSourceCode());
-        projectExsist.setVideo(project.getVideo());
-        projectExsist.setUser(project.getUser());
+    public ResponseMessage updateProject(Project project) {
 
         projectRepository.save(project);
-
         return new ResponseMessage(true, "Le projet a été modifié");
 
     }

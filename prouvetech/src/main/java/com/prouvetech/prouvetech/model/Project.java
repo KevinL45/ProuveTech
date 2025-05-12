@@ -61,6 +61,7 @@ public class Project {
     }
 
     public Project(String name, String description, String video, String sourceCode, User user,
+            List<Document> documents, List<Tool> tools,
             LocalDateTime createDate,
             LocalDateTime updateDate) {
         this.name = name;
@@ -70,6 +71,8 @@ public class Project {
         this.user = user;
         this.createDate = createDate;
         this.updateDate = updateDate;
+        this.documents = documents;
+        this.tools = tools;
     }
 
     public Project(String name, String description, String video, String sourceCode, User user,

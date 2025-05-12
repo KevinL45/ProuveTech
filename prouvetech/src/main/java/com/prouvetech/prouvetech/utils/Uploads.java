@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
+import org.apache.tika.Tika;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,8 +17,29 @@ public class Uploads {
 
     public String saveFile(MultipartFile file) throws IOException {
 
-        // Définir l'emplacement de stockage
-        String uploadDir = "uploads/";
+        Tika tika = new Tika();
+
+        String detectedType = tika.detect(file.getInputStream());
+
+        String uploadDir = "";
+
+        if (detectedType.startsWith("video/")) {
+
+            // Définir l'emplacement de stockage
+            uploadDir = "uploads/videos/";
+
+        } else if (detectedType.startsWith("image/")) {
+
+            // Définir l'emplacement de stockage
+            uploadDir = "uploads/logos/";
+
+        } else if (detectedType.startsWith("application/pdf")) {
+
+            // Définir l'emplacement de stockage
+            uploadDir = "uploads/documents/";
+
+        }
+
         File uploadPath = new File(uploadDir);
 
         // Créer le dossier s'il n'existe pas
@@ -31,15 +53,32 @@ public class Uploads {
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
         // Retourner l'URL de l'image
-        return "/uploads/" + fileName;
+        return "/" + uploadDir + fileName;
     }
 
     public String updateFile(MultipartFile file, String old) throws IOException {
-        if (file == null || file.isEmpty()) {
-            throw new IllegalArgumentException("Le fichier est vide ou invalide.");
-        }
+        Tika tika = new Tika();
 
-        String uploadDir = "uploads/";
+        String detectedType = tika.detect(file.getInputStream());
+
+        String uploadDir = "";
+
+        if (detectedType.startsWith("video/")) {
+
+            // Définir l'emplacement de stockage
+            uploadDir = "uploads/videos/";
+
+        } else if (detectedType.startsWith("image/")) {
+
+            // Définir l'emplacement de stockage
+            uploadDir = "uploads/logos/";
+
+        } else if (detectedType.startsWith("application/pdf")) {
+
+            // Définir l'emplacement de stockage
+            uploadDir = "uploads/documents/";
+
+        }
         File uploadPath = new File(uploadDir);
 
         if (!uploadPath.exists()) {
@@ -48,7 +87,7 @@ public class Uploads {
 
         // Supprimer l'ancienne image si elle existe
         if (old != null && !old.isEmpty()) {
-            Path oldFilePath = Paths.get(old.replace("/uploads/", uploadDir));
+            Path oldFilePath = Paths.get(old.replace("/" + uploadDir, uploadDir));
             File oldFile = oldFilePath.toFile();
             if (oldFile.exists()) {
                 oldFile.delete(); // Suppression du fichier
@@ -61,7 +100,18 @@ public class Uploads {
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
         // Retourner la nouvelle URL de l'image
-        return "/uploads/" + fileName;
+        return "/" + uploadDir + fileName;
+    }
+
+    public void deleteFile(String linkFile) {
+
+        // Supprimer l'ancienne image
+        Path oldFilePath = Paths.get("/" + linkFile);
+        File oldFile = oldFilePath.toFile();
+        if (oldFile.exists()) {
+            oldFile.delete();
+        }
+
     }
 
 }

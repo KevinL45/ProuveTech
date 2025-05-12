@@ -48,4 +48,8 @@ public class ToolService {
         return toolRepository.findAll();
     }
 
+    public List<Tool> getToolsByIds(List<Long> ids) {
+        return toolRepository.findAllById(ids);
+    }
+
 }
