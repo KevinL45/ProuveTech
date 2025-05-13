@@ -25,17 +25,14 @@ public class Uploads {
 
         if (detectedType.startsWith("video/")) {
 
-            // Définir l'emplacement de stockage
             uploadDir = "uploads/videos/";
 
         } else if (detectedType.startsWith("image/")) {
 
-            // Définir l'emplacement de stockage
             uploadDir = "uploads/logos/";
 
         } else if (detectedType.startsWith("application/pdf")) {
 
-            // Définir l'emplacement de stockage
             uploadDir = "uploads/documents/";
 
         }
@@ -65,17 +62,14 @@ public class Uploads {
 
         if (detectedType.startsWith("video/")) {
 
-            // Définir l'emplacement de stockage
             uploadDir = "uploads/videos/";
 
         } else if (detectedType.startsWith("image/")) {
 
-            // Définir l'emplacement de stockage
             uploadDir = "uploads/logos/";
 
         } else if (detectedType.startsWith("application/pdf")) {
 
-            // Définir l'emplacement de stockage
             uploadDir = "uploads/documents/";
 
         }
@@ -105,11 +99,19 @@ public class Uploads {
 
     public void deleteFile(String linkFile) {
 
-        // Supprimer l'ancienne image
-        Path oldFilePath = Paths.get("/" + linkFile);
-        File oldFile = oldFilePath.toFile();
-        if (oldFile.exists()) {
-            oldFile.delete();
+        if (linkFile == null || linkFile.isEmpty())
+            return;
+
+        // Enlever le slash au début s'il existe
+        if (linkFile.startsWith("/")) {
+            linkFile = linkFile.substring(1);
+        }
+
+        Path filePath = Paths.get(linkFile);
+        File file = filePath.toFile();
+
+        if (file.exists()) {
+            file.delete();
         }
 
     }

@@ -171,8 +171,23 @@ public class ProjectController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseMessage deleteProjet(@PathVariable Long id) {
+
         Project project = getProject(id);
+        List<Document> documents = new ArrayList<>(project.getDocuemnts());
+
+        // Détacher les relations ManyToMany
+        project.getDocuemnts().clear();
+        project.getTools().clear();
+
+        projectService.addProject(project);
+
         uploads.deleteFile(project.getVideo());
+
+        for (Document doc : documents) {
+            uploads.deleteFile(doc.getFile());
+            documentService.deleteDocument(doc.getId());
+        }
+
         return projectService.deleteProject(id);
 
     }
