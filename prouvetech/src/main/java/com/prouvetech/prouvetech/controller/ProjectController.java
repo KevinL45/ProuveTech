@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.prouvetech.prouvetech.model.Comment;
 import com.prouvetech.prouvetech.model.Document;
 import com.prouvetech.prouvetech.model.Project;
 import com.prouvetech.prouvetech.model.Tool;
+import com.prouvetech.prouvetech.service.CommentService;
 import com.prouvetech.prouvetech.service.DocumentService;
 import com.prouvetech.prouvetech.service.ProjectService;
 import com.prouvetech.prouvetech.service.ToolService;
@@ -45,6 +47,9 @@ public class ProjectController {
 
     @Autowired
     private ToolService toolService;
+
+    @Autowired
+    private CommentService commentService;
 
     @Autowired
     private UserService userService;
@@ -139,9 +144,9 @@ public class ProjectController {
                     savedDocuments.add(document);
                 }
             }
-            project.setDocuments(savedDocuments);
         }
 
+        project.setDocuments(savedDocuments);
         project.setName(name);
         project.setDescription(description);
         project.setVideo(newVideo);
@@ -167,6 +172,17 @@ public class ProjectController {
     @GetMapping("/details/{id}")
     public Project getProject(@PathVariable Long id) {
         return projectService.getProject(id);
+    }
+
+    @GetMapping("/data/{id}")
+    public ResponseMessage getData(@PathVariable Long id) {
+        return projectService.details(id);
+    }
+
+    @GetMapping("/commentbyproject/{id}")
+    public List<Comment> getCommentsByProject(@PathVariable Long id) {
+        List<Comment> comments = commentService.getCommentsByProject(id);
+        return comments;
     }
 
     @DeleteMapping("/delete/{id}")

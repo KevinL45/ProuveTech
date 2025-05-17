@@ -1,13 +1,15 @@
 package com.prouvetech.prouvetech.service;
 
-import java.util.List;
+import com.prouvetech.prouvetech.model.*;
+import com.prouvetech.prouvetech.compositekey.CommentId;
+import com.prouvetech.prouvetech.repository.CommentRepository;
+import com.prouvetech.prouvetech.utils.ResponseMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.prouvetech.prouvetech.model.Comment;
-import com.prouvetech.prouvetech.repository.CommentRepository;
-import com.prouvetech.prouvetech.utils.ResponseMessage;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class CommentService {
@@ -15,43 +17,54 @@ public class CommentService {
     @Autowired
     private CommentRepository commentRepository;
 
-    public Comment getComment(long id) {
-        return commentRepository.findById(null)
-                .orElseThrow(() -> new RuntimeException("Aucun commentaire trouvé avec l'ID : " + id));
-    }
+    @Autowired
+    private UserService userService;
 
-    public List<Comment> getAllComments() {
-        return commentRepository.findAll();
-    }
+    @Autowired
+    private ProjectService projectService;
 
-    public ResponseMessage addComment(Comment comment) {
-        commentRepository.save(comment);
-        return new ResponseMessage(true, "Le commentaire a été ajouté");
-    }
+    public ResponseMessage addComment(Long userId, Long projectId, String content) {
+        User user = userService.getUser(userId);
+        Project project = projectService.getProject(projectId);
 
-    public ResponseMessage updateComment(Comment comment, Long id) {
-        Comment commentExsist = getComment(id);
+        CommentId commentId = new CommentId(userId, projectId);
 
-        commentExsist.setUpdateDate(comment.getUpdateDate());
-        commentExsist.setProject(comment.getProject());
-        commentExsist.setUser(comment.getUser());
-        commentExsist.setContent(comment.getContent());
+        if (commentRepository.existsById(commentId)) {
+            return new ResponseMessage(false, "Le commentaire existe déjà pour cet utilisateur et ce projet.");
+        }
+
+        Comment comment = new Comment(user, project, content);
+        comment.setCommentId(commentId);
+        comment.setUpdateDate(LocalDateTime.now());
 
         commentRepository.save(comment);
-
-        return new ResponseMessage(true, "Le commentaire a été modifié");
-
+        return new ResponseMessage(true, "Commentaire ajouté.");
     }
 
-    // public ResponseMessage deleteComment(Long id) {
+    public Comment getComment(Long userId, Long projectId) {
+        CommentId id = new CommentId(userId, projectId);
+        return commentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Commentaire non trouvé."));
+    }
 
-    // if (!commentRepository.existsById(id)) {
-    // return new ResponseMessage(false, "Aucun de tes commentaires dans ce
-    // projet");
-    // }
-    // commentRepository.deleteById(id);
-    // return new ResponseMessage(true, "Le commentaire a été supprimé avec
-    // succès.");
-    // }
+    public ResponseMessage updateComment(Long userId, Long projectId, String newContent) {
+        Comment comment = getComment(userId, projectId);
+        comment.setContent(newContent);
+        comment.setUpdateDate(LocalDateTime.now());
+        commentRepository.save(comment);
+        return new ResponseMessage(true, "Commentaire mis à jour.");
+    }
 
+    public ResponseMessage deleteComment(Long userId, Long projectId) {
+        CommentId id = new CommentId(userId, projectId);
+        if (!commentRepository.existsById(id)) {
+            return new ResponseMessage(false, "Commentaire introuvable.");
+        }
+        commentRepository.deleteById(id);
+        return new ResponseMessage(true, "Commentaire supprimé.");
+    }
+
+    public List<Comment> getCommentsByProject(Long projectId) {
+        return commentRepository.findByProjectId(projectId);
+    }
 }
