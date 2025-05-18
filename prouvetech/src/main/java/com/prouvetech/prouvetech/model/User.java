@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -52,6 +51,10 @@ public class User implements UserDetails {
     @JoinColumn(name = "status_id", nullable = false)
     private Status status;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Role> roles = new ArrayList<>();
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserSocialNetworks> socialNetworks = new ArrayList<>();
 
@@ -60,7 +63,9 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList(); // ou une liste de rôles si tu veux gérer les rôles plus tard
+        return roles.stream()
+                .map(role -> (GrantedAuthority) () -> role.getName())
+                .toList();
     }
 
     public User() {

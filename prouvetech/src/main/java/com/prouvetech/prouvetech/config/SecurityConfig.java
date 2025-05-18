@@ -44,18 +44,15 @@ public class SecurityConfig {
                                                                 "/document/list",
                                                                 "/document/details/{id}",
 
-                                                                "/comment/list",
-                                                                "/comment/details/{id}",
+                                                                "/socialnetworks/list",
+                                                                "/socialnetworks/details/{id}",
 
                                                                 "/project/list",
                                                                 "/project/commentbyproject/{id}",
                                                                 "/project/details/{id}",
-                                                                "/project/data/{id}",
+                                                                "/project/data/{id}"
 
-                                                                "/usersocialnetworks/user/{userId}/{socialNetworkId}",
-
-                                                                "/socialnetworks/list",
-                                                                "/socialnetworks/details/{id}")
+                                                )
                                                 .permitAll()
                                                 .requestMatchers("/user/remove/{id}",
                                                                 "/user/edit/{id}",
@@ -63,20 +60,13 @@ public class SecurityConfig {
                                                                 "/usersocialnetworks/create",
                                                                 "/usersocialnetworks/update/{userId}/{socialNetworkId}",
                                                                 "/usersocialnetworks/delete/{userId}/{socialNetworkId}",
-
-                                                                "/document/create",
-                                                                "/document/update/{id}",
-                                                                "/document/delete/{id}",
+                                                                "/usersocialnetworks/user/{userId}/{socialNetworkId}",
 
                                                                 "/comment/create",
                                                                 "/comment/update/{userId}/{projectId}",
-                                                                "/comment/delete/{userId}/{projectId}",
-
-                                                                "/project/create",
-                                                                "/project/update/{id}",
-                                                                "/project/delete/{id}",
-
-                                                                "/tool/create",
+                                                                "/comment/delete/{userId}/{projectId}")
+                                                .authenticated()
+                                                .requestMatchers("/tool/create",
                                                                 "/tool/update/{id}",
                                                                 "/tool/delete/{id}",
 
@@ -86,10 +76,17 @@ public class SecurityConfig {
 
                                                                 "/socialnetworks/create",
                                                                 "/socialnetworks/update/{id}",
-                                                                "/socialnetworks/delete/{id}"
+                                                                "/socialnetworks/delete/{id}")
+                                                .hasAnyAuthority("ROLE_ADMIN")
+                                                .requestMatchers(
+                                                                "/project/create",
+                                                                "/project/update/{id}",
+                                                                "/project/delete/{id}",
 
-                                                )
-                                                .authenticated())
+                                                                "/document/create",
+                                                                "/document/update/{id}",
+                                                                "/document/delete/{id}")
+                                                .hasAnyAuthority("ROLE_DEVELOPER"))
                                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
                 return http.build();
