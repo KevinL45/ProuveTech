@@ -34,43 +34,56 @@ public class SecurityConfig {
                                                                 "/user/login",
                                                                 "/user/details/{id}",
                                                                 "/user/list",
+
                                                                 "/tool/list",
                                                                 "/tool/details/{id}",
+
                                                                 "/status/list",
                                                                 "/status/details/{id}",
+
                                                                 "/document/list",
                                                                 "/document/details/{id}",
+
                                                                 "/comment/list",
                                                                 "/comment/details/{id}",
+
                                                                 "/project/list",
                                                                 "/project/commentbyproject/{id}",
                                                                 "/project/details/{id}",
                                                                 "/project/data/{id}",
-                                                                "/usersocialnetworks/list",
-                                                                "/usersocialnetworks/details/{id}",
+
+                                                                "/usersocialnetworks/user/{userId}/{socialNetworkId}",
+
                                                                 "/socialnetworks/list",
                                                                 "/socialnetworks/details/{id}")
                                                 .permitAll()
                                                 .requestMatchers("/user/remove/{id}",
                                                                 "/user/edit/{id}",
-                                                                "/tool/create",
-                                                                "/tool/update/{id}",
-                                                                "/tool/delete/{id}",
-                                                                "/status/create",
-                                                                "/status/update/{id}",
-                                                                "/status/delete/{id}",
+
+                                                                "/usersocialnetworks/create",
+                                                                "/usersocialnetworks/update/{userId}/{socialNetworkId}",
+                                                                "/usersocialnetworks/delete/{userId}/{socialNetworkId}",
+
                                                                 "/document/create",
                                                                 "/document/update/{id}",
                                                                 "/document/delete/{id}",
+
                                                                 "/comment/create",
                                                                 "/comment/update/{userId}/{projectId}",
                                                                 "/comment/delete/{userId}/{projectId}",
+
                                                                 "/project/create",
                                                                 "/project/update/{id}",
                                                                 "/project/delete/{id}",
-                                                                "/usersocialnetworks/create",
-                                                                "/usersocialnetworks/update/{id}",
-                                                                "/usersocialnetworks/delete/{id}",
+
+                                                                "/tool/create",
+                                                                "/tool/update/{id}",
+                                                                "/tool/delete/{id}",
+
+                                                                "/status/create",
+                                                                "/status/update/{id}",
+                                                                "/status/delete/{id}",
+
                                                                 "/socialnetworks/create",
                                                                 "/socialnetworks/update/{id}",
                                                                 "/socialnetworks/delete/{id}"
