@@ -1,6 +1,7 @@
 package com.prouvetech.prouvetech.service;
 
 import com.prouvetech.prouvetech.config.JwtTokenProvider;
+import com.prouvetech.prouvetech.model.Role;
 import com.prouvetech.prouvetech.model.User;
 import com.prouvetech.prouvetech.repository.UserRepository;
 import com.prouvetech.prouvetech.utils.ResponseMessage;
@@ -19,6 +20,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RoleService roleService;
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
@@ -57,8 +61,22 @@ public class UserService implements UserDetailsService {
             return new ResponseMessage(false, "Vous avez déja un compte");
 
         user.setPassword(hashPassword(user.getPassword()));
+        Role roleToAssign = new Role();
+
+        if ("Recruteur".equalsIgnoreCase(user.getStatus().getName()))
+
+            roleToAssign = roleService.findByName("ROLE_RECRUIT");
+
+        else if ("Junior".equalsIgnoreCase(user.getStatus().getName())
+                || "Senior".equalsIgnoreCase(user.getStatus().getName()))
+
+            roleToAssign = roleService.findByName("ROLE_DEVELOPER");
+        roleToAssign.getName();
+
+        user.setRoles(List.of(roleToAssign));
         userRepository.save(user);
-        return new ResponseMessage(true, "Vous êtes inscrit");
+        return new ResponseMessage(true, "Vous êtes inscrit, Voici votre role de '" + roleToAssign.getName()
+                + "'', votre statut est '" + user.getStatus().getName() + "'");
     }
 
     public User getUser(Long id) {
