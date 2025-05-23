@@ -62,21 +62,24 @@ public class UserService implements UserDetailsService {
 
         user.setPassword(hashPassword(user.getPassword()));
         Role roleToAssign = new Role();
-
-        if ("Recruteur".equalsIgnoreCase(user.getStatus().getName()))
-
-            roleToAssign = roleService.findByName("ROLE_RECRUIT");
-
-        else if ("Junior".equalsIgnoreCase(user.getStatus().getName())
-                || "Senior".equalsIgnoreCase(user.getStatus().getName()))
-
-            roleToAssign = roleService.findByName("ROLE_DEVELOPER");
-        roleToAssign.getName();
+        roleToAssign = roleService.getRoleByStatus(user.getStatus()).get();
 
         user.setRoles(List.of(roleToAssign));
         userRepository.save(user);
         return new ResponseMessage(true, "Vous êtes inscrit, Voici votre role de '" + roleToAssign.getName()
                 + "'', votre statut est '" + user.getStatus().getName() + "'");
+    }
+
+    public ResponseMessage updateUser(User user) {
+
+        user.setPassword(hashPassword(user.getPassword()));
+        userRepository.save(user);
+
+        return new ResponseMessage(true,
+                "Votre compte a été modifié, Voici votre role de '"
+                        + roleService.getRoleByStatus(user.getStatus()).get().getName()
+                        + "'', votre statut est '" + user.getStatus().getName() + "'");
+
     }
 
     public User getUser(Long id) {

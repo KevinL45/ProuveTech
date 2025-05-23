@@ -1,13 +1,18 @@
 package com.prouvetech.prouvetech.controller;
 
-import com.prouvetech.prouvetech.model.SocialNetworks;
+import com.prouvetech.prouvetech.model.Role;
 import com.prouvetech.prouvetech.model.Status;
 import com.prouvetech.prouvetech.model.User;
+import com.prouvetech.prouvetech.service.RoleService;
 import com.prouvetech.prouvetech.service.StatusService;
 import com.prouvetech.prouvetech.service.UserService;
 import com.prouvetech.prouvetech.utils.ResponseMessage;
+import com.prouvetech.prouvetech.utils.Uploads;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +34,12 @@ public class UserController {
 
     @Autowired
     private StatusService statusService;
+
+    @Autowired
+    private Uploads uploads;
+
+    @Autowired
+    private RoleService roleService;
 
     @PostMapping("/register")
     public ResponseEntity<String> addUser(
@@ -56,22 +67,45 @@ public class UserController {
             @RequestParam("lastname") String lastname,
             @RequestParam("mail") String mail,
             @RequestParam("password") String password,
+            @RequestParam("statusId") Long statusId,
+            @RequestParam("telephone") String telephone,
             @RequestParam("title") String title,
             @RequestParam("description") String description,
-            @RequestParam("telephone") String telephone,
             @RequestParam("photo") MultipartFile photo,
-            @RequestParam("cv") MultipartFile cv,
-            @RequestParam("social_network") List<SocialNetworks> social_networks,
-            @RequestParam("statusId") Long statusId) {
+            @RequestParam("social_network") List<String> link_social_networks) throws IOException {
 
         User user = getUser(id);
+        Status status = statusService.getStatus(statusId);
+        Optional<Role> role = roleService.getRoleByStatus(status);
 
         Tika tika = new Tika();
 
-        // String detectedTypePhoto = tika.detect(photo.getInputStream());
-        // String detectedTypeCV = tika.detect(cv.getInputStream());
+        String detectedTypePhoto = tika.detect(photo.getInputStream());
 
-        return ResponseEntity.ok("en cours...");
+        if (!detectedTypePhoto.startsWith("image/")) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Le fichier doit être une image");
+        }
+
+        String newphoto = uploads.saveFile(photo);
+
+        user.setFirstname(firstname);
+        user.setLastname(lastname);
+        user.setMail(mail);
+        user.setPassword(password);
+        user.setTitle(title);
+        user.setDescription(description);
+        user.setTelephone(telephone);
+        user.setPhoto(newphoto);
+        user.setStatus(status);
+        user.setRoles(new ArrayList<>(List.of(role.get())));
+
+        ResponseMessage result = userService.updateUser(user);
+
+        if (!result.isSuccess()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(result.getMessage());
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(result.getMessage());
 
     }
 

@@ -55,7 +55,7 @@ public class SecurityConfig {
                                                 )
                                                 .permitAll()
                                                 .requestMatchers("/user/remove/{id}",
-                                                                "/user/edit/{id}",
+                                                                "/user/update/{id}",
 
                                                                 "/usersocialnetworks/create",
                                                                 "/usersocialnetworks/update/{userId}/{socialNetworkId}",
