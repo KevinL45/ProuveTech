@@ -196,6 +196,22 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
+    public List<UserSocialNetworks> getSocialNetworks() {
+        return socialNetworks;
+    }
+
+    public void setSocialNetwork(List<UserSocialNetworks> socialNetworks) {
+        this.socialNetworks = socialNetworks;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
     @Override
     public String toString() {
         return "User{" +

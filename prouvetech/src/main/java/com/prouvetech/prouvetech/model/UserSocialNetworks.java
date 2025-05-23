@@ -63,6 +63,10 @@ public class UserSocialNetworks {
         this.profileUrl = profileUrl;
     }
 
+    public void setUserSocialNetworksId(UserSocialNetworksId userSocialNetworksId) {
+        this.userSocialNetworksId = userSocialNetworksId;
+    }
+
     @Override
     public String toString() {
         return "UserSocialNetwork{" +

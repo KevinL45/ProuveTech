@@ -67,4 +67,5 @@ public class UserSocialNetworksService {
     public List<UserSocialNetworks> getUserSocialNetworks(Long userId) {
         return usnRepository.findByUserId(userId);
     }
+
 }

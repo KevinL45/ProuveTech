@@ -1,9 +1,13 @@
 package com.prouvetech.prouvetech.controller;
 
+import com.prouvetech.prouvetech.compositekey.UserSocialNetworksId;
 import com.prouvetech.prouvetech.model.Role;
+import com.prouvetech.prouvetech.model.SocialNetworks;
 import com.prouvetech.prouvetech.model.Status;
 import com.prouvetech.prouvetech.model.User;
+import com.prouvetech.prouvetech.model.UserSocialNetworks;
 import com.prouvetech.prouvetech.service.RoleService;
+import com.prouvetech.prouvetech.service.SocialNetworksService;
 import com.prouvetech.prouvetech.service.StatusService;
 import com.prouvetech.prouvetech.service.UserService;
 import com.prouvetech.prouvetech.utils.ResponseMessage;
@@ -34,6 +38,9 @@ public class UserController {
 
     @Autowired
     private StatusService statusService;
+
+    @Autowired
+    private SocialNetworksService socialNetworksService;
 
     @Autowired
     private Uploads uploads;
@@ -72,7 +79,7 @@ public class UserController {
             @RequestParam("title") String title,
             @RequestParam("description") String description,
             @RequestParam("photo") MultipartFile photo,
-            @RequestParam("social_network") List<String> link_social_networks) throws IOException {
+            @RequestParam("link_social_network") List<String> link_social_networks) throws IOException {
 
         User user = getUser(id);
         Status status = statusService.getStatus(statusId);
@@ -88,6 +95,27 @@ public class UserController {
 
         String newphoto = uploads.saveFile(photo);
 
+        List<UserSocialNetworks> newUserSocials = new ArrayList<>();
+
+        for (String link : link_social_networks) {
+            SocialNetworks socialNetwork = socialNetworksService.detectNetworkNameFromUrl(link);
+
+            if (socialNetwork != null) {
+                UserSocialNetworks usn = new UserSocialNetworks();
+
+                UserSocialNetworksId compositeKey = new UserSocialNetworksId(user.getId(), socialNetwork.getId());
+                usn.setUserSocialNetworksId(compositeKey);
+
+                usn.setUser(user);
+                usn.setSocialNetwork(socialNetwork);
+                usn.setProfileUrl(link);
+                newUserSocials.add(usn);
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("Le réseau social pour le lien '" + link + "' n'est pas reconnu.");
+            }
+        }
+
         user.setFirstname(firstname);
         user.setLastname(lastname);
         user.setMail(mail);
@@ -99,6 +127,8 @@ public class UserController {
         user.setStatus(status);
         user.setRoles(new ArrayList<>(List.of(role.get())));
 
+        user.getSocialNetworks().clear();
+        user.getSocialNetworks().addAll(newUserSocials);
         ResponseMessage result = userService.updateUser(user);
 
         if (!result.isSuccess()) {

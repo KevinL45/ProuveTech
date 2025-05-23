@@ -48,4 +48,14 @@ public class SocialNetworksService {
         return socialNetworksRepository.findAll();
     }
 
+    public SocialNetworks detectNetworkNameFromUrl(String url) {
+        List<SocialNetworks> listSocialNetworks = getAllSocialNetworks();
+        for (SocialNetworks social_network : listSocialNetworks)
+            if (url.contains(social_network.getName()))
+                return getSocialNetworks(social_network.getId());
+
+        throw new IllegalArgumentException(
+                "Ce réseau social n'est pas encore ajouté");
+    }
+
 }
