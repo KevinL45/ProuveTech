@@ -55,7 +55,7 @@ public class SecurityConfig {
                                                 )
                                                 .permitAll()
                                                 .requestMatchers("/user/remove/{id}",
-                                                                "/user/update/{id}",
+                                                                "/user/update",
 
                                                                 "/usersocialnetworks/create",
                                                                 "/usersocialnetworks/update/{userId}/{socialNetworkId}",
@@ -63,8 +63,8 @@ public class SecurityConfig {
                                                                 "/usersocialnetworks/user/{userId}/{socialNetworkId}",
 
                                                                 "/comment/create",
-                                                                "/comment/update/{userId}/{projectId}",
-                                                                "/comment/delete/{userId}/{projectId}")
+                                                                "/comment/update/{projectId}",
+                                                                "/comment/delete/{projectId}")
                                                 .authenticated()
                                                 .requestMatchers("/tool/create",
                                                                 "/tool/update/{id}",

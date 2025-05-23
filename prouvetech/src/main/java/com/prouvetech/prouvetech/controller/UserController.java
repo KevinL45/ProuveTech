@@ -22,6 +22,8 @@ import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -68,8 +70,8 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result.getMessage());
     }
 
-    @PutMapping("update/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable Long id,
+    @PutMapping("update/")
+    public ResponseEntity<String> updateUser(
             @RequestParam("firstname") String firstname,
             @RequestParam("lastname") String lastname,
             @RequestParam("mail") String mail,
@@ -81,7 +83,10 @@ public class UserController {
             @RequestParam("photo") MultipartFile photo,
             @RequestParam("link_social_network") List<String> link_social_networks) throws IOException {
 
-        User user = getUser(id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User user = userService.getUserByMail(email);
+
         Status status = statusService.getStatus(statusId);
         Optional<Role> role = roleService.getRoleByStatus(status);
 

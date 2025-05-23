@@ -9,6 +9,8 @@ import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +25,7 @@ import com.prouvetech.prouvetech.model.Comment;
 import com.prouvetech.prouvetech.model.Document;
 import com.prouvetech.prouvetech.model.Project;
 import com.prouvetech.prouvetech.model.Tool;
+import com.prouvetech.prouvetech.model.User;
 import com.prouvetech.prouvetech.service.CommentService;
 import com.prouvetech.prouvetech.service.DocumentService;
 import com.prouvetech.prouvetech.service.ProjectService;
@@ -64,8 +67,11 @@ public class ProjectController {
             @RequestParam("sourcecode") String sourcecode,
             @RequestParam("video") MultipartFile video,
             @RequestParam("documents") MultipartFile[] documents,
-            @RequestParam("tools") List<Long> tools,
-            @RequestParam("userId") Long userId) throws IOException {
+            @RequestParam("tools") List<Long> tools) throws IOException {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User user = userService.getUserByMail(email);
 
         Tika tika = new Tika();
 
@@ -94,7 +100,7 @@ public class ProjectController {
                 description,
                 newVideo,
                 sourcecode,
-                userService.getUser(userId),
+                user,
                 savedDocuments,
                 selectedTools,
                 LocalDateTime.now(),
@@ -118,8 +124,10 @@ public class ProjectController {
             @RequestParam("sourcecode") String sourcecode,
             @RequestParam("video") MultipartFile video,
             @RequestParam("documents") MultipartFile[] documents,
-            @RequestParam("tools") List<Long> tools,
-            @RequestParam("userId") Long userId) throws IOException {
+            @RequestParam("tools") List<Long> tools) throws IOException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User user = userService.getUserByMail(email);
 
         Tika tika = new Tika();
 
@@ -151,7 +159,7 @@ public class ProjectController {
         project.setDescription(description);
         project.setVideo(newVideo);
         project.setSourceCode(sourcecode);
-        project.setUser(userService.getUser(userId));
+        project.setUser(user);
         project.setUpdateDate(LocalDateTime.now());
         project.setTools(selectedTools);
 
