@@ -58,9 +58,9 @@ public class SecurityConfig {
                                                                 "/user/update",
 
                                                                 "/usersocialnetworks/create",
-                                                                "/usersocialnetworks/update/{userId}/{socialNetworkId}",
-                                                                "/usersocialnetworks/delete/{userId}/{socialNetworkId}",
-                                                                "/usersocialnetworks/user/{userId}/{socialNetworkId}",
+                                                                "/usersocialnetworks/update/{socialNetworkId}",
+                                                                "/usersocialnetworks/delete/{socialNetworkId}",
+                                                                "/usersocialnetworks/user/{socialNetworkId}",
 
                                                                 "/comment/create",
                                                                 "/comment/update/{projectId}",
