@@ -1,0 +1,29 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff; 
+  padding: 1rem 2rem;
+
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+
+    li a {
+      text-decoration: none;
+  color: linear-gradient(135deg, #0d47a1, #1976d2);
+      font-weight: bold;
+  font-family: 'Segoe UI', sans-serif;
+
+
+      &.active {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .logo-container img {
+    height: 40px;
+  }
+}
