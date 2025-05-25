@@ -1,1 +1,33 @@
-<p>profile works!</p>
+<section class="profile-page">
+  <div class="profile-header">
+    <img class="avatar" [src]="'assets/default-avatar.png'" alt="Avatar" />
+
+    <div class="info">
+      <h1>Kevin L</h1>
+      <p class="title">Développeur</p>
+      <span class="status">Junior</span>
+      <p class="bio">Description</p>
+
+      <div class="stats">
+        <div>
+          <h3>4</h3>
+          <p>Projets</p>
+        </div>
+        <div>
+          <h3>4</h3>
+          <p>Outils</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="user-projects">
+    <h2>Mes projets</h2>
+    <div class="projects-list">
+      <div class="project-card" *ngFor="let project of user.projects">
+        <video [src]="project.videoUrl" controls></video>
+        <h4>{{ project.title }}</h4>
+      </div>
+    </div>
+  </div> -->
+</section>

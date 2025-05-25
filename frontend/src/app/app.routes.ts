@@ -6,6 +6,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { DevelopersComponent } from './pages/developers/developers.component';
 import { LoginComponent } from './form/login/login.component';
 import { FormUserComponent } from './form/form-user/form-user.component';
+import { RecruitsComponent } from './pages/recruits/recruits.component';
 
 export const routes: Routes = [
   {
@@ -16,7 +17,9 @@ export const routes: Routes = [
     { path: 'accueil', component: HomeComponent },
     { path: 'projets', component: ProjectsComponent },
     { path: 'developpeurs', component: DevelopersComponent },
+    { path: 'recruteurs', component:  RecruitsComponent},
     { path: 'profil', component: ProfileComponent },
+
     { path: 'connexion', component: LoginComponent },
     { path: 'inscription', component:  FormUserComponent},
 

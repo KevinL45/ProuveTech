@@ -1,1 +1,35 @@
-<p>projects works!</p>
+<section class="projects-page">
+  <div class="header">
+    <h1>📽️ Projets</h1>
+    <div class="filters">
+      <input type="text" placeholder="Rechercher un projet..."  />
+
+      <input
+        type="text"
+        placeholder="Filtrer par tags (ex: Angular, Node...)"
+      />
+    </div>
+  </div>
+
+  <div class="projects-list">
+    <div
+      class="project-card">
+      <div class="video-wrapper">
+        <video controls [src]=""></video>
+      </div>
+      <div class="project-content">
+        <h2>Démonstration de l'API</h2>
+        <div class="user-info">
+          <img
+            [src]="'assets/default-avatar.png'"
+            alt="profil"
+          />
+          <div>
+            <p class="name">Kevin L</p>
+            <p class="title">Développeur Backend</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

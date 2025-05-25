@@ -1,1 +1,27 @@
-<p>developers works!</p>
+<section class="developers-page">
+  <div class="header">
+    <h1>👨‍💻 Développeurs</h1>
+    <div class="filters">
+      <input type="text" placeholder="Rechercher par nom..." />
+      <select>
+        <option value="">Tous les statuts</option>
+        <option value="Junior">Junior</option>
+        <option value="Senior">Senior</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="developers-list">
+    <div
+      class="developer-card" >
+      <img [src]="'assets/default-avatar.png'" alt="photo de profil" />
+      <div class="dev-info">
+        <h2>Kevin L</h2>
+        <p class="status">Junior</p>
+        <p class="title">Developpeur Backend</p>
+        <p class="projects">1 projet(s)</p>
+      </div>
+    </div>
+
+  </div>
+</section>

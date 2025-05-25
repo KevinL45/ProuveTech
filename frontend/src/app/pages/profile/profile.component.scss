@@ -1,0 +1,133 @@
+:host {
+  display: block;
+  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.profile-page {
+  max-width: 1000px;
+  margin: auto;
+
+  .profile-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    align-items: center;
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #2563eb;
+    }
+
+    .info {
+      flex: 1;
+
+      h1 {
+        margin: 0;
+        font-size: 1.8rem;
+        color: #1f2937;
+      }
+
+      .title {
+        font-size: 1.1rem;
+        color: #6b7280;
+        margin-bottom: 0.5rem;
+      }
+
+      .status {
+        display: inline-block;
+        padding: 0.3rem 0.8rem;
+        border-radius: 1rem;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        background: #e0f2fe;
+        color: #0284c7;
+
+        &.junior {
+          background: #fef3c7;
+          color: #f59e0b;
+        }
+
+        &.senior {
+          background: #d1fae5;
+          color: #10b981;
+        }
+      }
+
+      .bio {
+        margin-top: 0.5rem;
+        font-size: 1rem;
+        color: #374151;
+      }
+
+      .stats {
+        display: flex;
+        gap: 2rem;
+        margin-top: 1.5rem;
+
+        div {
+          text-align: center;
+
+          h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #111827;
+          }
+
+          p {
+            margin: 0;
+            color: #6b7280;
+          }
+        }
+      }
+    }
+  }
+
+  .user-projects {
+    margin-top: 3rem;
+
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: #111827;
+    }
+
+    .projects-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+
+      .project-card {
+        background: white;
+        border-radius: 1rem;
+        padding: 1rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        video {
+          width: 100%;
+          border-radius: 0.5rem;
+          max-height: 180px;
+          object-fit: cover;
+          margin-bottom: 0.5rem;
+        }
+
+        h4 {
+          font-size: 1rem;
+          color: #1f2937;
+          text-align: center;
+          margin: 0;
+        }
+      }
+    }
+  }
+}
