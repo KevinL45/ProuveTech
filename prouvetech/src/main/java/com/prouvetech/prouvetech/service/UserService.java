@@ -66,8 +66,8 @@ public class UserService implements UserDetailsService {
 
         user.setRoles(List.of(roleToAssign));
         userRepository.save(user);
-        return new ResponseMessage(true, "Vous êtes inscrit, Voici votre role de '" + roleToAssign.getName()
-                + "'', votre statut est '" + user.getStatus().getName() + "'");
+        return new ResponseMessage(true, "Vous êtes inscrit. Votre rôle est \"" + roleToAssign.getName() +
+                "\", et votre statut est \"" + user.getStatus().getName() + "\".");
     }
 
     public ResponseMessage updateUser(User user) {

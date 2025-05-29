@@ -1,6 +1,7 @@
 package com.prouvetech.prouvetech.controller;
 
 import com.prouvetech.prouvetech.compositekey.UserSocialNetworksId;
+import com.prouvetech.prouvetech.dto.UserDTO;
 import com.prouvetech.prouvetech.model.Role;
 import com.prouvetech.prouvetech.model.SocialNetworks;
 import com.prouvetech.prouvetech.model.Status;
@@ -51,23 +52,19 @@ public class UserController {
     private RoleService roleService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> addUser(
-            @RequestParam("firstname") String firstname,
-            @RequestParam("lastname") String lastname,
-            @RequestParam("mail") String mail,
-            @RequestParam("password") String password,
-            @RequestParam("statusId") Long statusId) {
+    public ResponseEntity<ResponseMessage> addUser(@RequestBody UserDTO userDTO) {
 
-        Status status = this.statusService.getStatus(statusId);
+        Status status = this.statusService.getStatus(userDTO.getStatusId());
 
-        User user = new User(firstname, lastname, mail, password, status);
-        ResponseMessage result = userService.createUser(user);
+        User newUser = new User(userDTO.getFirstname(), userDTO.getLastname(), userDTO.getMail(), userDTO.getPassword(),
+                status);
+        ResponseMessage result = userService.createUser(newUser);
 
         if (!result.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(result.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(result);
         }
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(result.getMessage());
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
     @PutMapping("update/")
