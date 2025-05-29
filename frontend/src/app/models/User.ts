@@ -1,4 +1,3 @@
-import { Status } from "./Status";
 
 export class User {
     id?: number;
@@ -11,9 +10,9 @@ export class User {
     description?:string;
     telephone?:string;
     photo?:string;
-    status:Status
+    statusId:number;
 
-    constructor(mail: string, password: string, firstname:string, lastname:string, status:Status,
+    constructor(mail: string, password: string, firstname:string, lastname:string, statusId:number,
         cv?:string, title?: string, description?:string, telephone?:string, photo?:string, id?: number) {
 
         this.id = id;
@@ -21,7 +20,7 @@ export class User {
         this.password = password;
         this.firstname = firstname;
         this.lastname = lastname;
-        this.status=status;
+        this.statusId=statusId;
         this.cv = cv;
         this.title = title
         this.description = description;

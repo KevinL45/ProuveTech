@@ -5,8 +5,8 @@ import { ProjectsComponent } from './pages/projects/projects.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { DevelopersComponent } from './pages/developers/developers.component';
 import { LoginComponent } from './form/login/login.component';
-import { FormUserComponent } from './form/form-user/form-user.component';
 import { RecruitsComponent } from './pages/recruits/recruits.component';
+import { UserFormComponent } from './form/user-form/user-form.component';
 
 export const routes: Routes = [
   {
@@ -20,8 +20,8 @@ export const routes: Routes = [
     { path: 'recruteurs', component:  RecruitsComponent},
     { path: 'profil', component: ProfileComponent },
 
-    { path: 'connexion', component: LoginComponent },
-    { path: 'inscription', component:  FormUserComponent},
+    { path: 'connexion', component: UserFormComponent },
+    { path: 'inscription', component:  UserFormComponent},
 
     { path: '', component: HomeComponent }
     ]

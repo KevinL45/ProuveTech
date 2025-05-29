@@ -11,6 +11,6 @@ export class StatusService {
   constructor(private http: HttpClient) {}
 
   getAllStatus(): Observable<Status[]> {
-    return this.http.get<Status[]>(`${this.apiUrl}/all`);
+    return this.http.get<Status[]>(`${this.apiUrl}/list`);
   }
 }
