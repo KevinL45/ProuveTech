@@ -25,7 +25,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -152,18 +151,16 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(
-            @Validated @RequestParam("mail") String mail,
-            @RequestParam("password") String password) {
+    public ResponseEntity<ResponseMessage> login(@RequestBody UserDTO userDTO) {
 
-        User user = new User(mail, password);
+        User user = new User(userDTO.getMail(), userDTO.getPassword());
         ResponseMessage token = userService.authenticateUser(user.getMail(), user.getPassword());
 
         if (!token.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(token.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(token);
         }
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(token.getMessage());
+        return ResponseEntity.status(HttpStatus.CREATED).body(token);
     }
 
 }
