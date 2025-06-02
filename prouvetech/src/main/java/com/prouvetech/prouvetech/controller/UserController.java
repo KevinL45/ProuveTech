@@ -146,8 +146,17 @@ public class UserController {
     }
 
     @GetMapping("/list")
-    public List<User> getAllUser() {
-        return userService.getAllUsers();
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        List<UserDTO> dtos = users.stream()
+                .map(u -> new UserDTO(
+                        u.getFirstname(),
+                        u.getLastname(),
+                        u.getMail(),
+                        u.getTitle(),
+                        u.getStatus().getId()))
+                .toList();
+        return ResponseEntity.ok(dtos);
     }
 
     @PostMapping("/login")
