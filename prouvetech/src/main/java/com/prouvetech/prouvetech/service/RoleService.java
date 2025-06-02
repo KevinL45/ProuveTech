@@ -56,7 +56,7 @@ public class RoleService {
     public Optional<Role> getRoleByStatus(Status status) {
         String statusName = status.getName().toLowerCase();
 
-        if (statusName.equalsIgnoreCase("junior") || statusName.equalsIgnoreCase("senior")) {
+        if (statusName.equalsIgnoreCase("développeur")) {
             return roleRepository.findByName("ROLE_DEVELOPER");
         } else if (statusName.equalsIgnoreCase("recruteur")) {
             return roleRepository.findByName("ROLE_RECRUIT");
