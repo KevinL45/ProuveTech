@@ -1,8 +1,8 @@
 
 export class User {
     id?: number;
-    firstname:string;
-    lastname:string;
+    firstname?:string;
+    lastname?:string;
     mail: string;
     password: string;
     cv?:string;
@@ -10,9 +10,9 @@ export class User {
     description?:string;
     telephone?:string;
     photo?:string;
-    statusId:number;
+    statusId?:number;
 
-    constructor(mail: string, password: string, firstname:string, lastname:string, statusId:number,
+    constructor(mail: string, password: string, firstname?:string, lastname?:string, statusId?:number,
         cv?:string, title?: string, description?:string, telephone?:string, photo?:string, id?: number) {
 
         this.id = id;

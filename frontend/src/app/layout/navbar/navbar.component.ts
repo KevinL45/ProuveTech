@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,5 +10,18 @@ import { RouterModule } from '@angular/router';
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
+
+  constructor(private userService:UserService, private router:Router){
+
+  }
+
+  logout(){
+    this.userService.logout();
+    this.router.navigate(["/home"])
+  }
+
+  isAuthenticated():boolean{
+    return this.userService.isAuthenticated()
+  }
 
 }

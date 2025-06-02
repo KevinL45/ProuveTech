@@ -17,7 +17,12 @@ import { Router } from '@angular/router';
 })
 export class UserFormComponent {
 
+
+  mode: 'register' | 'login' = 'register';
+
   userForm: FormGroup;
+  loginForm: FormGroup;
+
   listStatus: Status[] = [];
 
   message: string = '';
@@ -32,9 +37,15 @@ export class UserFormComponent {
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]],
       statusId: [null, [Validators.required]],
-
-
     }, { validators: this.passwordsMatch });
+
+    this.loginForm = fb.group({
+      mail: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
+
+    this.mode = this.router.url.includes('connexion') ? 'login' : 'register';
+
     } 
 
     ngOnInit(): void {
@@ -48,7 +59,7 @@ export class UserFormComponent {
           console.log("Liste des status : "+this.listStatus);
           },
         (error) => {
-          console.error('Erreur sur les articles:', error);
+          console.error('Erreur sur les statuts:', error);
         }
       )
     }
@@ -92,6 +103,29 @@ export class UserFormComponent {
     }
 
     auth(){
+
+        if(this.loginForm.valid){
+
+        const user = new User(this.loginForm.value.mail, 
+          this.loginForm.value.password);
+          console.log('Utilisateur à envoyer :', user);
+
+        this.userService.login(user).subscribe({
+              next: (res) => {
+                  this.router.navigate(['/accueil']);
+                  this.message = res.message
+                  this.userService.saveToken(this.message);
+              },
+              error: (err) => {
+                  console.error('Erreur serveur:', err);
+                  this.message = err.error?.message || 'Une erreur est survenue.';
+                  this.success = err.error?.success ?? false;
+              }
+         });
+        } else {
+            this.message = 'Formulaire invalide.';
+            this.success = false;
+                }
 
     }
 

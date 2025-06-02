@@ -1,15 +1,17 @@
 <nav class="navbar">
   <ul class="nav-links">
     <li><a [routerLink]="['/accueil']">ACCUEIL</a></li>
-    <li><a [routerLink]="['/developpeurs']">DÉVELOPPEURS</a></li>
-    <li><a [routerLink]="['/recruteurs']">RECRUTEURS IT</a></li>
+    <li><a [routerLink]="['/acteurs-it']">ACTEURS DE LA TECH</a></li>
     <li><a [routerLink]="['/projets']">PROJETS</a></li>
-    <li><a [routerLink]="['/profil']">PROFIL</a></li>
+    <li><a *ngIf="isAuthenticated()" [routerLink]="['/profil']">PROFIL</a></li>
   </ul>
   <div class="logo-container">
- <ul class="nav-links">
-    <li><a [routerLink]="['/connexion']">CONNEXION</a></li>
-    <li><a [routerLink]="['/inscription']">INSCRIPTION</a></li>
+  <ul *ngIf="!isAuthenticated()" class="nav-links">
+      <li><a [routerLink]="['/connexion']">CONNEXION</a></li>
+      <li><a [routerLink]="['/inscription']">INSCRIPTION</a></li>
+  </ul> 
+  <ul *ngIf="isAuthenticated()" class="nav-links">
+      <li><a [routerLink]="['/deconnexion']" (click)="logout()">DÉCONNEXION</a></li>
   </ul>  
 </div>
 </nav>

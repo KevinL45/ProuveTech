@@ -4,9 +4,9 @@ import { HomeComponent } from './pages/home/home.component';
 import { ProjectsComponent } from './pages/projects/projects.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { DevelopersComponent } from './pages/developers/developers.component';
-import { LoginComponent } from './form/login/login.component';
 import { RecruitsComponent } from './pages/recruits/recruits.component';
 import { UserFormComponent } from './form/user-form/user-form.component';
+import { ActorItComponent } from './pages/actor-it/actor-it.component';
 
 export const routes: Routes = [
   {
@@ -18,6 +18,7 @@ export const routes: Routes = [
     { path: 'projets', component: ProjectsComponent },
     { path: 'developpeurs', component: DevelopersComponent },
     { path: 'recruteurs', component:  RecruitsComponent},
+    { path: 'acteurs-it', component:  ActorItComponent},
     { path: 'profil', component: ProfileComponent },
 
     { path: 'connexion', component: UserFormComponent },

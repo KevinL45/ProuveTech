@@ -1,0 +1,92 @@
+:host {
+  display: block;
+  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.developers-page {
+  max-width: 1200px;
+  margin: auto;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #1f2937;
+    }
+
+    .filters {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+
+      input,
+      select {
+        padding: 0.5rem 1rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        outline: none;
+
+        &:focus {
+          border-color: #2563eb;
+        }
+      }
+    }
+  }
+
+  .developers-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+
+    .developer-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+
+      img {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #2563eb;
+      }
+
+      .dev-info {
+        h2 {
+          font-size: 1.25rem;
+          margin: 0;
+          color: #111827;
+        }
+
+        .status {
+          color: #6b7280;
+          font-weight: 500;
+          font-size: 0.9rem;
+        }
+
+        .title {
+          color: #374151;
+          font-size: 1rem;
+        }
+
+        .tags {
+          color: #4b5563;
+          font-size: 0.9rem;
+          margin-top: 0.3rem;
+        }
+      }
+    }
+  }
+}

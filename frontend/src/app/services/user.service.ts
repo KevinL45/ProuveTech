@@ -13,8 +13,12 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  login(mail: string, password: string): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/login`, { mail, password });
+  login(user: User): Observable<any> {
+    return this.http.post(`${this.apiUrl}/login`, user);
+  }
+
+   register(user: User): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, user);
   }
 
   saveToken(token: string): void {
@@ -41,13 +45,7 @@ export class UserService {
   }
 
   getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.apiUrl}/all`, {
-      headers: this.getAuthHeaders()
-    });
-  }
-
-  register(user: User): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, user);
+    return this.http.get<User[]>(`${this.apiUrl}/list`);
   }
 
   getUser(id: number): Observable<User> {
