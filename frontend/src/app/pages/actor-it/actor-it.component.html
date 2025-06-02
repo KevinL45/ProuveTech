@@ -2,7 +2,7 @@
   <div class="header">
     <h1>👨‍💻 Acteurs de la tech</h1>
     <div class="filters">
-      <input type="text" placeholder="Rechercher par nom..." />
+      <input type="text" placeholder="Rechercher par techno..." />
       <select>
         <option value="">Tous les statuts</option>
         <option *ngFor="let status of listStatus" [value]="status.id">{{status.name}}</option>
@@ -15,9 +15,7 @@
       <img [src]="'assets/default-avatar.png'" alt="photo de profil" />
       <div class="dev-info">
         <h2>{{user.firstname}} {{user.lastname}}</h2>
-        <p class="status">{{user.statusId}}</p>
         <p class="title">{{user.title}}</p>
-        <p class="tags">Tags</p>
       </div>
     </div>
   </div>

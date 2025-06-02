@@ -26,7 +26,10 @@ export class UserService {
   }
 
   getToken(): string | null {
+  if (typeof window !== 'undefined') {
     return localStorage.getItem('authToken');
+  }
+  return null;
   }
 
   logout(): void {
@@ -34,7 +37,7 @@ export class UserService {
   }
 
   isAuthenticated(): boolean {
-    return !!this.getToken();
+  return this.getToken() !== null;
   }
 
   getAuthHeaders(): HttpHeaders {

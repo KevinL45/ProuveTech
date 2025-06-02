@@ -4,6 +4,7 @@ import { User } from '../../models/User';
 import { Status } from '../../models/Status';
 import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-actor-it',
@@ -30,7 +31,6 @@ export class ActorItComponent {
       this.statusService.getAllStatus().subscribe(
         (data)=>{
           this.listStatus = data;
-          console.log("Liste des status : "+this.listStatus);
           },
         (error) => {
           console.error('Erreur sur les status:', error);
@@ -43,7 +43,6 @@ export class ActorItComponent {
            this.userService.getAllUsers().subscribe(
         (data)=>{
           this.listUsers = data;
-          console.log("Liste des users : "+this.listUsers);
           },
         (error) => {
           console.error('Erreur sur les utilisateurs:', error);
