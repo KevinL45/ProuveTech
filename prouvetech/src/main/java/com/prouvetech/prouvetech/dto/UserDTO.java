@@ -7,6 +7,7 @@ public class UserDTO {
     private String lastname;
     private String title;
     private Long statusId;
+    private String statusName;
 
     public UserDTO() {
 
@@ -25,6 +26,14 @@ public class UserDTO {
         this.mail = mail;
         this.title = title;
         this.statusId = statusId;
+    }
+
+    public UserDTO(String firstname, String lastname, String mail, String title, String statusName) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.mail = mail;
+        this.title = title;
+        this.statusName = statusName;
     }
 
     public String getMail() {
@@ -73,5 +82,13 @@ public class UserDTO {
 
     public void setStatusId(Long statusId) {
         this.statusId = statusId;
+    }
+
+    public String getStatusName() {
+        return statusName;
+    }
+
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
     }
 }

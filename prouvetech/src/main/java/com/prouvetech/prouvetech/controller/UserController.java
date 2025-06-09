@@ -154,7 +154,7 @@ public class UserController {
                         u.getLastname(),
                         u.getMail(),
                         u.getTitle(),
-                        u.getStatus().getId()))
+                        u.getStatus().getName()))
                 .toList();
         return ResponseEntity.ok(dtos);
     }

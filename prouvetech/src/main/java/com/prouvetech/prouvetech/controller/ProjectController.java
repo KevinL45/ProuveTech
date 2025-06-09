@@ -13,14 +13,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.prouvetech.prouvetech.dto.ProjectDTO;
 import com.prouvetech.prouvetech.model.Comment;
 import com.prouvetech.prouvetech.model.Document;
 import com.prouvetech.prouvetech.model.Project;
@@ -61,13 +62,7 @@ public class ProjectController {
     private Uploads uploads;
 
     @PostMapping("/create")
-    public ResponseEntity<String> addProject(
-            @RequestParam("name") String name,
-            @RequestParam("description") String description,
-            @RequestParam("sourcecode") String sourcecode,
-            @RequestParam("video") MultipartFile video,
-            @RequestParam("documents") MultipartFile[] documents,
-            @RequestParam("tools") List<Long> tools) throws IOException {
+    public ResponseEntity<String> addProject(@ModelAttribute ProjectDTO projectDTO) throws IOException {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
@@ -75,14 +70,14 @@ public class ProjectController {
 
         Tika tika = new Tika();
 
-        String detectedType = tika.detect(video.getInputStream());
+        String detectedType = tika.detect(projectDTO.getVideo().getInputStream());
 
         if (!detectedType.startsWith("video/")) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Le fichier doit être une vidéo");
         }
 
         List<Document> savedDocuments = new ArrayList<>();
-        for (MultipartFile doc : documents) {
+        for (MultipartFile doc : projectDTO.getDocuments()) {
             String type = tika.detect(doc.getInputStream());
             if (type.startsWith("application/pdf")) {
                 String path = uploads.saveFile(doc);
@@ -92,14 +87,14 @@ public class ProjectController {
             }
         }
 
-        String newVideo = uploads.saveFile(video);
-        List<Tool> selectedTools = toolService.getToolsByIds(tools);
+        String newVideo = uploads.saveFile(projectDTO.getVideo());
+        List<Tool> selectedTools = toolService.getToolsByIds(projectDTO.getTools());
 
         Project project = new Project(
-                name,
-                description,
+                projectDTO.getName(),
+                projectDTO.getDescription(),
                 newVideo,
-                sourcecode,
+                projectDTO.getSourcecode(),
                 user,
                 savedDocuments,
                 selectedTools,
@@ -119,31 +114,26 @@ public class ProjectController {
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateSocialNetworks(
             @PathVariable Long id,
-            @RequestParam("name") String name,
-            @RequestParam("description") String description,
-            @RequestParam("sourcecode") String sourcecode,
-            @RequestParam("video") MultipartFile video,
-            @RequestParam("documents") MultipartFile[] documents,
-            @RequestParam("tools") List<Long> tools) throws IOException {
+            @ModelAttribute ProjectDTO projectDTO) throws IOException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         User user = userService.getUserByMail(email);
 
         Tika tika = new Tika();
 
-        String detectedType = tika.detect(video.getInputStream());
+        String detectedType = tika.detect(projectDTO.getVideo().getInputStream());
 
         if (!detectedType.startsWith("video/")) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Le fichier doit être une vidéo");
         }
 
         Project project = projectService.getProject(id);
-        String newVideo = uploads.updateFile(video, project.getVideo());
-        List<Tool> selectedTools = toolService.getToolsByIds(tools);
+        String newVideo = uploads.updateFile(projectDTO.getVideo(), project.getVideo());
+        List<Tool> selectedTools = toolService.getToolsByIds(projectDTO.getTools());
 
         List<Document> savedDocuments = new ArrayList<>();
-        if (documents != null && documents.length > 0) {
-            for (MultipartFile doc : documents) {
+        if (projectDTO.getDocuments() != null && projectDTO.getDocuments().size() > 0) {
+            for (MultipartFile doc : projectDTO.getDocuments()) {
                 String type = tika.detect(doc.getInputStream());
                 if (type.startsWith("application/pdf")) {
                     String path = uploads.saveFile(doc);
@@ -155,10 +145,10 @@ public class ProjectController {
         }
 
         project.setDocuments(savedDocuments);
-        project.setName(name);
-        project.setDescription(description);
+        project.setName(projectDTO.getName());
+        project.setDescription(projectDTO.getDescription());
         project.setVideo(newVideo);
-        project.setSourceCode(sourcecode);
+        project.setSourceCode(projectDTO.getSourcecode());
         project.setUser(user);
         project.setUpdateDate(LocalDateTime.now());
         project.setTools(selectedTools);
@@ -173,18 +163,24 @@ public class ProjectController {
     }
 
     @GetMapping("/list")
-    public List<Project> listProjects() {
-        return projectService.getAllProject();
+    public ResponseEntity<List<ProjectDTO>> listProjects() {
+        List<Project> projects = projectService.getAllProject();
+        List<ProjectDTO> projects_dto = projects.stream()
+                .map(p -> new ProjectDTO(
+                        p.getName(),
+                        p.getDescription(),
+                        p.getVideo(),
+                        p.getSourceCode(),
+                        p.getUser().getFirstname() + " " + p.getUser().getLastname(),
+                        p.getUser().getTitle(),
+                        p.getUser().getPhoto()))
+                .toList();
+        return ResponseEntity.ok(projects_dto);
     }
 
     @GetMapping("/details/{id}")
     public Project getProject(@PathVariable Long id) {
         return projectService.getProject(id);
-    }
-
-    @GetMapping("/data/{id}")
-    public ResponseMessage getData(@PathVariable Long id) {
-        return projectService.details(id);
     }
 
     @GetMapping("/commentbyproject/{id}")

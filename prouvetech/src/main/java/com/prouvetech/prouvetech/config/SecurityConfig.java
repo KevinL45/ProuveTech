@@ -50,9 +50,9 @@ public class SecurityConfig {
                                                                 "/project/list",
                                                                 "/project/commentbyproject/{id}",
                                                                 "/project/details/{id}",
-                                                                "/project/data/{id}"
+                                                                "/project/data/{id}",
 
-                                                )
+                                                                "/uploads/**")
                                                 .permitAll()
                                                 .requestMatchers("/user/remove/{id}",
                                                                 "/user/update",
