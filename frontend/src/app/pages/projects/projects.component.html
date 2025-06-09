@@ -13,20 +13,20 @@
 
   <div class="projects-list">
     <div
-      class="project-card">
+      class="project-card"  *ngFor="let project of listProjects">
       <div class="video-wrapper">
-        <video controls [src]=""></video>
+        <video controls [src]="url+project.link_video"></video>
       </div>
       <div class="project-content">
-        <h2>Démonstration de l'API</h2>
+        <h2>{{project.name}}</h2>
         <div class="user-info">
           <img
             [src]="'assets/default-avatar.png'"
             alt="profil"
           />
           <div>
-            <p class="name">Kevin L</p>
-            <p class="title">Développeur Backend</p>
+            <p class="name">{{project.fullname}}</p>
+            <p class="title">{{project.titleActor}}</p>
           </div>
         </div>
       </div>

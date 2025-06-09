@@ -14,11 +14,16 @@
     align-items: center;
     flex-wrap: wrap;
     margin-bottom: 2rem;
+    border-radius: 1rem;
+    background: linear-gradient(135deg, #0d47a1, #1976d2);
+              padding: 0.3rem 0.8rem;
+
+
 
     h1 {
       font-size: 2rem;
       margin-bottom: 1rem;
-      color: #1f2937;
+      color : white;
     }
 
     .filters {
@@ -71,14 +76,22 @@
         }
 
         .status {
-          color: #6b7280;
+          color: #ffffff;
           font-weight: 500;
           font-size: 0.9rem;
+          background: #2ea5e1;
+          display:inline-block;
+          border-radius: 1rem;
+          padding: 0.3rem 0.8rem;
+
+
         }
 
         .title {
           color: #374151;
           font-size: 1rem;
+          padding: 0.3rem 0.8rem;
+
         }
 
         .tags {

@@ -11,9 +11,11 @@ export class User {
     telephone?:string;
     photo?:string;
     statusId?:number;
+    statusName?:string;
+
 
     constructor(mail: string, password: string, firstname?:string, lastname?:string, statusId?:number,
-        cv?:string, title?: string, description?:string, telephone?:string, photo?:string, id?: number) {
+        cv?:string, title?: string, description?:string, telephone?:string, photo?:string, id?: number, statusName?:string) {
 
         this.id = id;
         this.mail = mail;
@@ -22,9 +24,10 @@ export class User {
         this.lastname = lastname;
         this.statusId=statusId;
         this.cv = cv;
-        this.title = title
+        this.title = title;
         this.description = description;
-        this.photo = photo
+        this.photo = photo;
+        this.statusName = statusName;
 
     }
 }

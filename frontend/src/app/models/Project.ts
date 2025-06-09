@@ -13,11 +13,17 @@ export class Project{
     tools : Tool [] = [];
     updatedDate: Date;
     createdDate?: Date;
+    fullname?:string;
+    titleActor?:string;
+    link_video?:string;
+    photoActor?:string;
+
+
    
 
     constructor(name: string, description:string, sourceCode:string, video:File, 
-        user:User,tools :Tool[], documents: Document[],
-        createdDate?: Date, id?: number) {
+        user:User,tools :Tool[], documents: Document[],createdDate?: Date, id?: number, 
+        fullname?:string, titleActor?:string, link_video?:string, photoActor?:string) {
 
         this.id = id;
         this.name = name;
@@ -29,6 +35,10 @@ export class Project{
         this.documents = documents;
         this.updatedDate =  new Date();
         this.createdDate = createdDate;
+        this.fullname = fullname;
+        this.titleActor= titleActor;
+        this.link_video = link_video;
+        this.photoActor = photoActor;
 
     }
 }
