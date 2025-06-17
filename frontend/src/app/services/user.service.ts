@@ -17,12 +17,13 @@ export class UserService {
     return this.http.post(`${this.apiUrl}/login`, user);
   }
 
-   register(user: User): Observable<any> {
+  register(user: User): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, user);
   }
 
   saveToken(token: string): void {
     localStorage.setItem('authToken', token);
+    console.log(this.getToken())
   }
 
   getToken(): string | null {

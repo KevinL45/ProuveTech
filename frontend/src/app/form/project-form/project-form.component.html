@@ -1,0 +1,43 @@
+<div *ngIf="message" [ngClass]="{'success': success, 'error': !success}" class="message">
+  {{ message }}
+</div>
+
+<section class="page">
+  <form class="form" [formGroup]="projectForm" (ngSubmit)="submit()" enctype="multipart/form-data">
+    <h2>Créer un projet</h2>
+
+    <div class="form-group">
+      <label for="name">Nom du projet</label>
+      <input type="text" id="name" formControlName="name" required />
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" formControlName="description" required></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="sourcecode">Lien du code source</label>
+      <input type="text" id="sourcecode" formControlName="sourcecode" />
+    </div>
+
+    <div class="form-group">
+      <label for="tools">Techno utilisés</label>
+      <select id="tools" formControlName="tools" multiple>
+        <option *ngFor="let tool of listTools" [value]="tool.id">{{ tool.name }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="video">Vidéo du projet</label>
+      <input type="file" id="video" (change)="onVideoChange($event)" accept="video/*" />
+    </div>
+
+    <div class="form-group">
+      <label for="documents">Documents qui complète le projet ? (Ex : docummentation...)</label>
+      <input type="file" id="documents" (change)="onDocumentsChange($event)" multiple accept="application/pdf" />
+    </div>
+
+    <button type="submit" [disabled]="projectForm.invalid">Ajouter un projet</button>
+  </form>
+</section>

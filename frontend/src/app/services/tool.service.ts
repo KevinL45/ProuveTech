@@ -12,7 +12,7 @@ export class ToolService {
   constructor(private http: HttpClient) {}
 
   getAllTools(): Observable<Tool[]> {
-    return this.http.get<Tool[]>(`${this.apiUrl}/all`);
+    return this.http.get<Tool[]>(`${this.apiUrl}/list`);
   }
 
   getToolsByIds(ids: number[]): Observable<Tool[]> {

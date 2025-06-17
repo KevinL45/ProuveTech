@@ -7,6 +7,7 @@ import { DevelopersComponent } from './pages/developers/developers.component';
 import { RecruitsComponent } from './pages/recruits/recruits.component';
 import { UserFormComponent } from './form/user-form/user-form.component';
 import { ActorItComponent } from './pages/actor-it/actor-it.component';
+import { ProjectFormComponent } from './form/project-form/project-form.component';
 
 export const routes: Routes = [
   {
@@ -23,6 +24,10 @@ export const routes: Routes = [
 
     { path: 'connexion', component: UserFormComponent },
     { path: 'inscription', component:  UserFormComponent},
+    { path: 'modifier-profil', component:  UserFormComponent},
+
+    { path: 'creer-projet', component:  ProjectFormComponent},
+    { path: 'modifier-projet', component:  ProjectFormComponent},
 
     { path: '', component: HomeComponent }
     ]
