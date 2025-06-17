@@ -14,24 +14,9 @@ export class ProjectService {
 
   constructor(private http: HttpClient, private userService: UserService) {}
 
-  addProject(project: Project): Observable<any> {
-    const formData = new FormData();
-
-    formData.append('name', project.name);
-    formData.append('description', project.description);
-    formData.append('sourcecode', project.sourceCode);
-    formData.append('video', project.video);
-    formData.append('userId', project.user.id!.toString());
-
-    project.tools.forEach(tool => {
-      formData.append('tools', tool.id!.toString());
-    });
-
-    project.documents.forEach((doc: any) => {
-      formData.append('documents', doc);
-    });
-
-    return this.http.post(`${this.apiUrl}/create`, formData, {
+  addProject(formData: FormData): Observable<Project> {
+    console.log(this.userService.getAuthHeaders())
+    return this.http.post<Project>(`${this.apiUrl}/create`, formData,{
       headers: this.userService.getAuthHeaders() 
     });
   }

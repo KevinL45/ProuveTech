@@ -9,7 +9,7 @@ import { LayoutComponent } from './layout/layout/layout.component';
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
-    LayoutComponent // ✅ Ajout ici, car c’est un composant standalone
+    LayoutComponent 
   ],
   declarations: [
   ],

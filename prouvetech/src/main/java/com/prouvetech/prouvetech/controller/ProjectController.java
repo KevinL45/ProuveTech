@@ -64,6 +64,10 @@ public class ProjectController {
     @PostMapping("/create")
     public ResponseEntity<String> addProject(@ModelAttribute ProjectDTO projectDTO) throws IOException {
 
+        System.out.println("Nom : " + projectDTO.getName());
+        System.out.println("Description : " + projectDTO.getDescription());
+        System.out.println("Source code : " + projectDTO.getSourcecode());
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         User user = userService.getUserByMail(email);
