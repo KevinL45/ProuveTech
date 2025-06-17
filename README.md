@@ -20,4 +20,13 @@ Ce projet utilise **Spring Boot 3.4.4** avec **Java 21**.
 | `jjwt-jackson`             | Sérialisation JSON pour JWT                 | 0.11.5      |
 | `tika-core`             | Détection plus fiable du type réel du fichier                 | 2.9.0      |
 
+----------------------------------------------------------------------------------------------------------
+
+### 📚 Détails des modules
+
+| Modules                    | Description                               
+|----------------------------|---------------------------------------------
+| `@ng-select/ng-select`     | Recherche + ajout de tags                   
+
+
 
