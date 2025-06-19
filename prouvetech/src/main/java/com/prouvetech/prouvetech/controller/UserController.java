@@ -29,7 +29,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/user")
@@ -73,38 +72,29 @@ public class UserController {
     }
 
     @PutMapping("update/")
-    public ResponseEntity<String> updateUser(
-            @RequestParam("firstname") String firstname,
-            @RequestParam("lastname") String lastname,
-            @RequestParam("mail") String mail,
-            @RequestParam("password") String password,
-            @RequestParam("statusId") Long statusId,
-            @RequestParam("telephone") String telephone,
-            @RequestParam("title") String title,
-            @RequestParam("description") String description,
-            @RequestParam("photo") MultipartFile photo,
-            @RequestParam("link_social_network") List<String> link_social_networks) throws IOException {
+    public ResponseEntity<ResponseMessage> updateUser(@ModelAttribute UserDTO userDTO) throws IOException {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         User user = userService.getUserByMail(email);
 
-        Status status = statusService.getStatus(statusId);
+        Status status = statusService.getStatus(userDTO.getStatusId());
         Optional<Role> role = roleService.getRoleByStatus(status);
 
         Tika tika = new Tika();
 
-        String detectedTypePhoto = tika.detect(photo.getInputStream());
+        String detectedTypePhoto = tika.detect(userDTO.getPhoto().getInputStream());
 
         if (!detectedTypePhoto.startsWith("image/")) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Le fichier doit être une image");
+            ResponseMessage message = new ResponseMessage(false, "Le fichier doit être une image");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
         }
 
-        String newphoto = uploads.saveFile(photo);
+        String newphoto = uploads.saveFile(userDTO.getPhoto());
 
         List<UserSocialNetworks> newUserSocials = new ArrayList<>();
 
-        for (String link : link_social_networks) {
+        for (String link : userDTO.getLink_social_networks()) {
             SocialNetworks socialNetwork = socialNetworksService.detectNetworkNameFromUrl(link);
 
             if (socialNetwork != null) {
@@ -118,18 +108,21 @@ public class UserController {
                 usn.setProfileUrl(link);
                 newUserSocials.add(usn);
             } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("Le réseau social pour le lien '" + link + "' n'est pas reconnu.");
+                ResponseMessage message = new ResponseMessage(false,
+                        "Le réseau social pour le lien '" + link + "' n'est pas reconnu.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+
             }
         }
 
-        user.setFirstname(firstname);
-        user.setLastname(lastname);
-        user.setMail(mail);
-        user.setPassword(password);
-        user.setTitle(title);
-        user.setDescription(description);
-        user.setTelephone(telephone);
+        user.setFirstname(userDTO.getFirstname());
+        user.setLastname(userDTO.getLastname());
+        user.setMail(userDTO.getMail());
+        if (userDTO.getPassword() != null)
+            user.setPassword(userDTO.getPassword());
+        user.setTitle(userDTO.getTitle());
+        user.setDescription(userDTO.getDescription());
+        user.setTelephone(userDTO.getTelephone());
         user.setPhoto(newphoto);
         user.setStatus(status);
         user.setRoles(new ArrayList<>(List.of(role.get())));
@@ -139,10 +132,10 @@ public class UserController {
         ResponseMessage result = userService.updateUser(user);
 
         if (!result.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(result.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(result);
         }
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(result.getMessage());
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
 
     }
 

@@ -22,6 +22,10 @@ export class UserService {
     return this.http.post(`${this.apiUrl}/register`, user);
   }
 
+  updateUser(user: User): Observable<any> {
+    return this.http.put(`${this.apiUrl}/update`, user);
+  }
+
   saveToken(token: string): void {
     localStorage.setItem('authToken', token);
     console.log(this.getToken())

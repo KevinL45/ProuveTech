@@ -54,7 +54,7 @@ public class SecurityConfig {
 
                                                                 "/uploads/**")
                                                 .permitAll()
-                                                .requestMatchers("/user/remove/{id}",
+                                                .requestMatchers(
                                                                 "/user/update",
                                                                 "/user/profile",
                                                                 "/user/myprojects",
@@ -78,7 +78,9 @@ public class SecurityConfig {
 
                                                                 "/socialnetworks/create",
                                                                 "/socialnetworks/update/{id}",
-                                                                "/socialnetworks/delete/{id}")
+                                                                "/socialnetworks/delete/{id}",
+
+                                                                "/user/remove/{id}")
                                                 .hasAnyAuthority("ROLE_ADMIN")
                                                 .requestMatchers(
                                                                 "/project/create",

@@ -18,17 +18,21 @@ import { Router } from '@angular/router';
 export class UserFormComponent {
 
 
-  mode: 'register' | 'login' = 'register';
+mode: 'register' | 'login' | 'update' = 'register';
 
   userForm: FormGroup;
   loginForm: FormGroup;
-
+  updateForm: FormGroup;
   listStatus: Status[] = [];
+
+  user: User | null = null;
+
 
   message: string = '';
   success: boolean = false;
 
-  constructor(private userService:UserService, private statusService:StatusService, private router:Router, private fb: FormBuilder){
+  constructor(private userService:UserService, private statusService:StatusService, 
+    private router:Router, private fb: FormBuilder){
 
     this.userForm =  this.fb.group({
       firstname: ['', [Validators.required, Validators.minLength(3)]],
@@ -44,7 +48,22 @@ export class UserFormComponent {
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
 
-    this.mode = this.router.url.includes('connexion') ? 'login' : 'register';
+    this.updateForm = this.fb.group({
+      firstname: ["", [Validators.required, Validators.minLength(3)]],
+      lastname: ["", [Validators.required, Validators.minLength(3)]],
+      telephone: ["", [Validators.required, Validators.minLength(10)]],
+      title: ["", [Validators.required, Validators.minLength(3)]],
+      description: ["", [Validators.required, Validators.minLength(3)]],
+      mail: ["", [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required]],
+      statusId: ["", [Validators.required]],
+    }, { validators: this.passwordsMatch });
+
+  this.mode =
+  this.router.url.includes('connexion') ? 'login' :
+  this.router.url.includes('modifier-profil') ? 'update' :
+  'register';
 
     } 
 
