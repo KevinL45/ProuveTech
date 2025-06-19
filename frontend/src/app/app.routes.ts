@@ -8,6 +8,7 @@ import { RecruitsComponent } from './pages/recruits/recruits.component';
 import { UserFormComponent } from './form/user-form/user-form.component';
 import { ActorItComponent } from './pages/actor-it/actor-it.component';
 import { ProjectFormComponent } from './form/project-form/project-form.component';
+import { ProjectDetailsComponent } from './pages/project-details/project-details.component';
 
 export const routes: Routes = [
   {
@@ -28,6 +29,8 @@ export const routes: Routes = [
 
     { path: 'creer-projet', component:  ProjectFormComponent},
     { path: 'modifier-projet', component:  ProjectFormComponent},
+    { path: 'details-projet/:id', component:  ProjectDetailsComponent},
+
 
     { path: '', component: HomeComponent }
     ]

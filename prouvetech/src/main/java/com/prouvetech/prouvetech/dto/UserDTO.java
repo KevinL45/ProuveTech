@@ -6,6 +6,7 @@ public class UserDTO {
     private String firstname;
     private String lastname;
     private String title;
+    private String description;
     private Long statusId;
     private String statusName;
 
@@ -36,6 +37,16 @@ public class UserDTO {
         this.statusName = statusName;
     }
 
+    public UserDTO(String firstname, String lastname, String mail, String title, String description,
+            String statusName) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.mail = mail;
+        this.title = title;
+        this.statusName = statusName;
+        this.description = description;
+    }
+
     public String getMail() {
         return mail;
     }
@@ -50,6 +61,14 @@ public class UserDTO {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getPassword() {

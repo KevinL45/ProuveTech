@@ -76,6 +76,20 @@ public class Project {
     }
 
     public Project(String name, String description, String video, String sourceCode, User user,
+            List<Tool> tools,
+            LocalDateTime createDate,
+            LocalDateTime updateDate) {
+        this.name = name;
+        this.description = description;
+        this.video = video;
+        this.sourceCode = sourceCode;
+        this.user = user;
+        this.createDate = createDate;
+        this.updateDate = updateDate;
+        this.tools = tools;
+    }
+
+    public Project(String name, String description, String video, String sourceCode, User user,
             LocalDateTime updateDate) {
         this.name = name;
         this.description = description;

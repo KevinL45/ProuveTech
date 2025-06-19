@@ -1,12 +1,15 @@
 package com.prouvetech.prouvetech.controller;
 
 import com.prouvetech.prouvetech.compositekey.UserSocialNetworksId;
+import com.prouvetech.prouvetech.dto.ProjectDTO;
 import com.prouvetech.prouvetech.dto.UserDTO;
+import com.prouvetech.prouvetech.model.Project;
 import com.prouvetech.prouvetech.model.Role;
 import com.prouvetech.prouvetech.model.SocialNetworks;
 import com.prouvetech.prouvetech.model.Status;
 import com.prouvetech.prouvetech.model.User;
 import com.prouvetech.prouvetech.model.UserSocialNetworks;
+import com.prouvetech.prouvetech.service.ProjectService;
 import com.prouvetech.prouvetech.service.RoleService;
 import com.prouvetech.prouvetech.service.SocialNetworksService;
 import com.prouvetech.prouvetech.service.StatusService;
@@ -37,6 +40,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ProjectService projectService;
 
     @Autowired
     private StatusService statusService;
@@ -141,8 +147,59 @@ public class UserController {
     }
 
     @GetMapping("/details/{id}")
-    public User getUser(@PathVariable Long id) {
-        return userService.getUser(id);
+    public ResponseEntity<UserDTO> getUser(@PathVariable Long id) {
+
+        User user = userService.getUser(id);
+
+        UserDTO userDTO = new UserDTO(
+                user.getFirstname(),
+                user.getLastname(),
+                user.getMail(),
+                user.getTitle(),
+                user.getDescription(),
+                user.getStatus().getName());
+
+        return ResponseEntity.ok(userDTO);
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<UserDTO> getProfil() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.getUserByMail(authentication.getName());
+
+        UserDTO userDTO = new UserDTO(
+                user.getFirstname(),
+                user.getLastname(),
+                user.getMail(),
+                user.getTitle(),
+                user.getDescription(),
+                user.getStatus().getName());
+
+        return ResponseEntity.ok(userDTO);
+    }
+
+    @GetMapping("/myprojects")
+    public ResponseEntity<List<ProjectDTO>> getMyProject() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.getUserByMail(authentication.getName());
+
+        List<Project> projects = projectService.getMyProject(user);
+        List<ProjectDTO> projects_dto = projects.stream()
+                .map(p -> new ProjectDTO(
+                        p.getId(),
+                        p.getName(),
+                        p.getDescription(),
+                        p.getVideo(),
+                        p.getSourceCode(),
+                        p.getUser().getFirstname() + " " + p.getUser().getLastname(),
+                        p.getUser().getTitle(),
+                        p.getUser().getPhoto()))
+                .toList();
+
+        return ResponseEntity.ok(projects_dto);
+
     }
 
     @GetMapping("/list")

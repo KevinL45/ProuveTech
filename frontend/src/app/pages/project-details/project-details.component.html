@@ -1,0 +1,39 @@
+<div class="container">
+  <!-- LEFT SIDE -->
+  <div class="left">
+    <div class="video-container" *ngIf="project?.link_video">
+      <video controls [src]="url+project?.link_video"></video>
+    </div>
+
+ 
+  </div>
+
+  <!-- RIGHT SIDE -->
+  <div class="right">
+    <div>
+      <div class="title">{{ project?.name }}</div>
+      <p>
+       {{ project?.description }}
+      </p>
+
+      <div class="section">
+              <div class="section-title">Lien du code</div>
+              <a href="#" class="btn">CODE SOURCE</a>
+        <!-- <img src="/assets/icons/developer.svg" width="32"> -->
+      </div>
+
+       <div class="section">
+      <div class="section-title">Technologie</div>
+      <a href="#" class="btn" *ngFor="let name of project?.toolsName">{{ name }}</a>
+      </div>
+    </div>
+
+    <div class="profile">
+      <img [src]="project?.photoActor || 'assets/default-avatar.png'" alt="photo">
+      <div class="profile-info">
+        <strong>{{ project?.fullname || 'Nom - Prénom' }}</strong><br>
+        Développeur
+      </div>
+    </div>
+  </div>
+</div>

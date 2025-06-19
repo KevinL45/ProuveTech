@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 public class ProjectDTO {
+    private long id;
     private String name;
 
     private String description;
@@ -32,8 +33,9 @@ public class ProjectDTO {
         this.tools = tools;
     }
 
-    public ProjectDTO(String name, String description, String link_video, String soucecode, String fullname,
+    public ProjectDTO(long id, String name, String description, String link_video, String soucecode, String fullname,
             String titleActor, String photoProfile) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.sourcecode = soucecode;
@@ -41,6 +43,28 @@ public class ProjectDTO {
         this.titleActor = titleActor;
         this.photoProfile = photoProfile;
         this.link_video = link_video;
+    }
+
+    public ProjectDTO(long id, String name, String description, String link_video, String soucecode, String fullname,
+            String titleActor, String photoProfile,
+            List<String> toolsName) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.sourcecode = soucecode;
+        this.fullname = fullname;
+        this.titleActor = titleActor;
+        this.photoProfile = photoProfile;
+        this.link_video = link_video;
+        this.toolsName = toolsName;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {

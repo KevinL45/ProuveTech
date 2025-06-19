@@ -3,6 +3,7 @@ import { ProjectService } from '../../services/project.service';
 import { Project } from '../../models/Project';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-projects',
@@ -15,13 +16,18 @@ export class ProjectsComponent {
   listProjects: Project[]=[];
     url:string = environment.apiUrl;
 
-  constructor(private projectService:ProjectService){
+  constructor(private projectService:ProjectService, private router:Router){
 
   }
 
   ngOnInit():void{
 
     this.allProjet();
+
+  }
+
+  detailsProject(project :Project){
+    return this.router.navigate(["/details-projet",project.id])
 
   }
 

@@ -38,10 +38,10 @@
       <input type="file" id="video" (change)="onVideoChange($event)" accept="video/*" />
     </div>
 
-    <div class="form-group">
+    <!-- <div class="form-group">
       <label for="documents">Documents qui complète le projet ? (Ex : documentation...)</label>
       <input type="file" id="documents" (change)="onDocumentsChange($event)" multiple accept="application/pdf" />
-    </div>
+    </div> -->
 
     <button type="submit" [disabled]="projectForm.invalid">Ajouter un projet</button>
   </form>

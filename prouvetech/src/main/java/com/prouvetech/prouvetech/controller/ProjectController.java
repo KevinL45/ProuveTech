@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.prouvetech.prouvetech.dto.ProjectDTO;
 import com.prouvetech.prouvetech.model.Comment;
@@ -78,16 +78,16 @@ public class ProjectController {
 
         }
 
-        List<Document> savedDocuments = new ArrayList<>();
-        for (MultipartFile doc : projectDTO.getDocuments()) {
-            String type = tika.detect(doc.getInputStream());
-            if (type.startsWith("application/pdf")) {
-                String path = uploads.saveFile(doc);
-                Document document = new Document(doc.getOriginalFilename(), path);
-                documentService.createDocument(document);
-                savedDocuments.add(document);
-            }
-        }
+        // List<Document> savedDocuments = new ArrayList<>();
+        // for (MultipartFile doc : projectDTO.getDocuments()) {
+        // String type = tika.detect(doc.getInputStream());
+        // if (type.startsWith("application/pdf")) {
+        // String path = uploads.saveFile(doc);
+        // Document document = new Document(doc.getOriginalFilename(), path);
+        // documentService.createDocument(document);
+        // savedDocuments.add(document);
+        // }
+        // }
 
         String newVideo = uploads.saveFile(projectDTO.getVideo());
         List<Tool> selectedTools = toolService.getToolsByIds(projectDTO.getTools());
@@ -98,7 +98,6 @@ public class ProjectController {
                 newVideo,
                 projectDTO.getSourcecode(),
                 user,
-                savedDocuments,
                 selectedTools,
                 LocalDateTime.now(),
                 LocalDateTime.now());
@@ -133,21 +132,22 @@ public class ProjectController {
         String newVideo = uploads.updateFile(projectDTO.getVideo(), project.getVideo());
         List<Tool> selectedTools = toolService.getToolsByIds(projectDTO.getTools());
 
-        List<Document> savedDocuments = new ArrayList<>();
+        // List<Document> savedDocuments = new ArrayList<>();
 
-        if (projectDTO.getDocuments() != null && projectDTO.getDocuments().size() > 0) {
-            for (MultipartFile doc : projectDTO.getDocuments()) {
-                String type = tika.detect(doc.getInputStream());
-                if (type.startsWith("application/pdf")) {
-                    String path = uploads.saveFile(doc);
-                    Document document = new Document(doc.getOriginalFilename(), path);
-                    documentService.createDocument(document);
-                    savedDocuments.add(document);
-                }
-            }
-        }
+        // if (projectDTO.getDocuments() != null && projectDTO.getDocuments().size() >
+        // 0) {
+        // for (MultipartFile doc : projectDTO.getDocuments()) {
+        // String type = tika.detect(doc.getInputStream());
+        // if (type.startsWith("application/pdf")) {
+        // String path = uploads.saveFile(doc);
+        // Document document = new Document(doc.getOriginalFilename(), path);
+        // documentService.createDocument(document);
+        // savedDocuments.add(document);
+        // }
+        // }
+        // }
 
-        project.setDocuments(savedDocuments);
+        // project.setDocuments(savedDocuments);
         project.setName(projectDTO.getName());
         project.setDescription(projectDTO.getDescription());
         project.setVideo(newVideo);
@@ -170,6 +170,7 @@ public class ProjectController {
         List<Project> projects = projectService.getAllProject();
         List<ProjectDTO> projects_dto = projects.stream()
                 .map(p -> new ProjectDTO(
+                        p.getId(),
                         p.getName(),
                         p.getDescription(),
                         p.getVideo(),
@@ -182,8 +183,30 @@ public class ProjectController {
     }
 
     @GetMapping("/details/{id}")
-    public Project getProject(@PathVariable Long id) {
-        return projectService.getProject(id);
+    public ResponseEntity<ProjectDTO> getProject(@PathVariable Long id) {
+
+        Project p = projectService.getProject(id);
+
+        List<Long> toolIds = p.getTools().stream()
+                .map(Tool::getId)
+                .collect(Collectors.toList());
+        List<Tool> tools = toolService.getToolsByIds(toolIds);
+        List<String> toolNames = tools.stream()
+                .map(Tool::getName)
+                .collect(Collectors.toList());
+
+        ProjectDTO projectDTO = new ProjectDTO(
+                p.getId(),
+                p.getName(),
+                p.getDescription(),
+                p.getVideo(),
+                p.getSourceCode(),
+                p.getUser().getFirstname() + " " + p.getUser().getLastname(),
+                p.getUser().getTitle(),
+                p.getUser().getPhoto(),
+                toolNames);
+
+        return ResponseEntity.ok(projectDTO);
     }
 
     @GetMapping("/commentbyproject/{id}")
@@ -195,7 +218,7 @@ public class ProjectController {
     @DeleteMapping("/delete/{id}")
     public ResponseMessage deleteProjet(@PathVariable Long id) {
 
-        Project project = getProject(id);
+        Project project = this.projectService.getProject(id);
         List<Document> documents = new ArrayList<>(project.getDocuemnts());
 
         // Détacher les relations ManyToMany

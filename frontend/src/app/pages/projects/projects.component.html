@@ -13,7 +13,7 @@
 
   <div class="projects-list">
     <div
-      class="project-card"  *ngFor="let project of listProjects">
+      class="project-card"  *ngFor="let project of listProjects" (click)="detailsProject(project)">
       <div class="video-wrapper">
         <video controls [src]="url+project.link_video"></video>
       </div>

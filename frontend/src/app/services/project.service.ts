@@ -26,7 +26,7 @@ export class ProjectService {
   }
 
   getProjectById(id: number): Observable<Project> {
-    return this.http.get<Project>(`${this.apiUrl}/${id}`, {
+    return this.http.get<Project>(`${this.apiUrl}/details/${id}`, {
       headers: this.userService.getAuthHeaders()
     });
   }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.prouvetech.prouvetech.model.Document;
 import com.prouvetech.prouvetech.model.Project;
 import com.prouvetech.prouvetech.model.Tool;
+import com.prouvetech.prouvetech.model.User;
 import com.prouvetech.prouvetech.repository.ProjectRepository;
 import com.prouvetech.prouvetech.utils.ResponseMessage;
 
@@ -25,6 +26,10 @@ public class ProjectService {
 
     public List<Project> getAllProject() {
         return projectRepository.findAll();
+    }
+
+    public List<Project> getMyProject(User user) {
+        return projectRepository.findByUser(user);
     }
 
     public ResponseMessage details(long id) {

@@ -7,7 +7,9 @@ export class Project{
     link_video?:string;
     sourceCode:string;
     documents?: File[] = [];
+
     tools ?: number [] = [];
+    toolsName ?: string [] = [];
 
     updatedDate: Date;
     createdDate?: Date;
@@ -22,7 +24,8 @@ export class Project{
     constructor(name: string, description:string, sourceCode:string, video:File,
         tools ?:number[], documents?: File[],
         createdDate?: Date, id?: number, 
-        fullname?:string, titleActor?:string, link_video?:string, photoActor?:string) {
+        fullname?:string, titleActor?:string, link_video?:string, photoActor?:string,
+        toolsName?:string[]) {
 
         this.id = id;
         this.name = name;
@@ -37,6 +40,7 @@ export class Project{
         this.titleActor= titleActor;
         this.link_video = link_video;
         this.photoActor = photoActor;
+        this.toolsName = toolsName;
 
     }
 }

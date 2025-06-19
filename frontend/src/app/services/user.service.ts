@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../models/User';
 import { environment } from '../../environments/environment';
+import { Project } from '../models/Project';
 
 @Injectable({
   providedIn: 'root'
@@ -53,7 +54,17 @@ export class UserService {
   }
 
   getUser(id: number): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/${id}`, {
+    return this.http.get<User>(`${this.apiUrl}/details/${id}`);
+  }
+
+  getProfil(): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/profile`, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
+  getMyProjects(): Observable<Project[]> {
+    return this.http.get<Project[]>(`${this.apiUrl}/myprojects`, {
       headers: this.getAuthHeaders()
     });
   }
