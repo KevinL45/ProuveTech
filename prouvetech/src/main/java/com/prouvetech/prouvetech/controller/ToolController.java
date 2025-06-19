@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.prouvetech.prouvetech.dto.ToolDTO;
 import com.prouvetech.prouvetech.model.Tool;
 import com.prouvetech.prouvetech.service.ToolService;
 import com.prouvetech.prouvetech.utils.ResponseMessage;
@@ -100,8 +101,13 @@ public class ToolController {
     }
 
     @GetMapping("/list")
-    public List<Tool> listTools() {
-        return toolService.getAllTools();
+    public ResponseEntity<List<ToolDTO>> listTools() {
+        List<Tool> tools = toolService.getAllTools();
+        List<ToolDTO> toolDTOs = tools.stream().map(t -> new ToolDTO(
+                t.getId(),
+                t.getName(),
+                t.getLogo())).toList();
+        return ResponseEntity.ok(toolDTOs);
     }
 
     @GetMapping("/details/{id}")

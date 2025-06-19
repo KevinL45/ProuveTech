@@ -98,7 +98,7 @@ export class ProjectFormComponent implements OnInit {
       console.log(`${key}:`, value);
     }
 
-    const projectValues = this.projectForm.value;
+    // const projectValues = this.projectForm.value;
 
     // const project = new Project
     // (projectValues.name,
@@ -109,16 +109,16 @@ export class ProjectFormComponent implements OnInit {
     //   this.selectedDocuments!
     // );
 
-    this.projectService.addProject(projectValues).subscribe({
+    this.projectService.addProject(formData).subscribe({
       next: (res) => {
-        this.message = 'Projet créé avec succès.';
+        this.message = res.message
         this.success = true;
         this.router.navigate(['/projets']);
       },
       error: (err) => {
         console.error('Erreur création projet :', err);
         this.message = err.error?.message || 'Une erreur est survenue.';
-        this.success = false;
+        this.success = err.error?.success ?? false;
       }
     });
   }

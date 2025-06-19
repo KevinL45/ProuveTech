@@ -62,11 +62,7 @@ public class ProjectController {
     private Uploads uploads;
 
     @PostMapping("/create")
-    public ResponseEntity<String> addProject(@ModelAttribute ProjectDTO projectDTO) throws IOException {
-
-        System.out.println("Nom : " + projectDTO.getName());
-        System.out.println("Description : " + projectDTO.getDescription());
-        System.out.println("Source code : " + projectDTO.getSourcecode());
+    public ResponseEntity<ResponseMessage> addProject(@ModelAttribute ProjectDTO projectDTO) throws IOException {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
@@ -77,7 +73,9 @@ public class ProjectController {
         String detectedType = tika.detect(projectDTO.getVideo().getInputStream());
 
         if (!detectedType.startsWith("video/")) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Le fichier doit être une vidéo");
+            ResponseMessage message = new ResponseMessage(false, "Le fichier n'est pas une vidéo");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
+
         }
 
         List<Document> savedDocuments = new ArrayList<>();
@@ -108,10 +106,10 @@ public class ProjectController {
         ResponseMessage result = projectService.addProject(project);
 
         if (!result.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(result.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(result);
         }
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(result.getMessage());
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
 
     }
 
@@ -136,6 +134,7 @@ public class ProjectController {
         List<Tool> selectedTools = toolService.getToolsByIds(projectDTO.getTools());
 
         List<Document> savedDocuments = new ArrayList<>();
+
         if (projectDTO.getDocuments() != null && projectDTO.getDocuments().size() > 0) {
             for (MultipartFile doc : projectDTO.getDocuments()) {
                 String type = tika.detect(doc.getInputStream());
