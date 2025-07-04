@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Project } from '../models/Project';
@@ -35,5 +35,8 @@ export class ProjectService {
     return this.http.delete(`${this.apiUrl}/${id}`, {
       headers: this.userService.getAuthHeaders()
     });
+  }
+  searchProjects(params: HttpParams): Observable<Project[]> {
+    return this.http.get<Project[]>(`${this.apiUrl}/search`, { params });
   }
 }

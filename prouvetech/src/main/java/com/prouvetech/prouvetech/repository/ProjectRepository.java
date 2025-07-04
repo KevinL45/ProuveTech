@@ -11,4 +11,10 @@ import com.prouvetech.prouvetech.model.User;
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
     List<Project> findByUser(User user);
+
+    List<Project> findByNameContainingIgnoreCase(String name);
+
+    List<Project> findDistinctByToolsIdIn(List<Long> toolIds);
+
+    List<Project> findDistinctByNameContainingIgnoreCaseAndToolsIdIn(String name, List<Long> toolIds);
 }

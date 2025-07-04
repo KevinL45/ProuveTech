@@ -34,6 +34,7 @@ import com.prouvetech.prouvetech.service.ToolService;
 import com.prouvetech.prouvetech.service.UserService;
 import com.prouvetech.prouvetech.utils.ResponseMessage;
 import com.prouvetech.prouvetech.utils.Uploads;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/project")
@@ -235,6 +236,27 @@ public class ProjectController {
         }
 
         return projectService.deleteProject(id);
+
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<ProjectDTO>> searchProject(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) List<Long> toolsIds) {
+
+        List<Project> projects = projectService.searchProjects(name, toolsIds);
+        List<ProjectDTO> projects_dto = projects.stream()
+                .map(p -> new ProjectDTO(
+                        p.getId(),
+                        p.getName(),
+                        p.getDescription(),
+                        p.getVideo(),
+                        p.getSourceCode(),
+                        p.getUser().getFirstname() + " " + p.getUser().getLastname(),
+                        p.getUser().getTitle(),
+                        p.getUser().getPhoto()))
+                .toList();
+        return ResponseEntity.ok(projects_dto);
 
     }
 

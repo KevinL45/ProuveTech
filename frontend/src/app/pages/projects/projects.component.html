@@ -1,19 +1,24 @@
 <section class="projects-page">
+      <h1>📽️ Les vidéos postées par les développeurs</h1>
   <div class="header">
-    <h1>📽️ Projets</h1>
     <div class="filters">
-      <input type="text" placeholder="Rechercher un projet..."  />
+      <input [(ngModel)]="searchTitle" (input)="filterProjects()" type="text" placeholder="Rechercher un projet..."  />
 
-      <input
-        type="text"
-        placeholder="Filtrer par tags (ex: Angular, Node...)"
-      />
+      <ng-select
+        [items]="listTools"
+        bindLabel="name"
+        bindValue="id"
+        [multiple]="true"
+        [searchable]="true"
+        [(ngModel)]="selectedToolIds"
+        (change)="filterProjects()">
+      </ng-select>
     </div>
   </div>
 
   <div class="projects-list">
     <div
-      class="project-card"  *ngFor="let project of listProjects" (click)="detailsProject(project)">
+      class="project-card"  *ngFor="let project of filteredProjects" (click)="detailsProject(project)">
       <div class="video-wrapper">
         <video controls [src]="url+project.link_video"></video>
       </div>

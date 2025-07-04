@@ -27,7 +27,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String token = request.getHeader("Authorization");
 
-        logger.info("Token : " + token);
         if (token != null && token.startsWith("Bearer ")) {
             token = token.substring(7); // Retirer le "Bearer " du début du token
             logger.info("Validation du token en cours...");

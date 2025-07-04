@@ -32,8 +32,9 @@ public class SecurityConfig {
                                                 .requestMatchers(
                                                                 "/user/register",
                                                                 "/user/login",
-                                                                "/user/details/{id}",
+
                                                                 "/user/list",
+                                                                "/user/details/{id}",
                                                                 "/user/search",
 
                                                                 "/tool/list",
@@ -42,32 +43,19 @@ public class SecurityConfig {
                                                                 "/status/list",
                                                                 "/status/details/{id}",
 
-                                                                "/document/list",
-                                                                "/document/details/{id}",
-
                                                                 "/socialnetworks/list",
                                                                 "/socialnetworks/details/{id}",
 
                                                                 "/project/list",
-                                                                "/project/commentbyproject/{id}",
                                                                 "/project/details/{id}",
-                                                                "/project/data/{id}",
+                                                                "/project/search",
 
                                                                 "/uploads/**")
                                                 .permitAll()
                                                 .requestMatchers(
                                                                 "/user/update",
                                                                 "/user/profile",
-                                                                "/user/myprojects",
-
-                                                                "/usersocialnetworks/create",
-                                                                "/usersocialnetworks/update/{socialNetworkId}",
-                                                                "/usersocialnetworks/delete/{socialNetworkId}",
-                                                                "/usersocialnetworks/user/{socialNetworkId}",
-
-                                                                "/comment/create",
-                                                                "/comment/update/{projectId}",
-                                                                "/comment/delete/{projectId}")
+                                                                "/user/myprojects")
                                                 .authenticated()
                                                 .requestMatchers("/tool/create",
                                                                 "/tool/update/{id}",
@@ -86,11 +74,7 @@ public class SecurityConfig {
                                                 .requestMatchers(
                                                                 "/project/create",
                                                                 "/project/update/{id}",
-                                                                "/project/delete/{id}",
-
-                                                                "/document/create",
-                                                                "/document/update/{id}",
-                                                                "/document/delete/{id}")
+                                                                "/project/delete/{id}")
                                                 .hasAnyAuthority("ROLE_DEVELOPER"))
                                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

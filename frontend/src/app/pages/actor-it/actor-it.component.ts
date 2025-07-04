@@ -17,7 +17,6 @@ import { HttpParams } from '@angular/common/http';
 export class ActorItComponent {
 
     listStatus: Status[] = [];
-    listUsers: User[] = [];
 
     filteredUsers: User[] = [];
     searchTitle: string = '';
@@ -47,7 +46,6 @@ export class ActorItComponent {
     allUsers() : void{
            this.userService.getAllUsers().subscribe(
         (data)=>{
-          this.listUsers = data;
           this.filteredUsers = data
           },
         (error) => {
