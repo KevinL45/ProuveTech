@@ -1,9 +1,9 @@
 <section class="developers-page">
+      <h1>👨‍💻 Découvrez les talents qui façonnent la tech</h1>
   <div class="header">
-    <h1>👨‍💻 Découvrez les talents qui façonnent la tech</h1>
     <div class="filters">
-      <input type="text" placeholder="Rechercher par titre" />
-      <select>
+      <input [(ngModel)]="searchTitle" (input)="filterUsers()" type="text" placeholder="Rechercher par titre" />
+      <select [(ngModel)]="selectedStatusId" (change)="filterUsers()">
         <option value="">Tous les statuts</option>
         <option *ngFor="let status of listStatus" [value]="status.id">{{status.name}}</option>
       </select>
@@ -11,7 +11,7 @@
   </div>
 
   <div class="developers-list">
-    <div class="developer-card" *ngFor="let user of listUsers">
+    <div class="developer-card" *ngFor="let user of filteredUsers">
       <img [src]="'assets/default-avatar.png'" alt="photo de profil" />
       <div class="dev-info">
         <h2>{{user.firstname}} {{user.lastname}}</h2>

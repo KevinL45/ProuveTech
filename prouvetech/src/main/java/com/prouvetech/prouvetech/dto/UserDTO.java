@@ -21,6 +21,11 @@ public class UserDTO {
 
     }
 
+    public UserDTO(String title, Long statusId) {
+        this.title = title;
+        this.statusId = statusId;
+    }
+
     public UserDTO(String firstname, String lastname, String mail, Long statusId) {
         this.firstname = firstname;
         this.lastname = lastname;

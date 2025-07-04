@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../models/User';
 import { environment } from '../../environments/environment';
@@ -71,5 +71,9 @@ export class UserService {
     return this.http.get<Project[]>(`${this.apiUrl}/myprojects`, {
       headers: this.getAuthHeaders()
     });
+  }
+
+  searchUsers(params: HttpParams): Observable<User[]> {
+    return this.http.get<User[]>(`${this.apiUrl}/search`, { params });
   }
 }

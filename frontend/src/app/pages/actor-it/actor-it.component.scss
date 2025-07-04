@@ -8,23 +8,22 @@
   max-width: 1200px;
   margin: auto;
 
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    margin-bottom: 2rem;
-    border-radius: 1rem;
-    background: linear-gradient(135deg, #0d47a1, #1976d2);
-              padding: 0.3rem 0.8rem;
-
-
-
     h1 {
       font-size: 2rem;
       margin-bottom: 1rem;
-      color : white;
+      color : black;
+      text-align: center;
     }
+
+  .header {
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 30rem;
+    margin-bottom: 2rem;
+    border-radius: 3rem;
+    background: linear-gradient(135deg, #0d47a1, #1976d2);
+    padding: 0.3rem 1rem;
 
     .filters {
       display: flex;

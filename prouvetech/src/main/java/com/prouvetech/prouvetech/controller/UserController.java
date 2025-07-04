@@ -222,4 +222,22 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(token);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<UserDTO>> searchUsers(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) Long statusId) {
+
+        List<User> users = userService.searchUser(title, statusId);
+        List<UserDTO> userDTOs = users.stream()
+                .map(u -> new UserDTO(
+                        u.getFirstname(),
+                        u.getLastname(),
+                        u.getMail(),
+                        u.getTitle(),
+                        u.getStatus().getName()))
+                .toList();
+
+        return ResponseEntity.ok(userDTOs);
+    }
+
 }

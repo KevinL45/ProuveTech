@@ -102,4 +102,16 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
+    public List<User> searchUser(String title, Long statusId) {
+        if (title != null && statusId != null) {
+            return userRepository.findByTitleContainingIgnoreCaseAndStatusId(title, statusId);
+        } else if (title != null) {
+            return userRepository.findByTitleContainingIgnoreCase(title);
+        } else if (statusId != null) {
+            return userRepository.findByStatusId(statusId);
+        } else {
+            return userRepository.findAll();
+        }
+    }
+
 }
