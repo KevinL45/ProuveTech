@@ -10,7 +10,7 @@ export class User {
     description?:string;
     telephone?:string;
     photo?:File;
-    link_photo?:string;
+    linkPhoto?:string;
     statusId?:number;
     statusName?:string;
     link_social_networks?: string []= []
@@ -19,7 +19,7 @@ export class User {
     constructor(mail: string, password: string, firstname?:string, lastname?:string, statusId?:number,
         cv?:string, title?: string, description?:string, telephone?:string, 
         photo?:File, link_social_networks?: string [],
-        id?: number, statusName?:string,link_photo?:string) {
+        id?: number, statusName?:string,linkPhoto?:string) {
 
         this.id = id;
         this.mail = mail;
@@ -34,7 +34,7 @@ export class User {
         this.statusName = statusName;
         this.telephone = telephone;
         this.link_social_networks = link_social_networks;
-        this.link_photo=link_photo;
+        this.linkPhoto=linkPhoto;
 
     }
 }

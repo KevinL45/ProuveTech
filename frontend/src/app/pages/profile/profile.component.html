@@ -1,12 +1,14 @@
 <section class="profile-page">
   <div class="profile-header">
-    <img class="avatar" [src]="url+user?.link_photo || 'assets/default-avatar.png'" />
 
     <div class="info">
+          <img class="avatar" [src]="url+user?.linkPhoto || 'assets/default-avatar.png'" />
+
       <h1>{{user?.firstname+" "+ user?.lastname }}</h1>
       <p class="title">{{user?.title || "Pas encore de titre"}}</p>
       <span class="status">{{user?.statusName || "Pas de statut"}}</span>
-      <p class="bio">{{user?.description || "Pas encore de description"}}</p>
+      <p class="bio" [innerHTML]="user?.description">{{user?.description || "Pas encore de description"}}</p>
+      
 
     </div>
   </div>

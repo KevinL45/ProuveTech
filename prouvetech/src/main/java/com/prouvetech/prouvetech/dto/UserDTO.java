@@ -13,10 +13,10 @@ public class UserDTO {
     private String telephone;
     private String title;
     private MultipartFile photo;
-    private String link_photo;
+    private String linkPhoto;
     private String description;
     private String statusName;
-    private List<String> link_social_networks;
+    private List<String> linksSocialNetworks;
 
     public UserDTO() {
 
@@ -24,19 +24,19 @@ public class UserDTO {
 
     // Détails du profil
     public UserDTO(String firstname, String lastname, String mail, String title, String description,
-            String statusName, String link_photo) {
+            String statusName, String linkPhoto) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.mail = mail;
         this.title = title;
         this.statusName = statusName;
         this.description = description;
-        this.link_photo = link_photo;
+        this.linkPhoto = linkPhoto;
     }
 
     // Détails du profil avec réseaux soicaux
     public UserDTO(String firstname, String lastname, String mail, String title, String description,
-            long statusId, String telephone, List<String> link_social_networks) {
+            long statusId, String telephone, List<String> linksSocialNetworks) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.mail = mail;
@@ -44,7 +44,7 @@ public class UserDTO {
         this.statusId = statusId;
         this.description = description;
         this.telephone = telephone;
-        this.link_social_networks = link_social_networks;
+        this.linksSocialNetworks = linksSocialNetworks;
     }
 
     public String getMail() {
@@ -119,12 +119,12 @@ public class UserDTO {
         this.telephone = telephone;
     }
 
-    public List<String> getLink_social_networks() {
-        return link_social_networks;
+    public List<String> getLinksSocialNetworks() {
+        return linksSocialNetworks;
     }
 
-    public void setlink_social_networks(List<String> link_social_networks) {
-        this.link_social_networks = link_social_networks;
+    public void setlinksSocialNnetworks(List<String> linksSocialNetworks) {
+        this.linksSocialNetworks = linksSocialNetworks;
     }
 
     public MultipartFile getPhoto() {
@@ -136,10 +136,10 @@ public class UserDTO {
     }
 
     public String getLinkPhoto() {
-        return link_photo;
+        return linkPhoto;
     }
 
-    public void setLinkPhoto(String link_photo) {
-        this.link_photo = link_photo;
+    public void setLinkPhoto(String linkPhoto) {
+        this.linkPhoto = linkPhoto;
     }
 }

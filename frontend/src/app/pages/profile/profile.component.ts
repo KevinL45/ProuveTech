@@ -17,7 +17,10 @@ export class ProfileComponent implements OnInit{
   user: User | null = null;
   projects: Project[]=[];
 
-  url:string = environment.apiUrl
+  url:string = environment.apiUrl;
+
+  showFullDescription = false;
+
 
    constructor(
     private userService:UserService,
@@ -35,6 +38,7 @@ export class ProfileComponent implements OnInit{
   loadProfile():void{
     this.userService.getProfil().subscribe((data)=>{
       this.user = data
+      console.log (this.user)
     })
   }
 
@@ -42,6 +46,10 @@ export class ProfileComponent implements OnInit{
     this.userService.getMyProjects().subscribe((data)=>{
       this.projects = data
     })
+  }
+
+  toggleDescription() {
+    this.showFullDescription = !this.showFullDescription;
   }
 
   

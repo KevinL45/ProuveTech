@@ -12,7 +12,7 @@
 
   <div class="developers-list">
     <div class="developer-card" *ngFor="let user of filteredUsers">
-      <img [src]="'assets/default-avatar.png'" alt="photo de profil" />
+      <img [src]="url+user.linkPhoto || 'assets/default-avatar.png'" alt="photo de profil" />
       <div class="dev-info">
         <h2>{{user.firstname}} {{user.lastname}}</h2>
         <p class="status">{{user.statusName}}</p>

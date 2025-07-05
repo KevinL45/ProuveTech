@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { HttpParams } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-actor-it',
@@ -15,6 +16,9 @@ import { HttpParams } from '@angular/common/http';
   styleUrl: './actor-it.component.scss'
 })
 export class ActorItComponent {
+
+    url:string = environment.apiUrl
+  
 
     listStatus: Status[] = [];
 

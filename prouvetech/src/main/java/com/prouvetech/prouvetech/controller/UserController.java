@@ -162,6 +162,8 @@ public class UserController {
                 user.getStatus().getName(),
                 user.getPhoto());
 
+        System.out.println("Photo profile" + user.getPhoto());
+
         return ResponseEntity.ok(userDTO);
     }
 
