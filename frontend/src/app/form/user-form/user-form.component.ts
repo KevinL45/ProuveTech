@@ -26,6 +26,8 @@ mode: 'register' | 'login' | 'update' = 'register';
   listStatus: Status[] = [];
 
   user: User | null = null;
+  selectedPicture: File | null = null;
+  previewPicture: string | null = null;
 
 
   message: string = '';
@@ -51,14 +53,10 @@ mode: 'register' | 'login' | 'update' = 'register';
     this.updateForm = this.fb.group({
       firstname: ["", [Validators.required, Validators.minLength(3)]],
       lastname: ["", [Validators.required, Validators.minLength(3)]],
-      telephone: ["", [Validators.required, Validators.minLength(10)]],
+      statusId: ["", [Validators.required]],
       title: ["", [Validators.required, Validators.minLength(3)]],
       description: ["", [Validators.required, Validators.minLength(3)]],
-      mail: ["", [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]],
-      statusId: ["", [Validators.required]],
-    }, { validators: this.passwordsMatch });
+    });
 
   this.mode =
   this.router.url.includes('connexion') ? 'login' :
@@ -69,6 +67,23 @@ mode: 'register' | 'login' | 'update' = 'register';
 
     ngOnInit(): void {
       this.allStatus();
+
+      if(this.userService.isAuthenticated()){
+        this.loadProfileToEdit();
+      }
+    }
+
+    loadProfileToEdit():void{
+      this.userService.getProfil().subscribe((user)=>{
+          this.updateForm.patchValue({
+              firstname: user.firstname,
+              lastname: user.lastname,
+              title: user.title,
+              description: user.description,
+              mail: user.mail,
+              statusId: user.statusId || '', // adapte selon la structure
+          });
+      })
     }
 
     allStatus() : void{
@@ -148,7 +163,55 @@ mode: 'register' | 'login' | 'update' = 'register';
 
     }
 
-    update(){
+    onPictureSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length) {
+      this.selectedPicture = input.files[0];
+
+      // Preview
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.previewPicture = reader.result as string;
+      };
+      reader.readAsDataURL(this.selectedPicture);
+    }
+  }
+
+    updateUser(){
+
+
+    if (!this.selectedPicture) {
+      this.message = 'Veuillez ajouter une photo de profil';
+      this.success = false;
+      return;
+    }
+
+    const formData = new FormData();
+
+    if (this.selectedPicture) {
+      formData.append('photo', this.selectedPicture);
+    }
+
+    formData.append('firstname', this.updateForm.value.firstname);
+    formData.append('lastname', this.updateForm.value.lastname);
+    formData.append('title', this.updateForm.value.title);
+    formData.append('description', this.updateForm.value.description);
+    formData.append('statusId', this.updateForm.value.statusId);
+
+    this.userService.updateUser(formData).subscribe({
+              next: (res) => {
+                this.message = res.message;
+                this.success = res.success;
+                this.router.navigate(['/profil']);
+              },
+              error: (err) => {
+                  console.error('Erreur serveur:', err);
+                  this.message = err.error?.message || 'Une erreur est survenue.';
+                  this.success = err.error?.success ?? false;
+              }
+         });
+
+
       
     }
 }

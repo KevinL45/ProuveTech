@@ -35,7 +35,7 @@ public class User implements UserDetails {
     @Column(length = 50, nullable = true)
     private String title;
 
-    @Column(length = 1000, nullable = true)
+    @Column(nullable = true, columnDefinition = "TEXT")
     private String description;
 
     @Column(length = 10, nullable = true)

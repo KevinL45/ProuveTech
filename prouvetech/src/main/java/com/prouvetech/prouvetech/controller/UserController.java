@@ -1,17 +1,13 @@
 package com.prouvetech.prouvetech.controller;
 
-import com.prouvetech.prouvetech.compositekey.UserSocialNetworksId;
 import com.prouvetech.prouvetech.dto.ProjectDTO;
 import com.prouvetech.prouvetech.dto.UserDTO;
 import com.prouvetech.prouvetech.model.Project;
 import com.prouvetech.prouvetech.model.Role;
-import com.prouvetech.prouvetech.model.SocialNetworks;
 import com.prouvetech.prouvetech.model.Status;
 import com.prouvetech.prouvetech.model.User;
-import com.prouvetech.prouvetech.model.UserSocialNetworks;
 import com.prouvetech.prouvetech.service.ProjectService;
 import com.prouvetech.prouvetech.service.RoleService;
-import com.prouvetech.prouvetech.service.SocialNetworksService;
 import com.prouvetech.prouvetech.service.StatusService;
 import com.prouvetech.prouvetech.service.UserService;
 import com.prouvetech.prouvetech.utils.ResponseMessage;
@@ -47,9 +43,6 @@ public class UserController {
     private StatusService statusService;
 
     @Autowired
-    private SocialNetworksService socialNetworksService;
-
-    @Autowired
     private Uploads uploads;
 
     @Autowired
@@ -71,7 +64,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
-    @PutMapping("update/")
+    @PutMapping("/update")
     public ResponseEntity<ResponseMessage> updateUser(@ModelAttribute UserDTO userDTO) throws IOException {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -92,43 +85,41 @@ public class UserController {
 
         String newphoto = uploads.saveFile(userDTO.getPhoto());
 
-        List<UserSocialNetworks> newUserSocials = new ArrayList<>();
+        // List<UserSocialNetworks> newUserSocials = new ArrayList<>();
 
-        for (String link : userDTO.getLink_social_networks()) {
-            SocialNetworks socialNetwork = socialNetworksService.detectNetworkNameFromUrl(link);
+        // for (String link : userDTO.getLink_social_networks()) {
+        // SocialNetworks socialNetwork =
+        // socialNetworksService.detectNetworkNameFromUrl(link);
 
-            if (socialNetwork != null) {
-                UserSocialNetworks usn = new UserSocialNetworks();
+        // if (socialNetwork != null) {
+        // UserSocialNetworks usn = new UserSocialNetworks();
 
-                UserSocialNetworksId compositeKey = new UserSocialNetworksId(user.getId(), socialNetwork.getId());
-                usn.setUserSocialNetworksId(compositeKey);
+        // UserSocialNetworksId compositeKey = new UserSocialNetworksId(user.getId(),
+        // socialNetwork.getId());
+        // usn.setUserSocialNetworksId(compositeKey);
 
-                usn.setUser(user);
-                usn.setSocialNetwork(socialNetwork);
-                usn.setProfileUrl(link);
-                newUserSocials.add(usn);
-            } else {
-                ResponseMessage message = new ResponseMessage(false,
-                        "Le réseau social pour le lien '" + link + "' n'est pas reconnu.");
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+        // usn.setUser(user);
+        // usn.setSocialNetwork(socialNetwork);
+        // usn.setProfileUrl(link);
+        // newUserSocials.add(usn);
+        // } else {
+        // ResponseMessage message = new ResponseMessage(false,
+        // "Le réseau social pour le lien '" + link + "' n'est pas reconnu.");
+        // return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
 
-            }
-        }
+        // }
+        // }
 
         user.setFirstname(userDTO.getFirstname());
         user.setLastname(userDTO.getLastname());
-        user.setMail(userDTO.getMail());
-        if (userDTO.getPassword() != null)
-            user.setPassword(userDTO.getPassword());
         user.setTitle(userDTO.getTitle());
         user.setDescription(userDTO.getDescription());
-        user.setTelephone(userDTO.getTelephone());
         user.setPhoto(newphoto);
         user.setStatus(status);
         user.setRoles(new ArrayList<>(List.of(role.get())));
 
         user.getSocialNetworks().clear();
-        user.getSocialNetworks().addAll(newUserSocials);
+        // user.getSocialNetworks().addAll(newUserSocials);
         ResponseMessage result = userService.updateUser(user);
 
         if (!result.isSuccess()) {
@@ -150,7 +141,8 @@ public class UserController {
                 user.getMail(),
                 user.getTitle(),
                 user.getDescription(),
-                user.getStatus().getName());
+                user.getStatus().getName(),
+                user.getPhoto());
 
         return ResponseEntity.ok(userDTO);
     }
@@ -167,7 +159,8 @@ public class UserController {
                 user.getMail(),
                 user.getTitle(),
                 user.getDescription(),
-                user.getStatus().getName());
+                user.getStatus().getName(),
+                user.getPhoto());
 
         return ResponseEntity.ok(userDTO);
     }
@@ -204,7 +197,9 @@ public class UserController {
                         u.getLastname(),
                         u.getMail(),
                         u.getTitle(),
-                        u.getStatus().getName()))
+                        u.getDescription(),
+                        u.getStatus().getName(),
+                        u.getPhoto()))
                 .toList();
         return ResponseEntity.ok(dtos);
     }
@@ -234,7 +229,9 @@ public class UserController {
                         u.getLastname(),
                         u.getMail(),
                         u.getTitle(),
-                        u.getStatus().getName()))
+                        u.getDescription(),
+                        u.getStatus().getName(),
+                        u.getPhoto()))
                 .toList();
 
         return ResponseEntity.ok(userDTOs);

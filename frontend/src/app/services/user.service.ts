@@ -22,8 +22,10 @@ export class UserService {
     return this.http.post(`${this.apiUrl}/register`, user);
   }
 
-  updateUser(user: User): Observable<any> {
-    return this.http.put(`${this.apiUrl}/update`, user);
+  updateUser(formData: FormData): Observable<any> {
+    return this.http.put(`${this.apiUrl}/update`, formData,{
+      headers : this.getAuthHeaders()
+    });
   }
 
   saveToken(token: string): void {

@@ -27,13 +27,13 @@ public class ToolService {
     public ResponseMessage createTool(Tool tool) {
 
         toolRepository.save(tool);
-        return new ResponseMessage(true, tool.getName() + " ajouté avec succès.");
+        return new ResponseMessage(true, tool.getName() + " est ajouté dans la liste");
     }
 
     public ResponseMessage updateTool(Long id, Tool tool) {
 
         toolRepository.save(tool);
-        return new ResponseMessage(true, tool.getName() + " modifié avec succès.");
+        return new ResponseMessage(true, tool.getName() + " est modifié.");
     }
 
     public ResponseMessage deleteTool(Long id) {

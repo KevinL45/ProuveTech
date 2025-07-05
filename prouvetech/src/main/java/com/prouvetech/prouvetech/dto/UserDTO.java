@@ -13,6 +13,7 @@ public class UserDTO {
     private String telephone;
     private String title;
     private MultipartFile photo;
+    private String link_photo;
     private String description;
     private String statusName;
     private List<String> link_social_networks;
@@ -21,44 +22,19 @@ public class UserDTO {
 
     }
 
-    public UserDTO(String title, Long statusId) {
-        this.title = title;
-        this.statusId = statusId;
-    }
-
-    public UserDTO(String firstname, String lastname, String mail, Long statusId) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.mail = mail;
-        this.statusId = statusId;
-    }
-
-    public UserDTO(String firstname, String lastname, String mail, String title, Long statusId) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.mail = mail;
-        this.title = title;
-        this.statusId = statusId;
-    }
-
-    public UserDTO(String firstname, String lastname, String mail, String title, String statusName) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.mail = mail;
-        this.title = title;
-        this.statusName = statusName;
-    }
-
+    // Détails du profil
     public UserDTO(String firstname, String lastname, String mail, String title, String description,
-            String statusName) {
+            String statusName, String link_photo) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.mail = mail;
         this.title = title;
         this.statusName = statusName;
         this.description = description;
+        this.link_photo = link_photo;
     }
 
+    // Détails du profil avec réseaux soicaux
     public UserDTO(String firstname, String lastname, String mail, String title, String description,
             long statusId, String telephone, List<String> link_social_networks) {
         this.firstname = firstname;
@@ -157,5 +133,13 @@ public class UserDTO {
 
     public void setPhoto(MultipartFile photo) {
         this.photo = photo;
+    }
+
+    public String getLinkPhoto() {
+        return link_photo;
+    }
+
+    public void setLinkPhoto(String link_photo) {
+        this.link_photo = link_photo;
     }
 }

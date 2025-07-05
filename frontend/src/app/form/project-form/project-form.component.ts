@@ -90,24 +90,9 @@ export class ProjectFormComponent implements OnInit {
       formData.append('video', this.selectedVideo);
     }
 
-    // this.selectedDocuments.forEach((file: File) => {
-    //   formData.append('documents', file);
-    // });
-
     for (const [key, value] of formData.entries()) {
       console.log(`${key}:`, value);
     }
-
-    // const projectValues = this.projectForm.value;
-
-    // const project = new Project
-    // (projectValues.name,
-    //   projectValues.description,
-    //   projectValues.sourcecode,
-    //   this.selectedVideo,
-    //   projectValues.tools,
-    //   this.selectedDocuments!
-    // );
 
     this.projectService.addProject(formData).subscribe({
       next: (res) => {

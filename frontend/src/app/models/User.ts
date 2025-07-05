@@ -18,8 +18,8 @@ export class User {
 
     constructor(mail: string, password: string, firstname?:string, lastname?:string, statusId?:number,
         cv?:string, title?: string, description?:string, telephone?:string, 
-        photo?:File, link_social_networks?: string [],link_photo?:string,
-        id?: number, statusName?:string) {
+        photo?:File, link_social_networks?: string [],
+        id?: number, statusName?:string,link_photo?:string) {
 
         this.id = id;
         this.mail = mail;

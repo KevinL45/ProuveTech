@@ -4,12 +4,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Tool } from '../models/Tool';
+import { UserService } from './user.service';
 
 @Injectable({ providedIn: 'root' })
 export class ToolService {
   private apiUrl = `${environment.apiUrl}/tool`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private userService:UserService) {}
 
   getAllTools(): Observable<Tool[]> {
     return this.http.get<Tool[]>(`${this.apiUrl}/list`);
@@ -17,5 +18,11 @@ export class ToolService {
 
   getToolsByIds(ids: number[]): Observable<Tool[]> {
     return this.http.post<Tool[]>(`${this.apiUrl}/by-ids`, ids);
+  }
+
+  addTool(tool: FormData): Observable<any> {
+      return this.http.post<Tool>(`${this.apiUrl}/create`, tool,{
+        headers: this.userService.getAuthHeaders() 
+      });
   }
 }

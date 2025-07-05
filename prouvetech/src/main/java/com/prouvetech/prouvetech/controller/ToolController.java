@@ -9,13 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.prouvetech.prouvetech.dto.ToolDTO;
 import com.prouvetech.prouvetech.model.Tool;
@@ -38,57 +37,59 @@ public class ToolController {
     private Uploads uploads;
 
     @PostMapping("/create")
-    public ResponseEntity<String> addTool(
-            @RequestParam("name") String name,
-            @RequestParam("logo") MultipartFile logo) throws IOException {
+    public ResponseEntity<ResponseMessage> addTool(@ModelAttribute ToolDTO toolDTO) throws IOException {
 
-        if (toolService.toolExistsByName(name)) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Le nom existe déjà, choisissez un autre nom.");
+        if (toolService.toolExistsByName(toolDTO.getName())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    // .body("Le nom existe déjà, choisissez un autre nom.");
+                    .body(new ResponseMessage(false, "Le nom existe déja."));
         }
 
         Tika tika = new Tika();
 
-        String detectedType = tika.detect(logo.getInputStream());
+        String detectedType = tika.detect(toolDTO.getFileLogo().getInputStream());
 
         if (!detectedType.startsWith("image/")) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Le fichier doit être une image");
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    // .body("Le fichier doit être une image");
+                    .body(new ResponseMessage(false, "Le fichier doit être une image."));
+
         }
 
-        String logoUrl = uploads.saveFile(logo);
-        Tool tool = new Tool(name, logoUrl);
+        String logoUrl = uploads.saveFile(toolDTO.getFileLogo());
+        Tool tool = new Tool(toolDTO.getName(), logoUrl);
 
         ResponseMessage result = toolService.createTool(tool);
 
         if (!result.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(result.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(result);
         }
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(result.getMessage());
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
 
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateTool(
             @PathVariable Long id,
-            @RequestParam("name") String name,
-            @RequestParam("logo") MultipartFile logo) throws IOException {
+            @ModelAttribute ToolDTO toolDTO) throws IOException {
 
-        if (toolService.toolExistsByName(name)) {
+        if (toolService.toolExistsByName(toolDTO.getName())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Le nom existe déjà, choisissez un autre nom.");
         }
 
         Tika tika = new Tika();
 
-        String detectedType = tika.detect(logo.getInputStream());
+        String detectedType = tika.detect(toolDTO.getFileLogo().getInputStream());
 
         if (!detectedType.startsWith("image/")) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Le fichier doit être une image");
         }
 
-        Tool tool = this.getTool(id);
-        String logoUrl = uploads.updateFile(logo, tool.getLogo());
+        Tool tool = this.toolService.getTool(id);
+        String logoUrl = uploads.updateFile(toolDTO.getFileLogo(), tool.getLogo());
 
-        tool.setName(name);
+        tool.setName(toolDTO.getName());
         tool.setLogo(logoUrl);
 
         ResponseMessage result = this.toolService.updateTool(id, tool);
@@ -111,13 +112,20 @@ public class ToolController {
     }
 
     @GetMapping("/details/{id}")
-    public Tool getTool(@PathVariable Long id) {
-        return toolService.getTool(id);
+    public ResponseEntity<ToolDTO> getTool(@PathVariable Long id) {
+        Tool tool = toolService.getTool(id);
+
+        ToolDTO toolDTO = new ToolDTO(
+                tool.getId(),
+                tool.getName(),
+                tool.getLogo());
+
+        return ResponseEntity.ok(toolDTO);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseMessage deleteTool(@PathVariable Long id) {
-        Tool tool = getTool(id);
+        Tool tool = toolService.getTool(id);
         uploads.deleteFile(tool.getLogo());
         return toolService.deleteTool(id);
     }

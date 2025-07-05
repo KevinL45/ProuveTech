@@ -1,0 +1,104 @@
+.admin-page {
+  max-width: 1000px;
+  margin: auto;
+  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+
+  h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+
+    h2 {
+      margin-bottom: 1rem;
+      font-size: 1.4rem;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 0.5rem;
+    }
+
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+
+      .form-group {
+        flex: 1 1 300px;
+        display: flex;
+        flex-direction: column;
+
+        label {
+          font-weight: 600;
+          margin-bottom: 0.3rem;
+        }
+
+        input[type='text'],
+        input[type='file'] {
+          padding: 0.5rem;
+          border: 1px solid #ccc;
+          border-radius: 6px;
+        }
+
+        .preview-logo {
+          margin-top: 0.5rem;
+          width: 60px;
+          height: 60px;
+          object-fit: contain;
+          border: 1px solid #eee;
+          border-radius: 6px;
+        }
+      }
+
+      button {
+        padding: 0.5rem 1rem;
+        background-color: #007bff;
+        border: none;
+        color: white;
+        border-radius: 6px;
+        cursor: pointer;
+
+        &:disabled {
+          background: #ccc;
+        }
+
+        &:hover:not(:disabled) {
+          background: #0056b3;
+        }
+      }
+    }
+
+    .list {
+      list-style: none;
+      padding: 0;
+
+      li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #eee;
+        padding: 0.8rem 0;
+
+        img {
+          width: 30px;
+          height: 30px;
+          object-fit: contain;
+          margin-right: 10px;
+        }
+
+        .actions button {
+          border: none;
+          background: none;
+          font-size: 1.2rem;
+          cursor: pointer;
+          margin-left: 0.5rem;
+        }
+      }
+    }
+  }
+}

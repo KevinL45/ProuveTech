@@ -3,8 +3,7 @@
   <div class="header">
     <div class="filters">
       <input [(ngModel)]="searchTitle" (input)="filterProjects()" type="text" placeholder="Rechercher un projet..."  />
-
-      <ng-select
+      <!-- <ng-select
         [items]="listTools"
         bindLabel="name"
         bindValue="id"
@@ -12,7 +11,7 @@
         [searchable]="true"
         [(ngModel)]="selectedToolIds"
         (change)="filterProjects()">
-      </ng-select>
+      </ng-select> -->
     </div>
   </div>
 

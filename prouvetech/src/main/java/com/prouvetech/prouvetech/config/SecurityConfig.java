@@ -63,13 +63,7 @@ public class SecurityConfig {
 
                                                                 "/status/create",
                                                                 "/status/update/{id}",
-                                                                "/status/delete/{id}",
-
-                                                                "/socialnetworks/create",
-                                                                "/socialnetworks/update/{id}",
-                                                                "/socialnetworks/delete/{id}",
-
-                                                                "/user/remove/{id}")
+                                                                "/status/delete/{id}")
                                                 .hasAnyAuthority("ROLE_ADMIN")
                                                 .requestMatchers(
                                                                 "/project/create",

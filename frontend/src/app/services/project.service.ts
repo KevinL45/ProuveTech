@@ -15,7 +15,6 @@ export class ProjectService {
   constructor(private http: HttpClient, private userService: UserService) {}
 
   addProject(project: FormData): Observable<any> {
-    console.log(this.userService.getAuthHeaders())
     return this.http.post<Project>(`${this.apiUrl}/create`, project,{
       headers: this.userService.getAuthHeaders() 
     });

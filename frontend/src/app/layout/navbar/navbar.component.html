@@ -11,6 +11,7 @@
       <li><a [routerLink]="['/inscription']">INSCRIPTION</a></li>
   </ul> 
   <ul *ngIf="isAuthenticated()" class="nav-links">
+      <li><a [routerLink]="['/admin']">ADMIN</a></li>
       <li><a [routerLink]="['/deconnexion']" (click)="logout()">DÉCONNEXION</a></li>
   </ul>  
 </div>

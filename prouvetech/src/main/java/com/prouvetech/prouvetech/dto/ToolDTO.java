@@ -1,10 +1,14 @@
 package com.prouvetech.prouvetech.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class ToolDTO {
 
     private long id;
     private String name;
     private String logo;
+
+    private MultipartFile fileLogo;
 
     public ToolDTO() {
 
@@ -13,6 +17,12 @@ public class ToolDTO {
     public ToolDTO(String name, String logo) {
         this.name = name;
         this.logo = logo;
+
+    }
+
+    public ToolDTO(MultipartFile fileLogo, String name) {
+        this.name = name;
+        this.fileLogo = fileLogo;
 
     }
 
@@ -45,6 +55,14 @@ public class ToolDTO {
 
     public void setLogo(String logo) {
         this.logo = logo;
+    }
+
+    public MultipartFile getFileLogo() {
+        return fileLogo;
+    }
+
+    public void setFileLogo(MultipartFile fileLogo) {
+        this.fileLogo = fileLogo;
     }
 
 }

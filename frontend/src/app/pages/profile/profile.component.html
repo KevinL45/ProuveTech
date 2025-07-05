@@ -1,6 +1,6 @@
 <section class="profile-page">
   <div class="profile-header">
-    <img class="avatar" [src]="'assets/default-avatar.png'" alt="Avatar" />
+    <img class="avatar" [src]="url+user?.link_photo || 'assets/default-avatar.png'" />
 
     <div class="info">
       <h1>{{user?.firstname+" "+ user?.lastname }}</h1>

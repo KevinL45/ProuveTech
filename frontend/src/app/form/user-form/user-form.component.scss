@@ -56,6 +56,34 @@
         color: #374151;
       }
 
+      textarea {
+        padding: 0.6rem 0.8rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+
+        &:focus {
+          border-color: #2563eb;
+          outline: none;
+        }
+      }
+
+       textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+
+      .preview-picture {
+          margin-top: 0.5rem;
+          width: 60px;
+          height: 60px;
+          text-align: center;
+          object-fit: contain;
+          border: 1px solid #eee;
+          border-radius: 6px;
+        }
+
       input,
       
       select {
