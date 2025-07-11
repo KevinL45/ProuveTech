@@ -23,16 +23,19 @@ export const routes: Routes = [
     { path: 'recruteurs', component:  RecruitsComponent},
     { path: 'acteurs-it', component:  ActorItComponent},
     { path: 'profil', component: ProfileComponent },
+    { path: 'admin', component: AdminComponent },
+
 
     { path: 'connexion', component: UserFormComponent },
     { path: 'inscription', component:  UserFormComponent},
     { path: 'modifier-profil', component:  UserFormComponent},
+    { path: 'details-profil/:id', component: ProfileComponent },
+
 
     { path: 'creer-projet', component:  ProjectFormComponent},
     { path: 'modifier-projet', component:  ProjectFormComponent},
     { path: 'details-projet/:id', component:  ProjectDetailsComponent},
 
-    { path: 'admin', component: AdminComponent },
 
 
 

@@ -75,6 +75,10 @@ export class UserService {
     });
   }
 
+  getProjectsUser(id:number): Observable<Project[]> {
+    return this.http.get<Project[]>(`${this.apiUrl}/projects/${id}`);
+  }
+
   searchUsers(params: HttpParams): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiUrl}/search`, { params });
   }

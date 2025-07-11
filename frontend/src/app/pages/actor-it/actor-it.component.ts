@@ -4,10 +4,10 @@ import { User } from '../../models/User';
 import { Status } from '../../models/Status';
 import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-actor-it',
@@ -27,7 +27,9 @@ export class ActorItComponent {
     selectedStatusId: number | '' = '';
   
 
-  constructor(private statusService: StatusService, private userService:UserService){
+  constructor(private statusService: StatusService, private userService:UserService,
+    private router:Router
+  ){
 
   }
 
@@ -46,6 +48,11 @@ export class ActorItComponent {
         }
       )
     }
+
+    detailsUser(user :User){
+        return this.router.navigate(["/details-profil",user.id])
+    
+      }
 
     allUsers() : void{
            this.userService.getAllUsers().subscribe(

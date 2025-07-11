@@ -72,7 +72,6 @@ public class UserService implements UserDetailsService {
 
     public ResponseMessage updateUser(User user) {
 
-        user.setPassword(hashPassword(user.getPassword()));
         userRepository.save(user);
 
         return new ResponseMessage(true,

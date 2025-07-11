@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 public class UserDTO {
+
+    private Long id;
     private String firstname;
     private String lastname;
     private String mail;
@@ -23,8 +25,9 @@ public class UserDTO {
     }
 
     // Détails du profil
-    public UserDTO(String firstname, String lastname, String mail, String title, String description,
+    public UserDTO(Long id, String firstname, String lastname, String mail, String title, String description,
             String statusName, String linkPhoto) {
+        this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.mail = mail;
@@ -45,6 +48,14 @@ public class UserDTO {
         this.description = description;
         this.telephone = telephone;
         this.linksSocialNetworks = linksSocialNetworks;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getMail() {

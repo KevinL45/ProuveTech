@@ -1,24 +1,28 @@
-<section class="profile-page">
-  <div class="profile-header">
+<div class="profile-page">
+    <div class="profile-header">
+      <div class="info">
+            <img class="avatar" [src]="url+user?.linkPhoto || 'assets/default-avatar.png'" />
 
-    <div class="info">
-          <img class="avatar" [src]="url+user?.linkPhoto || 'assets/default-avatar.png'" />
+        <h1>{{user?.firstname+" "+ user?.lastname }}</h1>
+          <button *ngIf="!id" class="btn-profile" (click)="editProfile()">Modifer</button>
+        <p class="title">{{user?.title || "Pas encore de titre"}}</p>
+        <span class="status">{{user?.statusName || "Pas de statut"}}</span>
 
-      <h1>{{user?.firstname+" "+ user?.lastname }}</h1>
-      <p class="title">{{user?.title || "Pas encore de titre"}}</p>
-      <span class="status">{{user?.statusName || "Pas de statut"}}</span>
-      <p class="bio" [innerHTML]="user?.description">{{user?.description || "Pas encore de description"}}</p>
-      
-
-    </div>
-  </div>
-
-  <div class="user-projects">
-    <div class="projects-list">
-      <div class="project-card" *ngFor="let project of projects">
-        <video [src]="url+project.link_video" controls></video>
-        <h4>{{ project.name }}</h4>
+        <p class="bio"  [class.expanded]="showFullDescription" [innerHTML]="user?.description">{{user?.description || "Pas encore de description"}}</p> 
+          <button  class="btn-description"
+                *ngIf="isLongDescription"
+                (click)="toggleDescription()">
+          {{ showFullDescription ? 'Voir moins' : 'Voir plus' }}
+        </button>
       </div>
     </div>
-  </div>
-</section>
+
+    <div class="user-projects">
+      <div class="projects-list">
+        <div class="project-card" *ngFor="let project of projects">
+          <video [src]="url+project.link_video" controls></video>
+          <h4>{{ project.name }}</h4>
+        </div>
+      </div>
+    </div>
+</div>

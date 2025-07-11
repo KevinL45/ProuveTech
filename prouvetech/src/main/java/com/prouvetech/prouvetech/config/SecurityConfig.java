@@ -35,6 +35,7 @@ public class SecurityConfig {
 
                                                                 "/user/list",
                                                                 "/user/details/{id}",
+                                                                "/user/projects/{id}",
                                                                 "/user/search",
 
                                                                 "/tool/list",

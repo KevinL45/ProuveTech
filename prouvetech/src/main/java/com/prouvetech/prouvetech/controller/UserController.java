@@ -83,7 +83,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
         }
 
-        String newphoto = uploads.saveFile(userDTO.getPhoto());
+        String newphoto = uploads.updateFile(userDTO.getPhoto(), user.getPhoto());
 
         // List<UserSocialNetworks> newUserSocials = new ArrayList<>();
 
@@ -117,8 +117,7 @@ public class UserController {
         user.setPhoto(newphoto);
         user.setStatus(status);
         user.setRoles(new ArrayList<>(List.of(role.get())));
-
-        user.getSocialNetworks().clear();
+        // user.getSocialNetworks().clear();
         // user.getSocialNetworks().addAll(newUserSocials);
         ResponseMessage result = userService.updateUser(user);
 
@@ -136,6 +135,7 @@ public class UserController {
         User user = userService.getUser(id);
 
         UserDTO userDTO = new UserDTO(
+                user.getId(),
                 user.getFirstname(),
                 user.getLastname(),
                 user.getMail(),
@@ -154,6 +154,7 @@ public class UserController {
         User user = userService.getUserByMail(authentication.getName());
 
         UserDTO userDTO = new UserDTO(
+                user.getId(),
                 user.getFirstname(),
                 user.getLastname(),
                 user.getMail(),
@@ -161,8 +162,6 @@ public class UserController {
                 user.getDescription(),
                 user.getStatus().getName(),
                 user.getPhoto());
-
-        System.out.println("Photo profile" + user.getPhoto());
 
         return ResponseEntity.ok(userDTO);
     }
@@ -190,11 +189,34 @@ public class UserController {
 
     }
 
+    @GetMapping("/projects")
+    public ResponseEntity<List<ProjectDTO>> getProjectUser(@PathVariable long id) {
+
+        User user = userService.getUser(id);
+
+        List<Project> projects = projectService.getMyProject(user);
+        List<ProjectDTO> projects_dto = projects.stream()
+                .map(p -> new ProjectDTO(
+                        p.getId(),
+                        p.getName(),
+                        p.getDescription(),
+                        p.getVideo(),
+                        p.getSourceCode(),
+                        p.getUser().getFirstname() + " " + p.getUser().getLastname(),
+                        p.getUser().getTitle(),
+                        p.getUser().getPhoto()))
+                .toList();
+
+        return ResponseEntity.ok(projects_dto);
+
+    }
+
     @GetMapping("/list")
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         List<User> users = userService.getAllUsers();
         List<UserDTO> dtos = users.stream()
                 .map(u -> new UserDTO(
+                        u.getId(),
                         u.getFirstname(),
                         u.getLastname(),
                         u.getMail(),
@@ -227,6 +249,7 @@ public class UserController {
         List<User> users = userService.searchUser(title, statusId);
         List<UserDTO> userDTOs = users.stream()
                 .map(u -> new UserDTO(
+                        u.getId(),
                         u.getFirstname(),
                         u.getLastname(),
                         u.getMail(),
