@@ -91,12 +91,14 @@ public class ProjectController {
         // }
 
         String newVideo = uploads.saveFile(projectDTO.getVideo());
+        String newThumbnail = uploads.generateThumbail(projectDTO.getVideo());
         List<Tool> selectedTools = toolService.getToolsByIds(projectDTO.getTools());
 
         Project project = new Project(
                 projectDTO.getName(),
                 projectDTO.getDescription(),
                 newVideo,
+                newThumbnail,
                 projectDTO.getSourcecode(),
                 user,
                 selectedTools,
@@ -131,6 +133,7 @@ public class ProjectController {
 
         Project project = projectService.getProject(id);
         String newVideo = uploads.updateFile(projectDTO.getVideo(), project.getVideo());
+        String newThumbnail = uploads.generateThumbail(projectDTO.getVideo());
         List<Tool> selectedTools = toolService.getToolsByIds(projectDTO.getTools());
 
         // List<Document> savedDocuments = new ArrayList<>();
@@ -152,6 +155,7 @@ public class ProjectController {
         project.setName(projectDTO.getName());
         project.setDescription(projectDTO.getDescription());
         project.setVideo(newVideo);
+        project.setThumbnail(newThumbnail);
         project.setSourceCode(projectDTO.getSourcecode());
         project.setUser(user);
         project.setUpdateDate(LocalDateTime.now());
@@ -175,6 +179,7 @@ public class ProjectController {
                         p.getName(),
                         p.getDescription(),
                         p.getVideo(),
+                        p.getThumbnail(),
                         p.getSourceCode(),
                         p.getUser().getFirstname() + " " + p.getUser().getLastname(),
                         p.getUser().getTitle(),
@@ -201,6 +206,7 @@ public class ProjectController {
                 p.getName(),
                 p.getDescription(),
                 p.getVideo(),
+                p.getThumbnail(),
                 p.getSourceCode(),
                 p.getUser().getFirstname() + " " + p.getUser().getLastname(),
                 p.getUser().getTitle(),
@@ -251,6 +257,7 @@ public class ProjectController {
                         p.getName(),
                         p.getDescription(),
                         p.getVideo(),
+                        p.getThumbnail(),
                         p.getSourceCode(),
                         p.getUser().getFirstname() + " " + p.getUser().getLastname(),
                         p.getUser().getTitle(),

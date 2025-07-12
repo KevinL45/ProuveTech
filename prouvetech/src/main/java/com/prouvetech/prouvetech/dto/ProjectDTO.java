@@ -7,34 +7,27 @@ import org.springframework.web.multipart.MultipartFile;
 public class ProjectDTO {
     private long id;
     private String name;
-
     private String description;
     private String sourcecode;
-    private List<Long> tools;
-
     private MultipartFile video;
-    private List<MultipartFile> documents;
+    private String link_video;
+    private String thumbnail;
 
     private String fullname;
     private String titleActor;
     private String photoProfile;
-    private String link_video;
 
+    private List<Long> tools;
     private List<String> toolsName;
+
+    private List<MultipartFile> documents;
 
     public ProjectDTO() {
 
     }
 
-    public ProjectDTO(String name, String description, String soucecode, List<Long> tools) {
-        this.name = name;
-        this.description = description;
-        this.sourcecode = soucecode;
-        this.tools = tools;
-    }
-
-    public ProjectDTO(long id, String name, String description, String link_video, String soucecode, String fullname,
-            String titleActor, String photoProfile) {
+    public ProjectDTO(long id, String name, String description, String link_video, String thumbnail, String soucecode,
+            String fullname, String titleActor, String photoProfile) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -43,10 +36,11 @@ public class ProjectDTO {
         this.titleActor = titleActor;
         this.photoProfile = photoProfile;
         this.link_video = link_video;
+        this.thumbnail = thumbnail;
     }
 
-    public ProjectDTO(long id, String name, String description, String link_video, String soucecode, String fullname,
-            String titleActor, String photoProfile,
+    public ProjectDTO(long id, String name, String description, String link_video, String thumbnail, String soucecode,
+            String fullname, String titleActor, String photoProfile,
             List<String> toolsName) {
         this.id = id;
         this.name = name;
@@ -56,6 +50,7 @@ public class ProjectDTO {
         this.titleActor = titleActor;
         this.photoProfile = photoProfile;
         this.link_video = link_video;
+        this.thumbnail = thumbnail;
         this.toolsName = toolsName;
     }
 
@@ -105,6 +100,14 @@ public class ProjectDTO {
 
     public void setVideo(MultipartFile video) {
         this.video = video;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
     public List<MultipartFile> getDocuments() {

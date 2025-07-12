@@ -24,6 +24,9 @@ public class Project {
     private String video;
 
     @Column(nullable = false)
+    private String thumbnail;
+
+    @Column(nullable = false)
     private String sourceCode;
 
     @Column(nullable = true)
@@ -60,13 +63,14 @@ public class Project {
     public Project() {
     }
 
-    public Project(String name, String description, String video, String sourceCode, User user,
+    public Project(String name, String description, String video, String thumbnail, String sourceCode, User user,
             List<Document> documents, List<Tool> tools,
             LocalDateTime createDate,
             LocalDateTime updateDate) {
         this.name = name;
         this.description = description;
         this.video = video;
+        this.thumbnail = thumbnail;
         this.sourceCode = sourceCode;
         this.user = user;
         this.createDate = createDate;
@@ -75,13 +79,14 @@ public class Project {
         this.tools = tools;
     }
 
-    public Project(String name, String description, String video, String sourceCode, User user,
+    public Project(String name, String description, String video, String thumbnail, String sourceCode, User user,
             List<Tool> tools,
             LocalDateTime createDate,
             LocalDateTime updateDate) {
         this.name = name;
         this.description = description;
         this.video = video;
+        this.thumbnail = thumbnail;
         this.sourceCode = sourceCode;
         this.user = user;
         this.createDate = createDate;
@@ -89,11 +94,12 @@ public class Project {
         this.tools = tools;
     }
 
-    public Project(String name, String description, String video, String sourceCode, User user,
+    public Project(String name, String description, String video, String thumbnail, String sourceCode, User user,
             LocalDateTime updateDate) {
         this.name = name;
         this.description = description;
         this.video = video;
+        this.thumbnail = thumbnail;
         this.sourceCode = sourceCode;
         this.user = user;
         this.updateDate = updateDate;
@@ -129,6 +135,14 @@ public class Project {
 
     public void setVideo(String video) {
         this.video = video;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
     public String getSourceCode() {
