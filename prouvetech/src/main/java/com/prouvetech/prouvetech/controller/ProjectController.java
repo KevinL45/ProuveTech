@@ -91,7 +91,7 @@ public class ProjectController {
         // }
 
         String newVideo = uploads.saveFile(projectDTO.getVideo());
-        String newThumbnail = uploads.generateThumbail(projectDTO.getVideo());
+        String newThumbnail = uploads.saveFile(projectDTO.getThumbnail());
         List<Tool> selectedTools = toolService.getToolsByIds(projectDTO.getTools());
 
         Project project = new Project(
@@ -133,7 +133,7 @@ public class ProjectController {
 
         Project project = projectService.getProject(id);
         String newVideo = uploads.updateFile(projectDTO.getVideo(), project.getVideo());
-        String newThumbnail = uploads.generateThumbail(projectDTO.getVideo());
+        String newThumbnail = uploads.updateFile(projectDTO.getThumbnail(), project.getThumbnail());
         List<Tool> selectedTools = toolService.getToolsByIds(projectDTO.getTools());
 
         // List<Document> savedDocuments = new ArrayList<>();

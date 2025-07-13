@@ -5,6 +5,8 @@ export class Project{
     description: string;
     video:File;
     link_video?:string;
+    thumbnail:File;
+    link_thumbnail?:string;
     sourceCode:string;
     documents?: File[] = [];
 
@@ -16,16 +18,16 @@ export class Project{
 
     fullname?:string;
     titleActor?:string;
-    photoActor?:string;
+    photoProfile?:string;
 
 
    
 
-    constructor(name: string, description:string, sourceCode:string, video:File,
+    constructor(name: string, description:string, sourceCode:string, video:File,thumbnail:File,
         tools ?:number[], documents?: File[],
         createdDate?: Date, id?: number, 
-        fullname?:string, titleActor?:string, link_video?:string, photoActor?:string,
-        toolsName?:string[]) {
+        fullname?:string, titleActor?:string, link_video?:string, photoProfile?:string,
+        toolsName?:string[], link_thumbnail?:string, ) {
 
         this.id = id;
         this.name = name;
@@ -39,8 +41,10 @@ export class Project{
         this.fullname = fullname;
         this.titleActor= titleActor;
         this.link_video = link_video;
-        this.photoActor = photoActor;
+        this.photoProfile = photoProfile;
         this.toolsName = toolsName;
+        this.link_thumbnail = link_thumbnail;
+        this.thumbnail = thumbnail;
 
     }
 }

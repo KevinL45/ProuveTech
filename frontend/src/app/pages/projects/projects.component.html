@@ -18,14 +18,14 @@
   <div class="projects-list">
     <div
       class="project-card"  *ngFor="let project of filteredProjects" (click)="detailsProject(project)">
-      <div class="video-wrapper">
-        <video controls [src]="url+project.link_video"></video>
+      <div class="thumbnail-wrapper">
+        <img class="thumbnail" controls [src]="url+project.link_thumbnail" />
       </div>
       <div class="project-content">
         <h2>{{project.name}}</h2>
         <div class="user-info">
           <img
-            [src]="'assets/default-avatar.png'"
+            [src]="url+project.photoProfile"
             alt="profil"
           />
           <div>

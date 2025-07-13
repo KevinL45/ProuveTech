@@ -116,19 +116,19 @@ public class Uploads {
 
     }
 
-    public String generateThumbail(MultipartFile videofile) {
+    // public String generateThumbail(MultipartFile videofile) {
 
-        String uploadDir = "uploads/thumbnails/";
-        File uploadPath = new File(uploadDir);
-        if (!uploadPath.exists())
-            uploadPath.mkdirs();
+    // String uploadDir = "uploads/thumbnails/";
+    // File uploadPath = new File(uploadDir);
+    // if (!uploadPath.exists())
+    // uploadPath.mkdirs();
 
-        String baseName = UUID.randomUUID().toString();
-        String thumbName = baseName + ".jpg";
-        Path thumbPath = Paths.get(uploadDir + thumbName);
+    // String baseName = UUID.randomUUID().toString();
+    // String thumbName = baseName + ".jpg";
+    // Path thumbPath = Paths.get(uploadDir + thumbName);
 
-        return "ok";
+    // return "ok";
 
-    }
+    // }
 
 }

@@ -20,7 +20,7 @@
     <div class="user-projects">
       <div class="projects-list">
         <div class="project-card" *ngFor="let project of projects">
-          <video [src]="url+project.link_video" controls></video>
+          <img class="thumbnail" [src]="url+project.link_thumbnail"/>
           <h4>{{ project.name }}</h4>
         </div>
       </div>

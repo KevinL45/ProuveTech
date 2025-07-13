@@ -190,7 +190,7 @@ public class UserController {
 
     }
 
-    @GetMapping("/projects")
+    @GetMapping("/projects/{id}")
     public ResponseEntity<List<ProjectDTO>> getProjectUser(@PathVariable long id) {
 
         User user = userService.getUser(id);

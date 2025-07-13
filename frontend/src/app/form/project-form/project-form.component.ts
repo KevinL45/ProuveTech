@@ -26,7 +26,7 @@ export class ProjectFormComponent implements OnInit {
   success: boolean = false;
 
   selectedVideo: File | null = null;
-  selectedDocuments: File[] = [];
+  selectedThumbnail: File | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -60,8 +60,11 @@ export class ProjectFormComponent implements OnInit {
     }
   }
 
-  onDocumentsChange(event: any): void {
-    this.selectedDocuments = Array.from(event.target.files);
+  onThumbnailChange(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedThumbnail = file;
+    }
   }
 
   submit(): void {
@@ -77,6 +80,12 @@ export class ProjectFormComponent implements OnInit {
       return;
     }
 
+    if (!this.selectedThumbnail) {
+      this.message = 'Veuillez ajouter une miniature.';
+      this.success = false;
+      return;
+    }
+
     const formData = new FormData();
     formData.append('name', this.projectForm.value.name);
     formData.append('description', this.projectForm.value.description);
@@ -88,6 +97,10 @@ export class ProjectFormComponent implements OnInit {
 
     if (this.selectedVideo) {
       formData.append('video', this.selectedVideo);
+    }
+
+    if (this.selectedThumbnail) {
+      formData.append('thumbnail', this.selectedThumbnail);
     }
 
     for (const [key, value] of formData.entries()) {

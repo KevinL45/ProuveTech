@@ -11,7 +11,8 @@ public class ProjectDTO {
     private String sourcecode;
     private MultipartFile video;
     private String link_video;
-    private String thumbnail;
+    private MultipartFile thumbnail;
+    private String link_thumbnail;
 
     private String fullname;
     private String titleActor;
@@ -26,7 +27,8 @@ public class ProjectDTO {
 
     }
 
-    public ProjectDTO(long id, String name, String description, String link_video, String thumbnail, String soucecode,
+    public ProjectDTO(long id, String name, String description, String link_video, String link_thumbnail,
+            String soucecode,
             String fullname, String titleActor, String photoProfile) {
         this.id = id;
         this.name = name;
@@ -36,10 +38,11 @@ public class ProjectDTO {
         this.titleActor = titleActor;
         this.photoProfile = photoProfile;
         this.link_video = link_video;
-        this.thumbnail = thumbnail;
+        this.link_thumbnail = link_thumbnail;
     }
 
-    public ProjectDTO(long id, String name, String description, String link_video, String thumbnail, String soucecode,
+    public ProjectDTO(long id, String name, String description, String link_video, String link_thumbnail,
+            String soucecode,
             String fullname, String titleActor, String photoProfile,
             List<String> toolsName) {
         this.id = id;
@@ -50,7 +53,7 @@ public class ProjectDTO {
         this.titleActor = titleActor;
         this.photoProfile = photoProfile;
         this.link_video = link_video;
-        this.thumbnail = thumbnail;
+        this.link_thumbnail = link_thumbnail;
         this.toolsName = toolsName;
     }
 
@@ -102,12 +105,20 @@ public class ProjectDTO {
         this.video = video;
     }
 
-    public String getThumbnail() {
+    public MultipartFile getThumbnail() {
         return thumbnail;
     }
 
-    public void setThumbnail(String thumbnail) {
+    public void setThumbnail(MultipartFile thumbnail) {
         this.thumbnail = thumbnail;
+    }
+
+    public String getLink_thumbnail() {
+        return link_thumbnail;
+    }
+
+    public void setLink_Thumbnail(String link_thumbnail) {
+        this.link_thumbnail = link_thumbnail;
     }
 
     public List<MultipartFile> getDocuments() {
