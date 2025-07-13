@@ -39,6 +39,12 @@ export class ProjectService {
       headers: this.userService.getAuthHeaders()
     });
   }
+
+  deleteProject(project : Project): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/delete/${project.id}`,{
+      headers: this.userService.getAuthHeaders()
+    });
+  }
   
   searchProjects(params: HttpParams): Observable<Project[]> {
     return this.http.get<Project[]>(`${this.apiUrl}/search`, { params });

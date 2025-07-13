@@ -12,26 +12,22 @@
   <div class="right">
     <div>
       <div class="title">{{ project?.name }}</div>
-      <p>
+      <p class="description" [innerHTML]="project?.description">
        {{ project?.description }}
       </p>
 
-      <div class="section">
-              <div class="section-title">Lien du code :</div>
-              <a href="#" class="btn">CODE SOURCE</a>
-        <!-- <img src="/assets/icons/developer.svg" width="32"> -->
+      <div *ngIf="project?.sourcecode" class="section">
+              <div class="section-details">Lien du code</div>
       </div>
 
-       <div class="section">
-      <div class="section-title">Outils :</div>
-      <a href="#" class="btn" *ngFor="let name of project?.toolsName">{{ name }}</a>
+      <div class="section">
+          <div class="section-details" *ngFor="let name of project?.toolsName">{{ name }}</div>
       </div>
-    </div>
 
     <div class="profile">
-      <img [src]="project?.photoProfile || 'assets/default-avatar.png'" alt="photo">
+      <img [src]="url+project?.photoProfile || 'assets/default-avatar.png'" alt="photo">
       <div class="profile-info">
-        <strong>{{ project?.fullname || 'Nom - Prénom' }}</strong><br>
+        <strong>{{ project?.fullname || 'Nom - Prénom' }} - {{ project?.titleActor}}</strong><br>
         Développeur
       </div>
     </div>

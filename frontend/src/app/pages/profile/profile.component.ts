@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment';
 import { UserService } from '../../services/user.service';
 import { Project } from '../../models/Project';
 import { ActivatedRoute, Router} from '@angular/router';
+import { ProjectService } from '../../services/project.service';
 
 @Component({
   selector: 'app-profile',
@@ -29,7 +30,8 @@ export class ProfileComponent implements OnInit{
    constructor(
     private userService:UserService,
     private route:ActivatedRoute,
-    private router:Router
+    private router:Router,
+    private projectService:ProjectService
   ){
 
   }
@@ -109,7 +111,14 @@ export class ProfileComponent implements OnInit{
    
   detailsProject(project: Project){
         return this.router.navigate(["/details-projet",project.id])
-    
+  }
+
+  deleteProject(project : Project){
+        if (confirm('Êtes-vous sûr de vouloir supprimer la vidéo du projet ?')) {
+       this.projectService.deleteProject(project).subscribe(()=>{
+        this.projects = this.projects.filter(p => p.id !== project.id)
+       });
+        }
   }
 
   

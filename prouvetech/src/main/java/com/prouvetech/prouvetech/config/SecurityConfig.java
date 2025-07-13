@@ -44,9 +44,6 @@ public class SecurityConfig {
                                                                 "/status/list",
                                                                 "/status/details/{id}",
 
-                                                                "/socialnetworks/list",
-                                                                "/socialnetworks/details/{id}",
-
                                                                 "/project/list",
                                                                 "/project/details/{id}",
                                                                 "/project/search",
@@ -58,7 +55,8 @@ public class SecurityConfig {
                                                                 "/user/profile",
                                                                 "/user/myprojects",
 
-                                                                "project/myproject/{id}")
+                                                                "project/myproject/{id}",
+                                                                "project/delete/{id}")
                                                 .authenticated()
                                                 .requestMatchers("/tool/create",
                                                                 "/tool/update/{id}",

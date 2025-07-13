@@ -19,11 +19,13 @@
 
     <div class="user-projects">
       <div class="projects-list">
-        <div (click)="detailsProject(project)" class="project-card" *ngFor="let project of projects">
-          <img class="thumbnail" [src]="url+project.link_thumbnail"/>
+        <div  class="project-card" *ngFor="let project of projects">
+          <img (click)="detailsProject(project)" class="thumbnail" [src]="url+project.link_thumbnail"/>
           <h4>{{ project.name }}</h4>
-          <button (click)="editProject(project)" *ngIf="!id " class="edit-project">Modifier</button>
-          <button  *ngIf="!id" class="remove-project">Supprimer</button>
+              <div class="options">
+                <button (click)="editProject(project)" *ngIf="!id " class="edit-project">Modifier</button>
+                <button (click)="deleteProject(project)" *ngIf="!id" class="delete-project">Supprimer</button>
+              </div>
         </div>
       </div>
     </div>

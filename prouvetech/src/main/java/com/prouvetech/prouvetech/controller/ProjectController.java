@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -231,6 +232,34 @@ public class ProjectController {
                 .toList();
         return ResponseEntity.ok(projects_dto);
 
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<ResponseMessage> deleteProject(@PathVariable Long id) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User currentUser = userService.getUserByMail(email);
+
+        Project project = projectService.getProject(id);
+
+        boolean isOwner = project.getUser().getId().equals(currentUser.getId());
+        boolean isAdmin = currentUser.getRoles().stream()
+                .anyMatch(r -> "ROLE_ADMIN".equals(r.getName()));
+
+        if (!isOwner && !isAdmin) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body(new ResponseMessage(false, "Vous n’êtes pas autorisé à supprimer ce projet."));
+        }
+
+        uploads.deleteFile(project.getThumbnail());
+        uploads.deleteFile(project.getVideo());
+        ResponseMessage result = projectService.deleteProject(project.getId());
+
+        if (!result.isSuccess()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(result);
+        }
+        return ResponseEntity.ok(result);
     }
 
 }

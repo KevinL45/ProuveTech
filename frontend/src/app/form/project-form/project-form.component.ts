@@ -112,7 +112,7 @@ export class ProjectFormComponent implements OnInit {
       return;
     }
 
-        if (!this.selectedVideo && !this.videoUrl) {
+      if (!this.selectedVideo && !this.videoUrl) {
       this.message = 'Veuillez ajouter une vidéo.';
       this.success = false;
       return;
@@ -127,7 +127,14 @@ export class ProjectFormComponent implements OnInit {
     const formData = new FormData();
     formData.append('name', this.projectForm.value.name);
     formData.append('description', this.projectForm.value.description);
-    formData.append('sourcecode', this.projectForm.value.sourcecode || '');
+    formData.append('sourcecode', this.projectForm.value.sourcecode);
+    if(this.selectedVideo){
+      formData.append('video', this.selectedVideo!);
+    }
+    if(this.selectedVideo){
+      formData.append('thumbnail', this.selectedThumbnail!);
+    }
+
 
     this.projectForm.value.tools.forEach((toolId: string) => {
       formData.append('tools', toolId);
@@ -144,11 +151,13 @@ export class ProjectFormComponent implements OnInit {
         this.router.navigate(['/profil']);
       },
       error: (err) => {
-        console.error('Erreur création projet :', err);
+        console.error('Erreur du projet :', err);
         this.message = err.error?.message || 'Une erreur est survenue.';
         this.success = err.error?.success ?? false;
       }
     });
+
+    
 
 
   }
