@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 
@@ -9,6 +9,7 @@ import { Tool } from '../../models/Tool';
 import { ProjectService } from '../../services/project.service';
 import { ToolService } from '../../services/tool.service';
 import { Project } from '../../models/Project';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-project-form',
@@ -19,6 +20,8 @@ import { Project } from '../../models/Project';
 })
 export class ProjectFormComponent implements OnInit {
 
+  url:string = environment.apiUrl;
+
   projectForm: FormGroup;
   listTools: Tool[] = [];
 
@@ -27,22 +30,44 @@ export class ProjectFormComponent implements OnInit {
 
   selectedVideo: File | null = null;
   selectedThumbnail: File | null = null;
+  
+  thumbnailUrl: string | null = null;
+  videoUrl: string | null = null;
+
+  id: number | null = null
+
+  mode: 'update-project' | 'create-project' = 'create-project';
 
   constructor(
     private fb: FormBuilder,
     private toolService: ToolService,
     private projectService: ProjectService,
-    private router: Router
+    private router: Router,
+    private route:ActivatedRoute
   ) {
     this.projectForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', [Validators.required]],
-      sourcecode: ['', [Validators.required]],
+      sourcecode: [''],
       tools: [[]] // tableau d'IDs
     });
   }
 
   ngOnInit(): void {
+
+    this.route.paramMap.subscribe(params =>{
+        const id = params.get("id");
+        if(id){
+          this.id = Number(id);
+        }
+      })
+
+    if(this.id){
+      this.mode = 'update-project';
+      this.loadProjectToEdit(this.id)
+    }else{
+      this.mode = 'create-project'; 
+    }
     this.loadTools();
   }
 
@@ -51,6 +76,19 @@ export class ProjectFormComponent implements OnInit {
       next: (tools) => this.listTools = tools,
       error: (err) => console.error('Erreur chargement outils :', err)
     });
+  }
+
+  loadProjectToEdit(id:number):void{
+    this.projectService.getMyProject(id).subscribe((project)=>{
+      this.projectForm.patchValue({
+        name:project.name,
+        description: project.description,
+        sourcecode: project.sourcecode,
+        tools: project.tools
+      });
+        this.thumbnailUrl = this.url+project.link_thumbnail;
+        this.videoUrl = this.url+project.link_video;
+    })
   }
 
   onVideoChange(event: any): void {
@@ -74,13 +112,13 @@ export class ProjectFormComponent implements OnInit {
       return;
     }
 
-    if (!this.selectedVideo) {
+        if (!this.selectedVideo && !this.videoUrl) {
       this.message = 'Veuillez ajouter une vidéo.';
       this.success = false;
       return;
     }
 
-    if (!this.selectedThumbnail) {
+    if (!this.selectedThumbnail && !this.thumbnailUrl) {
       this.message = 'Veuillez ajouter une miniature.';
       this.success = false;
       return;
@@ -95,23 +133,15 @@ export class ProjectFormComponent implements OnInit {
       formData.append('tools', toolId);
     });
 
-    if (this.selectedVideo) {
-      formData.append('video', this.selectedVideo);
-    }
+    const https = this.mode === 'create-project'
+                ? this.projectService.addProject(formData)
+                : this.projectService.updateProject(formData, this.id!);
 
-    if (this.selectedThumbnail) {
-      formData.append('thumbnail', this.selectedThumbnail);
-    }
-
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}:`, value);
-    }
-
-    this.projectService.addProject(formData).subscribe({
+    https.subscribe({
       next: (res) => {
         this.message = res.message
         this.success = true;
-        this.router.navigate(['/projets']);
+        this.router.navigate(['/profil']);
       },
       error: (err) => {
         console.error('Erreur création projet :', err);
@@ -119,5 +149,7 @@ export class ProjectFormComponent implements OnInit {
         this.success = err.error?.success ?? false;
       }
     });
+
+
   }
 }

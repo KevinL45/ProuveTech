@@ -57,7 +57,6 @@ export class ProjectsComponent {
       this.projectService.getAllProjects().subscribe(
         (data)=>{
           this.filteredProjects = data;
-          console.log(this.filteredProjects)
           },
         (error) => {
           console.error('Erreur sur les projets:', error);

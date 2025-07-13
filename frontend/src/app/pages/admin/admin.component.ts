@@ -73,11 +73,9 @@ export class AdminComponent {
 
     const formData = new FormData();
     formData.append('name', this.toolForm.value.name);
-    console.log("Nom : "+this.toolForm.value.name)
 
     if (this.selectedLogo) {
       formData.append('fileLogo', this.selectedLogo);
-      console.log("Logo : "+this.selectedLogo)
     }
 
     this.toolService.addTool(formData).subscribe({

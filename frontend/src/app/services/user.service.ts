@@ -30,7 +30,6 @@ export class UserService {
 
   saveToken(token: string): void {
     localStorage.setItem('authToken', token);
-    console.log(this.getToken())
   }
 
   getToken(): string | null {

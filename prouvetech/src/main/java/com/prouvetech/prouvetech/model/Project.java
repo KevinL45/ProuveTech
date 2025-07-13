@@ -26,7 +26,7 @@ public class Project {
     @Column(nullable = false)
     private String thumbnail;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String sourceCode;
 
     @Column(nullable = true)

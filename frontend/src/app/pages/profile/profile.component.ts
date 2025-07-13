@@ -37,7 +37,6 @@ export class ProfileComponent implements OnInit{
   ngOnInit():void{
       this.route.paramMap.subscribe(params =>{
         const id = params.get("id");
-        console.log(id)
         if(id){
           this.id = Number(id);
         }
@@ -101,6 +100,16 @@ export class ProfileComponent implements OnInit{
 
   isLongDescription(): boolean {
     return !!this.user?.description && this.user.description.length > 200;
+  }
+
+  editProject(project : Project){
+        return this.router.navigate(["/modifier-projet",project.id])
+
+  }
+   
+  detailsProject(project: Project){
+        return this.router.navigate(["/details-projet",project.id])
+    
   }
 
   

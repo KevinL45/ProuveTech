@@ -167,12 +167,12 @@ public class UserController {
     }
 
     @GetMapping("/myprojects")
-    public ResponseEntity<List<ProjectDTO>> getMyProject() {
+    public ResponseEntity<List<ProjectDTO>> getMyProjects() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.getUserByMail(authentication.getName());
 
-        List<Project> projects = projectService.getMyProject(user);
+        List<Project> projects = projectService.getMyProjects(user);
         List<ProjectDTO> projects_dto = projects.stream()
                 .map(p -> new ProjectDTO(
                         p.getId(),
@@ -195,7 +195,7 @@ public class UserController {
 
         User user = userService.getUser(id);
 
-        List<Project> projects = projectService.getMyProject(user);
+        List<Project> projects = projectService.getMyProjects(user);
         List<ProjectDTO> projects_dto = projects.stream()
                 .map(p -> new ProjectDTO(
                         p.getId(),

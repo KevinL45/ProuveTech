@@ -7,7 +7,7 @@ export class Project{
     link_video?:string;
     thumbnail:File;
     link_thumbnail?:string;
-    sourceCode:string;
+    sourcecode:string;
     documents?: File[] = [];
 
     tools ?: number [] = [];
@@ -23,7 +23,7 @@ export class Project{
 
    
 
-    constructor(name: string, description:string, sourceCode:string, video:File,thumbnail:File,
+    constructor(name: string, description:string, sourcecode:string, video:File,thumbnail:File,
         tools ?:number[], documents?: File[],
         createdDate?: Date, id?: number, 
         fullname?:string, titleActor?:string, link_video?:string, photoProfile?:string,
@@ -33,7 +33,7 @@ export class Project{
         this.name = name;
         this.description = description;
         this.video = video;
-        this.sourceCode = sourceCode;
+        this.sourcecode = sourcecode;
         this.tools = tools;
         this.documents = documents;
         this.updatedDate =  new Date();

@@ -33,7 +33,7 @@ export const routes: Routes = [
 
 
     { path: 'creer-projet', component:  ProjectFormComponent},
-    { path: 'modifier-projet', component:  ProjectFormComponent},
+    { path: 'modifier-projet/:id', component:  ProjectFormComponent},
     { path: 'details-projet/:id', component:  ProjectDetailsComponent},
 
 

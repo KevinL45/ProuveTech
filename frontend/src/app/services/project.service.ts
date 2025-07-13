@@ -24,17 +24,22 @@ export class ProjectService {
     return this.http.get<Project[]>(`${this.apiUrl}/list`);
   }
 
-  getProjectById(id: number): Observable<Project> {
-    return this.http.get<Project>(`${this.apiUrl}/details/${id}`, {
+  getProject(id: number): Observable<Project> {
+    return this.http.get<Project>(`${this.apiUrl}/details/${id}`);
+  }
+
+  getMyProject(id: number): Observable<Project> {
+    return this.http.get<Project>(`${this.apiUrl}/myproject/${id}`, {
       headers: this.userService.getAuthHeaders()
     });
   }
 
-  deleteProject(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`, {
+  updateProject(project:FormData, id: number): Observable<any> {
+    return this.http.put(`${this.apiUrl}/update/${id}`, project,{
       headers: this.userService.getAuthHeaders()
     });
   }
+  
   searchProjects(params: HttpParams): Observable<Project[]> {
     return this.http.get<Project[]>(`${this.apiUrl}/search`, { params });
   }

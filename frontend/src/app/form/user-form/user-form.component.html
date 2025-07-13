@@ -1,8 +1,9 @@
-  <div *ngIf="message" [ngClass]="{'success': success, 'error': !success}" class="message">
-  {{ message }}
-  </div>
+
 <section class="page">
 <form class="form" *ngIf="mode === 'register'" [formGroup]="userForm" (ngSubmit)="register()">
+    <div *ngIf="message" [ngClass]="{'success': success, 'error': !success}" class="message">
+      {{ message }}
+    </div>
     <h2>Créer un compte</h2>
 
     <div class="form-group">
@@ -45,6 +46,9 @@
   </form>
   
   <form class="form" *ngIf="mode === 'login'" [formGroup]="loginForm" (ngSubmit)="auth()">
+        <div *ngIf="message" [ngClass]="{'success': success, 'error': !success}" class="message">
+          {{ message }}
+        </div>
         <h2>Authentification</h2>
 
       <div class="form-group">
@@ -67,7 +71,9 @@
 
   <form class="form" *ngIf="mode === 'update'" [formGroup]="updateForm" (ngSubmit)="updateUser()">
     <h2>Modifier votre profil</h2>
-
+        <div *ngIf="message" [ngClass]="{'success': success, 'error': !success}" class="message">
+          {{ message }}
+        </div>
     <div class="form-group">
       <img *ngIf="previewPicture" [src]="previewPicture" class="preview-picture" />
       <label for="photo">Photo du profil</label>

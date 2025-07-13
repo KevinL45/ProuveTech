@@ -1,10 +1,14 @@
-<div *ngIf="message" [ngClass]="{'success': success, 'error': !success}" class="message">
-  {{ message }}
-</div>
 
-<section class="page">
+
+<div class="page">
   <form class="form" [formGroup]="projectForm" (ngSubmit)="submit()" enctype="multipart/form-data">
-    <h2>Créer un projet</h2>
+
+    <div *ngIf="message" [ngClass]="{'success': success, 'error': !success}" class="message">
+      {{ message }}
+    </div>
+    
+    <h2 *ngIf="mode === 'create-project'" >Créer un projet</h2>
+    <h2 *ngIf="mode === 'update-project'" >Modifier le projet</h2>
 
     <div class="form-group">
       <label for="name">Nom du projet</label>
@@ -37,17 +41,22 @@
       <label for="video">Miniature du projet</label>
       <input type="file" id="thumbnail" (change)="onThumbnailChange($event)" accept="image/*" />
     </div>
+    <div *ngIf="thumbnailUrl" class="form-group">
+      <label>Miniature actuelle :</label><br>
+      <img [src]="thumbnailUrl" alt="Miniature du projet" style="max-width: 200px; border: 1px solid #ccc;">
+    </div>
 
     <div class="form-group">
       <label for="video">Vidéo du projet</label>
       <input type="file" id="video" (change)="onVideoChange($event)" accept="video/*" />
     </div>
+    <div *ngIf="videoUrl" class="form-group">
+      <label>Vidéo actuelle :</label><br>
+      <video [src]="videoUrl" controls style="max-width: 100%;"></video>
+    </div>
 
-    <!-- <div class="form-group">
-      <label for="documents">Documents qui complète le projet ? (Ex : documentation...)</label>
-      <input type="file" id="documents" (change)="onDocumentsChange($event)" multiple accept="application/pdf" />
-    </div> -->
-
-    <button type="submit" [disabled]="projectForm.invalid">Ajouter un projet</button>
+    <button type="submit" [disabled]="projectForm.invalid">
+  {{ mode === 'create-project' ? 'Ajouter le projet' : 'Mettre à jour' }}
+    </button>
   </form>
-</section>
+</div>

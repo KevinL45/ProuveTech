@@ -58,20 +58,24 @@ mode: 'register' | 'login' | 'update' = 'register';
       description: ["", [Validators.required, Validators.minLength(3)]],
     });
 
-  this.mode =
-  this.router.url.includes('connexion') ? 'login' :
-  this.router.url.includes('modifier-profil') ? 'update' :
-  'register';
+ 
 
     } 
 
     ngOnInit(): void {
+
+      
       this.allStatus();
 
       if(this.userService.isAuthenticated()){
         this.loadProfileToEdit();
       }
-    }
+
+      this.mode =
+        this.router.url.includes('connexion') ? 'login' :
+        this.router.url.includes('modifier-profil') ? 'update' :
+        'register';
+      }
 
     loadProfileToEdit():void{
       this.userService.getProfil().subscribe((user)=>{
@@ -90,7 +94,6 @@ mode: 'register' | 'login' | 'update' = 'register';
       this.statusService.getAllStatus().subscribe(
         (data)=>{
           this.listStatus = data;
-          console.log("Liste des status : "+this.listStatus);
           },
         (error) => {
           console.error('Erreur sur les statuts:', error);
@@ -113,9 +116,6 @@ mode: 'register' | 'login' | 'update' = 'register';
           this.userForm.value.firstname, 
           this.userForm.value.lastname, 
           this.userForm.value.statusId);
-          console.log('Utilisateur à envoyer :', user);
-
-
 
         this.userService.register(user).subscribe({
               next: (res) => {
@@ -142,8 +142,6 @@ mode: 'register' | 'login' | 'update' = 'register';
 
         const user = new User(this.loginForm.value.mail, 
           this.loginForm.value.password);
-          console.log('Utilisateur à envoyer :', user);
-
         this.userService.login(user).subscribe({
               next: (res) => {
                   this.router.navigate(['/accueil']);

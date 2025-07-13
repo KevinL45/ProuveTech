@@ -40,7 +40,7 @@ export class ProjectDetailsComponent implements OnInit{
   }
 
   loadProject(id : number){
-    this.projectService.getProjectById(id).subscribe((data)=>{
+    this.projectService.getProject(id).subscribe((data)=>{
       this.project = data;
     })
   }

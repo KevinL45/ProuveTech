@@ -44,7 +44,7 @@ public class ProjectDTO {
     public ProjectDTO(long id, String name, String description, String link_video, String link_thumbnail,
             String soucecode,
             String fullname, String titleActor, String photoProfile,
-            List<String> toolsName) {
+            List<String> toolsName, List<Long> tools) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -55,6 +55,7 @@ public class ProjectDTO {
         this.link_video = link_video;
         this.link_thumbnail = link_thumbnail;
         this.toolsName = toolsName;
+        this.tools = tools;
     }
 
     public long getId() {

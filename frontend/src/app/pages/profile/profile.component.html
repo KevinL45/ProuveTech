@@ -4,7 +4,7 @@
             <img class="avatar" [src]="url+user?.linkPhoto || 'assets/default-avatar.png'" />
 
         <h1>{{user?.firstname+" "+ user?.lastname }}</h1>
-          <button *ngIf="!id" class="btn-profile" (click)="editProfile()">Modifer</button>
+          <button *ngIf="!id" class="btn-profile" (click)="editProfile()">Modifer votre profil</button>
         <p class="title">{{user?.title || "Pas encore de titre"}}</p>
         <span class="status">{{user?.statusName || "Pas de statut"}}</span>
 
@@ -19,9 +19,11 @@
 
     <div class="user-projects">
       <div class="projects-list">
-        <div class="project-card" *ngFor="let project of projects">
+        <div (click)="detailsProject(project)" class="project-card" *ngFor="let project of projects">
           <img class="thumbnail" [src]="url+project.link_thumbnail"/>
           <h4>{{ project.name }}</h4>
+          <button (click)="editProject(project)" *ngIf="!id " class="edit-project">Modifier</button>
+          <button  *ngIf="!id" class="remove-project">Supprimer</button>
         </div>
       </div>
     </div>

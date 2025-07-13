@@ -56,7 +56,9 @@ public class SecurityConfig {
                                                 .requestMatchers(
                                                                 "/user/update",
                                                                 "/user/profile",
-                                                                "/user/myprojects")
+                                                                "/user/myprojects",
+
+                                                                "project/myproject/{id}")
                                                 .authenticated()
                                                 .requestMatchers("/tool/create",
                                                                 "/tool/update/{id}",
