@@ -17,7 +17,12 @@ public class ToolDTO {
     public ToolDTO(String name, String logo) {
         this.name = name;
         this.logo = logo;
+    }
 
+    public ToolDTO(long id, String name, String logo) {
+        this.name = name;
+        this.logo = logo;
+        this.id = id;
     }
 
     public ToolDTO(MultipartFile fileLogo, String name) {

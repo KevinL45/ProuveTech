@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.prouvetech.prouvetech.dto.ProjectDTO;
+import com.prouvetech.prouvetech.dto.StatusDTO;
+import com.prouvetech.prouvetech.dto.ToolDTO;
+import com.prouvetech.prouvetech.dto.UserDTO;
 import com.prouvetech.prouvetech.model.Project;
 import com.prouvetech.prouvetech.model.Tool;
 import com.prouvetech.prouvetech.model.User;
@@ -70,7 +73,10 @@ public class ProjectController {
 
         String newVideo = uploads.saveFile(projectDTO.getVideo());
         String newThumbnail = uploads.saveFile(projectDTO.getThumbnail());
-        List<Tool> selectedTools = toolService.getToolsByIds(projectDTO.getTools());
+        List<Long> toolIds = projectDTO.getTools().stream()
+                .map(ToolDTO::getId)
+                .collect(Collectors.toList());
+        List<Tool> selectedTools = toolService.getToolsByIds(toolIds);
 
         Project project = new Project(
                 projectDTO.getName(),
@@ -115,7 +121,10 @@ public class ProjectController {
         }
 
         if (projectDTO.getTools() != null) {
-            List<Tool> selectedTools = toolService.getToolsByIds(projectDTO.getTools());
+            List<Long> toolIds = projectDTO.getTools().stream()
+                    .map(ToolDTO::getId)
+                    .collect(Collectors.toList());
+            List<Tool> selectedTools = toolService.getToolsByIds(toolIds);
             project.setTools(selectedTools);
         }
         project.setName(projectDTO.getName());
@@ -144,9 +153,17 @@ public class ProjectController {
                         p.getVideo(),
                         p.getThumbnail(),
                         p.getSourceCode(),
-                        p.getUser().getFirstname() + " " + p.getUser().getLastname(),
-                        p.getUser().getTitle(),
-                        p.getUser().getPhoto()))
+                        new UserDTO(
+                                p.getUser().getId(),
+                                p.getUser().getFirstname(),
+                                p.getUser().getLastname(),
+                                p.getUser().getMail(),
+                                p.getUser().getTitle(),
+                                p.getUser().getDescription(),
+                                new StatusDTO(
+                                        p.getUser().getStatus().getId(),
+                                        p.getUser().getStatus().getName()),
+                                p.getUser().getPhoto())))
                 .toList();
         return ResponseEntity.ok(projects_dto);
     }
@@ -160,8 +177,8 @@ public class ProjectController {
                 .map(Tool::getId)
                 .collect(Collectors.toList());
         List<Tool> tools = toolService.getToolsByIds(toolIds);
-        List<String> toolNames = tools.stream()
-                .map(Tool::getName)
+        List<ToolDTO> toolsDto = tools.stream()
+                .map(t -> new ToolDTO(t.getId(), t.getName(), t.getLogo()))
                 .collect(Collectors.toList());
 
         ProjectDTO projectDTO = new ProjectDTO(
@@ -171,11 +188,18 @@ public class ProjectController {
                 p.getVideo(),
                 p.getThumbnail(),
                 p.getSourceCode(),
-                p.getUser().getFirstname() + " " + p.getUser().getLastname(),
-                p.getUser().getTitle(),
-                p.getUser().getPhoto(),
-                toolNames,
-                toolIds);
+                new UserDTO(
+                        p.getUser().getId(),
+                        p.getUser().getFirstname(),
+                        p.getUser().getLastname(),
+                        p.getUser().getMail(),
+                        p.getUser().getTitle(),
+                        p.getUser().getDescription(),
+                        new StatusDTO(
+                                p.getUser().getStatus().getId(),
+                                p.getUser().getStatus().getName()),
+                        p.getUser().getPhoto()),
+                toolsDto);
 
         return ResponseEntity.ok(projectDTO);
     }
@@ -192,8 +216,8 @@ public class ProjectController {
                 .map(Tool::getId)
                 .collect(Collectors.toList());
         List<Tool> tools = toolService.getToolsByIds(toolIds);
-        List<String> toolNames = tools.stream()
-                .map(Tool::getName)
+        List<ToolDTO> toolsDto = tools.stream()
+                .map(t -> new ToolDTO(t.getId(), t.getName(), t.getLogo()))
                 .collect(Collectors.toList());
 
         ProjectDTO projectDTO = new ProjectDTO(
@@ -203,11 +227,18 @@ public class ProjectController {
                 p.getVideo(),
                 p.getThumbnail(),
                 p.getSourceCode(),
-                p.getUser().getFirstname() + " " + p.getUser().getLastname(),
-                p.getUser().getTitle(),
-                p.getUser().getPhoto(),
-                toolNames,
-                toolIds);
+                new UserDTO(
+                        p.getUser().getId(),
+                        p.getUser().getFirstname(),
+                        p.getUser().getLastname(),
+                        p.getUser().getMail(),
+                        p.getUser().getTitle(),
+                        p.getUser().getDescription(),
+                        new StatusDTO(
+                                p.getUser().getStatus().getId(),
+                                p.getUser().getStatus().getName()),
+                        p.getUser().getPhoto()),
+                toolsDto);
 
         return ResponseEntity.ok(projectDTO);
     }
@@ -226,9 +257,17 @@ public class ProjectController {
                         p.getVideo(),
                         p.getThumbnail(),
                         p.getSourceCode(),
-                        p.getUser().getFirstname() + " " + p.getUser().getLastname(),
-                        p.getUser().getTitle(),
-                        p.getUser().getPhoto()))
+                        new UserDTO(
+                                p.getUser().getId(),
+                                p.getUser().getFirstname(),
+                                p.getUser().getLastname(),
+                                p.getUser().getMail(),
+                                p.getUser().getTitle(),
+                                p.getUser().getDescription(),
+                                new StatusDTO(
+                                        p.getUser().getStatus().getId(),
+                                        p.getUser().getStatus().getName()),
+                                p.getUser().getPhoto())))
                 .toList();
         return ResponseEntity.ok(projects_dto);
 

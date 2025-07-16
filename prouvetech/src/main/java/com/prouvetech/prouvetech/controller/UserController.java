@@ -1,6 +1,7 @@
 package com.prouvetech.prouvetech.controller;
 
 import com.prouvetech.prouvetech.dto.ProjectDTO;
+import com.prouvetech.prouvetech.dto.StatusDTO;
 import com.prouvetech.prouvetech.dto.UserDTO;
 import com.prouvetech.prouvetech.model.Project;
 import com.prouvetech.prouvetech.model.Role;
@@ -133,6 +134,7 @@ public class UserController {
     public ResponseEntity<UserDTO> getUser(@PathVariable Long id) {
 
         User user = userService.getUser(id);
+        StatusDTO statusDTO = new StatusDTO(user.getStatus().getId(), user.getStatus().getName());
 
         UserDTO userDTO = new UserDTO(
                 user.getId(),
@@ -141,7 +143,7 @@ public class UserController {
                 user.getMail(),
                 user.getTitle(),
                 user.getDescription(),
-                user.getStatus().getName(),
+                statusDTO,
                 user.getPhoto());
 
         return ResponseEntity.ok(userDTO);
@@ -152,6 +154,7 @@ public class UserController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.getUserByMail(authentication.getName());
+        StatusDTO statusDTO = new StatusDTO(user.getStatus().getId(), user.getStatus().getName());
 
         UserDTO userDTO = new UserDTO(
                 user.getId(),
@@ -160,7 +163,7 @@ public class UserController {
                 user.getMail(),
                 user.getTitle(),
                 user.getDescription(),
-                user.getStatus().getName(),
+                statusDTO,
                 user.getPhoto());
 
         return ResponseEntity.ok(userDTO);
@@ -172,6 +175,16 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.getUserByMail(authentication.getName());
 
+        StatusDTO statusDTO = new StatusDTO(user.getStatus().getId(), user.getStatus().getName());
+        UserDTO userDTO = new UserDTO(user.getId(),
+                user.getFirstname(),
+                user.getLastname(),
+                user.getMail(),
+                user.getTitle(),
+                user.getDescription(),
+                statusDTO,
+                user.getPhoto());
+
         List<Project> projects = projectService.getMyProjects(user);
         List<ProjectDTO> projects_dto = projects.stream()
                 .map(p -> new ProjectDTO(
@@ -181,9 +194,7 @@ public class UserController {
                         p.getVideo(),
                         p.getThumbnail(),
                         p.getSourceCode(),
-                        p.getUser().getFirstname() + " " + p.getUser().getLastname(),
-                        p.getUser().getTitle(),
-                        p.getUser().getPhoto()))
+                        userDTO))
                 .toList();
 
         return ResponseEntity.ok(projects_dto);
@@ -196,6 +207,16 @@ public class UserController {
         User user = userService.getUser(id);
 
         List<Project> projects = projectService.getMyProjects(user);
+
+        StatusDTO statusDTO = new StatusDTO(user.getStatus().getId(), user.getStatus().getName());
+        UserDTO userDTO = new UserDTO(user.getId(),
+                user.getFirstname(),
+                user.getLastname(),
+                user.getMail(),
+                user.getTitle(),
+                user.getDescription(),
+                statusDTO,
+                user.getPhoto());
         List<ProjectDTO> projects_dto = projects.stream()
                 .map(p -> new ProjectDTO(
                         p.getId(),
@@ -204,9 +225,7 @@ public class UserController {
                         p.getVideo(),
                         p.getThumbnail(),
                         p.getSourceCode(),
-                        p.getUser().getFirstname() + " " + p.getUser().getLastname(),
-                        p.getUser().getTitle(),
-                        p.getUser().getPhoto()))
+                        userDTO))
                 .toList();
 
         return ResponseEntity.ok(projects_dto);
@@ -224,7 +243,7 @@ public class UserController {
                         u.getMail(),
                         u.getTitle(),
                         u.getDescription(),
-                        u.getStatus().getName(),
+                        new StatusDTO(u.getStatus().getId(), u.getStatus().getName()),
                         u.getPhoto()))
                 .toList();
         return ResponseEntity.ok(dtos);
@@ -257,7 +276,7 @@ public class UserController {
                         u.getMail(),
                         u.getTitle(),
                         u.getDescription(),
-                        u.getStatus().getName(),
+                        new StatusDTO(u.getStatus().getId(), u.getStatus().getName()),
                         u.getPhoto()))
                 .toList();
 

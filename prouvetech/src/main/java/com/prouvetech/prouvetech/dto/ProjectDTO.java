@@ -14,48 +14,35 @@ public class ProjectDTO {
     private MultipartFile thumbnail;
     private String link_thumbnail;
 
-    private String fullname;
-    private String titleActor;
-    private String photoProfile;
-
-    private List<Long> tools;
-    private List<String> toolsName;
-
-    private List<MultipartFile> documents;
+    private UserDTO user;
+    private List<ToolDTO> tools;
 
     public ProjectDTO() {
 
     }
 
     public ProjectDTO(long id, String name, String description, String link_video, String link_thumbnail,
-            String soucecode,
-            String fullname, String titleActor, String photoProfile) {
+            String soucecode, UserDTO user) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.sourcecode = soucecode;
-        this.fullname = fullname;
-        this.titleActor = titleActor;
-        this.photoProfile = photoProfile;
         this.link_video = link_video;
         this.link_thumbnail = link_thumbnail;
+        this.user = user;
     }
 
     public ProjectDTO(long id, String name, String description, String link_video, String link_thumbnail,
             String soucecode,
-            String fullname, String titleActor, String photoProfile,
-            List<String> toolsName, List<Long> tools) {
+            UserDTO user, List<ToolDTO> tools) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.sourcecode = soucecode;
-        this.fullname = fullname;
-        this.titleActor = titleActor;
-        this.photoProfile = photoProfile;
         this.link_video = link_video;
         this.link_thumbnail = link_thumbnail;
-        this.toolsName = toolsName;
         this.tools = tools;
+        this.user = user;
     }
 
     public long getId() {
@@ -90,11 +77,11 @@ public class ProjectDTO {
         this.sourcecode = sourcecode;
     }
 
-    public List<Long> getTools() {
+    public List<ToolDTO> getTools() {
         return tools;
     }
 
-    public void setTools(List<Long> tools) {
+    public void setTools(List<ToolDTO> tools) {
         this.tools = tools;
     }
 
@@ -122,44 +109,12 @@ public class ProjectDTO {
         this.link_thumbnail = link_thumbnail;
     }
 
-    public List<MultipartFile> getDocuments() {
-        return documents;
+    public UserDTO getUser() {
+        return user;
     }
 
-    public void setDocuments(List<MultipartFile> documents) {
-        this.documents = documents;
-    }
-
-    public String getFullname() {
-        return fullname;
-    }
-
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
-    }
-
-    public String getTitleActor() {
-        return titleActor;
-    }
-
-    public void setTitleActor(String titleActor) {
-        this.titleActor = titleActor;
-    }
-
-    public String getPhotoProfile() {
-        return photoProfile;
-    }
-
-    public void setPhotoProfile(String photoProfile) {
-        this.photoProfile = photoProfile;
-    }
-
-    public List<String> getToolsName() {
-        return toolsName;
-    }
-
-    public void setToolsName(List<String> toolsName) {
-        this.toolsName = toolsName;
+    public void setUser(UserDTO user) {
+        this.user = user;
     }
 
     public String getLink_video() {
