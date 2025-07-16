@@ -15,7 +15,7 @@
       <img [src]="url+user.linkPhoto || 'assets/default-avatar.png'" alt="photo de profil" />
       <div class="dev-info">
         <h2>{{user.firstname}} {{user.lastname}}</h2>
-        <p class="status">{{user.statusName}}</p>
+        <p class="status">{{user.status?.name}}</p>
         <p class="title">{{user.title ?? "Aucun titre"}}</p>
       </div>
     </div>

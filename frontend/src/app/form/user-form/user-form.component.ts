@@ -85,7 +85,7 @@ mode: 'register' | 'login' | 'update' = 'register';
               title: user.title,
               description: user.description,
               mail: user.mail,
-              statusId: user.statusId || '', // adapte selon la structure
+              statusId: user.status?.id,
           });
       })
     }

@@ -13,9 +13,10 @@ public class ProjectDTO {
     private String link_video;
     private MultipartFile thumbnail;
     private String link_thumbnail;
-
     private UserDTO user;
     private List<ToolDTO> tools;
+
+    private List<Long> toolsIds;
 
     public ProjectDTO() {
 
@@ -123,6 +124,14 @@ public class ProjectDTO {
 
     public void setLink_video(String link_video) {
         this.link_video = link_video;
+    }
+
+    public List<Long> getToolsIds() {
+        return toolsIds;
+    }
+
+    public void setToolsIds(List<Long> toolsIds) {
+        this.toolsIds = toolsIds;
     }
 
 }

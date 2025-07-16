@@ -25,12 +25,12 @@
         <h2>{{project.name}}</h2>
         <div class="user-info">
           <img
-            [src]="url+project.photoProfile"
+            [src]="url+project.user?.linkPhoto"
             alt="profil"
           />
           <div>
-            <p class="name">{{project.fullname}}</p>
-            <p class="title">{{project.titleActor}}</p>
+            <p class="name">{{project.user?.firstname}} {{project.user?.lastname}}</p>
+            <p class="title">{{project.user?.title}}</p>
           </div>
         </div>
       </div>

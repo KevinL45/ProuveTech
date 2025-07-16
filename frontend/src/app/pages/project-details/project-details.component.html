@@ -21,14 +21,14 @@
       </div>
 
       <div class="section">
-          <div class="section-details" *ngFor="let name of project?.toolsName">{{ name }}</div>
+          <div class="section-details" *ngFor="let tool of project?.tools">{{ tool.name }}</div>
       </div>
 
     <div class="profile">
-      <img [src]="url+project?.photoProfile || 'assets/default-avatar.png'" alt="photo">
+      <img [src]="url+project?.user?.linkPhoto || 'assets/default-avatar.png'" alt="photo">
       <div class="profile-info">
-        <strong>{{ project?.fullname || 'Nom - Prénom' }} - {{ project?.titleActor}}</strong><br>
-        Développeur
+        <strong>{{ project?.user?.firstname  }} {{ project?.user?.lastname  }} - {{ project?.user?.title}}</strong><br>
+        {{ project?.user?.status?.name }}
       </div>
     </div>
   </div>

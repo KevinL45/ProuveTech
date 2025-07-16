@@ -84,7 +84,7 @@ export class ProjectFormComponent implements OnInit {
         name:project.name,
         description: project.description,
         sourcecode: project.sourcecode,
-        tools: project.tools
+        tools: project.tools?.map(t => t.id) || []
       });
         this.thumbnailUrl = this.url+project.link_thumbnail;
         this.videoUrl = this.url+project.link_video;
@@ -137,7 +137,7 @@ export class ProjectFormComponent implements OnInit {
 
 
     this.projectForm.value.tools.forEach((toolId: string) => {
-      formData.append('tools', toolId);
+      formData.append('toolsIds', toolId);
     });
 
     const https = this.mode === 'create-project'

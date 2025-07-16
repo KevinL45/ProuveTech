@@ -6,7 +6,7 @@
         <h1>{{user?.firstname+" "+ user?.lastname }}</h1>
           <button *ngIf="!id" class="btn-profile" (click)="editProfile()">Modifer votre profil</button>
         <p class="title">{{user?.title || "Pas encore de titre"}}</p>
-        <span class="status">{{user?.statusName || "Pas de statut"}}</span>
+        <span class="status">{{user?.status?.name}}</span>
 
         <p class="bio"  [class.expanded]="showFullDescription" [innerHTML]="user?.description">{{user?.description || "Pas encore de description"}}</p> 
           <button  class="btn-description"

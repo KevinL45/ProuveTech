@@ -128,4 +128,5 @@ public class UserDTO {
     public void setLinkPhoto(String linkPhoto) {
         this.linkPhoto = linkPhoto;
     }
+
 }

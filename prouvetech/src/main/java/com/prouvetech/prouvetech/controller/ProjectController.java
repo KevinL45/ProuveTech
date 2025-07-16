@@ -38,267 +38,262 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/project")
 public class ProjectController {
 
-    public ProjectController() {
-
-    }
-
-    @Autowired
-    private ProjectService projectService;
-
-    @Autowired
-    private ToolService toolService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private Uploads uploads;
-
-    @PostMapping("/create")
-    public ResponseEntity<ResponseMessage> addProject(@ModelAttribute ProjectDTO projectDTO) throws IOException {
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-        User user = userService.getUserByMail(email);
-
-        Tika tika = new Tika();
-
-        String detectedType = tika.detect(projectDTO.getVideo().getInputStream());
-
-        if (!detectedType.startsWith("video/")) {
-            ResponseMessage message = new ResponseMessage(false, "Le fichier n'est pas une vidéo");
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
+        public ProjectController() {
 
         }
 
-        String newVideo = uploads.saveFile(projectDTO.getVideo());
-        String newThumbnail = uploads.saveFile(projectDTO.getThumbnail());
-        List<Long> toolIds = projectDTO.getTools().stream()
-                .map(ToolDTO::getId)
-                .collect(Collectors.toList());
-        List<Tool> selectedTools = toolService.getToolsByIds(toolIds);
+        @Autowired
+        private ProjectService projectService;
 
-        Project project = new Project(
-                projectDTO.getName(),
-                projectDTO.getDescription(),
-                newVideo,
-                newThumbnail,
-                projectDTO.getSourcecode(),
-                user,
-                selectedTools,
-                LocalDateTime.now(),
-                LocalDateTime.now());
+        @Autowired
+        private ToolService toolService;
 
-        ResponseMessage result = projectService.addProject(project);
+        @Autowired
+        private UserService userService;
 
-        if (!result.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(result);
+        @Autowired
+        private Uploads uploads;
+
+        @PostMapping("/create")
+        public ResponseEntity<ResponseMessage> addProject(@ModelAttribute ProjectDTO projectDTO) throws IOException {
+
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                String email = authentication.getName();
+                User user = userService.getUserByMail(email);
+
+                Tika tika = new Tika();
+
+                String detectedType = tika.detect(projectDTO.getVideo().getInputStream());
+
+                if (!detectedType.startsWith("video/")) {
+                        ResponseMessage message = new ResponseMessage(false, "Le fichier n'est pas une vidéo");
+                        return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
+
+                }
+
+                String newVideo = uploads.saveFile(projectDTO.getVideo());
+                String newThumbnail = uploads.saveFile(projectDTO.getThumbnail());
+                List<Tool> selectedTools = toolService.getToolsByIds(projectDTO.getToolsIds());
+
+                Project project = new Project(
+                                projectDTO.getName(),
+                                projectDTO.getDescription(),
+                                newVideo,
+                                newThumbnail,
+                                projectDTO.getSourcecode(),
+                                user,
+                                selectedTools,
+                                LocalDateTime.now(),
+                                LocalDateTime.now());
+
+                ResponseMessage result = projectService.addProject(project);
+
+                if (!result.isSuccess()) {
+                        return ResponseEntity.status(HttpStatus.CONFLICT).body(result);
+                }
+
+                return ResponseEntity.status(HttpStatus.CREATED).body(result);
+
         }
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+        @PutMapping("/update/{id}")
+        public ResponseEntity<ResponseMessage> updateProject(
+                        @PathVariable Long id,
+                        @ModelAttribute ProjectDTO projectDTO) throws IOException {
 
-    }
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                String email = authentication.getName();
+                User user = userService.getUserByMail(email);
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<ResponseMessage> updateSocialNetworks(
-            @PathVariable Long id,
-            @ModelAttribute ProjectDTO projectDTO) throws IOException {
+                Project project = projectService.getProject(id);
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-        User user = userService.getUserByMail(email);
+                if (projectDTO.getVideo() != null) {
+                        String newVideo = uploads.updateFile(projectDTO.getVideo(), project.getVideo());
+                        project.setVideo(newVideo);
+                }
 
-        Project project = projectService.getProject(id);
+                if (projectDTO.getThumbnail() != null) {
+                        String newThumbnail = uploads.updateFile(projectDTO.getThumbnail(), project.getThumbnail());
+                        project.setThumbnail(newThumbnail);
+                }
 
-        if (projectDTO.getVideo() != null) {
-            String newVideo = uploads.updateFile(projectDTO.getVideo(), project.getVideo());
-            project.setVideo(newVideo);
+                if (projectDTO.getToolsIds() != null) {
+                        List<Tool> selectedTools = toolService.getToolsByIds(projectDTO.getToolsIds());
+                        project.setTools(selectedTools);
+                }
+                project.setName(projectDTO.getName());
+                project.setDescription(projectDTO.getDescription());
+                project.setSourceCode(projectDTO.getSourcecode());
+                project.setUser(user);
+                project.setUpdateDate(LocalDateTime.now());
+
+                ResponseMessage result = this.projectService.updateProject(project);
+
+                if (!result.isSuccess()) {
+                        return ResponseEntity.status(HttpStatus.CONFLICT).body(result);
+                }
+
+                return ResponseEntity.status(HttpStatus.CREATED).body(result);
         }
 
-        if (projectDTO.getThumbnail() != null) {
-            String newThumbnail = uploads.updateFile(projectDTO.getThumbnail(), project.getThumbnail());
-            project.setThumbnail(newThumbnail);
+        @GetMapping("/list")
+        public ResponseEntity<List<ProjectDTO>> listProjects() {
+                List<Project> projects = projectService.getAllProject();
+                List<ProjectDTO> projects_dto = projects.stream()
+                                .map(p -> new ProjectDTO(
+                                                p.getId(),
+                                                p.getName(),
+                                                p.getDescription(),
+                                                p.getVideo(),
+                                                p.getThumbnail(),
+                                                p.getSourceCode(),
+                                                new UserDTO(
+                                                                p.getUser().getId(),
+                                                                p.getUser().getFirstname(),
+                                                                p.getUser().getLastname(),
+                                                                p.getUser().getMail(),
+                                                                p.getUser().getTitle(),
+                                                                p.getUser().getDescription(),
+                                                                new StatusDTO(
+                                                                                p.getUser().getStatus().getId(),
+                                                                                p.getUser().getStatus().getName()),
+                                                                p.getUser().getPhoto())))
+                                .toList();
+                return ResponseEntity.ok(projects_dto);
         }
 
-        if (projectDTO.getTools() != null) {
-            List<Long> toolIds = projectDTO.getTools().stream()
-                    .map(ToolDTO::getId)
-                    .collect(Collectors.toList());
-            List<Tool> selectedTools = toolService.getToolsByIds(toolIds);
-            project.setTools(selectedTools);
-        }
-        project.setName(projectDTO.getName());
-        project.setDescription(projectDTO.getDescription());
-        project.setSourceCode(projectDTO.getSourcecode());
-        project.setUser(user);
-        project.setUpdateDate(LocalDateTime.now());
+        @GetMapping("/details/{id}")
+        public ResponseEntity<ProjectDTO> getProject(@PathVariable Long id) {
 
-        ResponseMessage result = this.projectService.updateProject(project);
+                Project p = projectService.getProject(id);
 
-        if (!result.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(result);
-        }
+                List<Long> toolIds = p.getTools().stream()
+                                .map(Tool::getId)
+                                .collect(Collectors.toList());
+                List<Tool> tools = toolService.getToolsByIds(toolIds);
+                List<ToolDTO> toolsDto = tools.stream()
+                                .map(t -> new ToolDTO(t.getId(), t.getName(), t.getLogo()))
+                                .collect(Collectors.toList());
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(result);
-    }
+                ProjectDTO projectDTO = new ProjectDTO(
+                                p.getId(),
+                                p.getName(),
+                                p.getDescription(),
+                                p.getVideo(),
+                                p.getThumbnail(),
+                                p.getSourceCode(),
+                                new UserDTO(
+                                                p.getUser().getId(),
+                                                p.getUser().getFirstname(),
+                                                p.getUser().getLastname(),
+                                                p.getUser().getMail(),
+                                                p.getUser().getTitle(),
+                                                p.getUser().getDescription(),
+                                                new StatusDTO(
+                                                                p.getUser().getStatus().getId(),
+                                                                p.getUser().getStatus().getName()),
+                                                p.getUser().getPhoto()),
+                                toolsDto);
 
-    @GetMapping("/list")
-    public ResponseEntity<List<ProjectDTO>> listProjects() {
-        List<Project> projects = projectService.getAllProject();
-        List<ProjectDTO> projects_dto = projects.stream()
-                .map(p -> new ProjectDTO(
-                        p.getId(),
-                        p.getName(),
-                        p.getDescription(),
-                        p.getVideo(),
-                        p.getThumbnail(),
-                        p.getSourceCode(),
-                        new UserDTO(
-                                p.getUser().getId(),
-                                p.getUser().getFirstname(),
-                                p.getUser().getLastname(),
-                                p.getUser().getMail(),
-                                p.getUser().getTitle(),
-                                p.getUser().getDescription(),
-                                new StatusDTO(
-                                        p.getUser().getStatus().getId(),
-                                        p.getUser().getStatus().getName()),
-                                p.getUser().getPhoto())))
-                .toList();
-        return ResponseEntity.ok(projects_dto);
-    }
-
-    @GetMapping("/details/{id}")
-    public ResponseEntity<ProjectDTO> getProject(@PathVariable Long id) {
-
-        Project p = projectService.getProject(id);
-
-        List<Long> toolIds = p.getTools().stream()
-                .map(Tool::getId)
-                .collect(Collectors.toList());
-        List<Tool> tools = toolService.getToolsByIds(toolIds);
-        List<ToolDTO> toolsDto = tools.stream()
-                .map(t -> new ToolDTO(t.getId(), t.getName(), t.getLogo()))
-                .collect(Collectors.toList());
-
-        ProjectDTO projectDTO = new ProjectDTO(
-                p.getId(),
-                p.getName(),
-                p.getDescription(),
-                p.getVideo(),
-                p.getThumbnail(),
-                p.getSourceCode(),
-                new UserDTO(
-                        p.getUser().getId(),
-                        p.getUser().getFirstname(),
-                        p.getUser().getLastname(),
-                        p.getUser().getMail(),
-                        p.getUser().getTitle(),
-                        p.getUser().getDescription(),
-                        new StatusDTO(
-                                p.getUser().getStatus().getId(),
-                                p.getUser().getStatus().getName()),
-                        p.getUser().getPhoto()),
-                toolsDto);
-
-        return ResponseEntity.ok(projectDTO);
-    }
-
-    @GetMapping("/myproject/{id}")
-    public ResponseEntity<ProjectDTO> getMyProject(@PathVariable Long id) {
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.getUserByMail(authentication.getName());
-
-        Project p = projectService.getMyProject(id, user.getId());
-
-        List<Long> toolIds = p.getTools().stream()
-                .map(Tool::getId)
-                .collect(Collectors.toList());
-        List<Tool> tools = toolService.getToolsByIds(toolIds);
-        List<ToolDTO> toolsDto = tools.stream()
-                .map(t -> new ToolDTO(t.getId(), t.getName(), t.getLogo()))
-                .collect(Collectors.toList());
-
-        ProjectDTO projectDTO = new ProjectDTO(
-                p.getId(),
-                p.getName(),
-                p.getDescription(),
-                p.getVideo(),
-                p.getThumbnail(),
-                p.getSourceCode(),
-                new UserDTO(
-                        p.getUser().getId(),
-                        p.getUser().getFirstname(),
-                        p.getUser().getLastname(),
-                        p.getUser().getMail(),
-                        p.getUser().getTitle(),
-                        p.getUser().getDescription(),
-                        new StatusDTO(
-                                p.getUser().getStatus().getId(),
-                                p.getUser().getStatus().getName()),
-                        p.getUser().getPhoto()),
-                toolsDto);
-
-        return ResponseEntity.ok(projectDTO);
-    }
-
-    @GetMapping("/search")
-    public ResponseEntity<List<ProjectDTO>> searchProject(
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) List<Long> toolsIds) {
-
-        List<Project> projects = projectService.searchProjects(name, toolsIds);
-        List<ProjectDTO> projects_dto = projects.stream()
-                .map(p -> new ProjectDTO(
-                        p.getId(),
-                        p.getName(),
-                        p.getDescription(),
-                        p.getVideo(),
-                        p.getThumbnail(),
-                        p.getSourceCode(),
-                        new UserDTO(
-                                p.getUser().getId(),
-                                p.getUser().getFirstname(),
-                                p.getUser().getLastname(),
-                                p.getUser().getMail(),
-                                p.getUser().getTitle(),
-                                p.getUser().getDescription(),
-                                new StatusDTO(
-                                        p.getUser().getStatus().getId(),
-                                        p.getUser().getStatus().getName()),
-                                p.getUser().getPhoto())))
-                .toList();
-        return ResponseEntity.ok(projects_dto);
-
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<ResponseMessage> deleteProject(@PathVariable Long id) {
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-        User currentUser = userService.getUserByMail(email);
-
-        Project project = projectService.getProject(id);
-
-        boolean isOwner = project.getUser().getId().equals(currentUser.getId());
-        boolean isAdmin = currentUser.getRoles().stream()
-                .anyMatch(r -> "ROLE_ADMIN".equals(r.getName()));
-
-        if (!isOwner && !isAdmin) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body(new ResponseMessage(false, "Vous n’êtes pas autorisé à supprimer ce projet."));
+                return ResponseEntity.ok(projectDTO);
         }
 
-        uploads.deleteFile(project.getThumbnail());
-        uploads.deleteFile(project.getVideo());
-        ResponseMessage result = projectService.deleteProject(project.getId());
+        @GetMapping("/myproject/{id}")
+        public ResponseEntity<ProjectDTO> getMyProject(@PathVariable Long id) {
 
-        if (!result.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(result);
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                User user = userService.getUserByMail(authentication.getName());
+
+                Project p = projectService.getMyProject(id, user.getId());
+
+                List<Long> toolIds = p.getTools().stream()
+                                .map(Tool::getId)
+                                .collect(Collectors.toList());
+                List<Tool> tools = toolService.getToolsByIds(toolIds);
+                List<ToolDTO> toolsDto = tools.stream()
+                                .map(t -> new ToolDTO(t.getId(), t.getName(), t.getLogo()))
+                                .collect(Collectors.toList());
+
+                ProjectDTO projectDTO = new ProjectDTO(
+                                p.getId(),
+                                p.getName(),
+                                p.getDescription(),
+                                p.getVideo(),
+                                p.getThumbnail(),
+                                p.getSourceCode(),
+                                new UserDTO(
+                                                p.getUser().getId(),
+                                                p.getUser().getFirstname(),
+                                                p.getUser().getLastname(),
+                                                p.getUser().getMail(),
+                                                p.getUser().getTitle(),
+                                                p.getUser().getDescription(),
+                                                new StatusDTO(
+                                                                p.getUser().getStatus().getId(),
+                                                                p.getUser().getStatus().getName()),
+                                                p.getUser().getPhoto()),
+                                toolsDto);
+
+                return ResponseEntity.ok(projectDTO);
         }
-        return ResponseEntity.ok(result);
-    }
+
+        @GetMapping("/search")
+        public ResponseEntity<List<ProjectDTO>> searchProject(
+                        @RequestParam(required = false) String name,
+                        @RequestParam(required = false) List<Long> toolsIds) {
+
+                List<Project> projects = projectService.searchProjects(name, toolsIds);
+                List<ProjectDTO> projects_dto = projects.stream()
+                                .map(p -> new ProjectDTO(
+                                                p.getId(),
+                                                p.getName(),
+                                                p.getDescription(),
+                                                p.getVideo(),
+                                                p.getThumbnail(),
+                                                p.getSourceCode(),
+                                                new UserDTO(
+                                                                p.getUser().getId(),
+                                                                p.getUser().getFirstname(),
+                                                                p.getUser().getLastname(),
+                                                                p.getUser().getMail(),
+                                                                p.getUser().getTitle(),
+                                                                p.getUser().getDescription(),
+                                                                new StatusDTO(
+                                                                                p.getUser().getStatus().getId(),
+                                                                                p.getUser().getStatus().getName()),
+                                                                p.getUser().getPhoto())))
+                                .toList();
+                return ResponseEntity.ok(projects_dto);
+
+        }
+
+        @DeleteMapping("/delete/{id}")
+        public ResponseEntity<ResponseMessage> deleteProject(@PathVariable Long id) {
+
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                String email = authentication.getName();
+                User currentUser = userService.getUserByMail(email);
+
+                Project project = projectService.getProject(id);
+
+                boolean isOwner = project.getUser().getId().equals(currentUser.getId());
+                boolean isAdmin = currentUser.getRoles().stream()
+                                .anyMatch(r -> "ROLE_ADMIN".equals(r.getName()));
+
+                if (!isOwner && !isAdmin) {
+                        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                                        .body(new ResponseMessage(false,
+                                                        "Vous n’êtes pas autorisé à supprimer ce projet."));
+                }
+
+                uploads.deleteFile(project.getThumbnail());
+                uploads.deleteFile(project.getVideo());
+                ResponseMessage result = projectService.deleteProject(project.getId());
+
+                if (!result.isSuccess()) {
+                        return ResponseEntity.status(HttpStatus.CONFLICT).body(result);
+                }
+                return ResponseEntity.ok(result);
+        }
 
 }

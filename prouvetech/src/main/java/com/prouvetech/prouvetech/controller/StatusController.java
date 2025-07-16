@@ -1,5 +1,6 @@
 package com.prouvetech.prouvetech.controller;
 
+import com.prouvetech.prouvetech.dto.StatusDTO;
 import com.prouvetech.prouvetech.model.Status;
 import com.prouvetech.prouvetech.service.StatusService;
 import com.prouvetech.prouvetech.utils.ResponseMessage;
@@ -19,8 +20,8 @@ public class StatusController {
     private StatusService statusService;
 
     @PostMapping("/add")
-    public ResponseEntity<String> addStatus(@RequestParam("name") String name) {
-        Status status = new Status(name);
+    public ResponseEntity<String> addStatus(StatusDTO statusDTO) {
+        Status status = new Status(statusDTO.getName());
         ResponseMessage result = statusService.createStatus(status);
         if (!result.isSuccess()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(result.getMessage());
@@ -30,13 +31,22 @@ public class StatusController {
     }
 
     @GetMapping("/details/{id}")
-    public Status getStatus(@PathVariable Long id) {
-        return statusService.getStatus(id);
+    public StatusDTO getStatus(@PathVariable Long id) {
+        Status status = statusService.getStatus(id);
+        StatusDTO statusDTO = new StatusDTO(status.getId(), status.getName());
+        return statusDTO;
     }
 
     @GetMapping("/list")
-    public List<Status> getAllStatus() {
-        return statusService.getAllStatus();
+    public ResponseEntity<List<StatusDTO>> getAllStatus() {
+        List<Status> status = statusService.getAllStatus();
+        List<StatusDTO> statusDTOs = status.stream()
+                .map(s -> new StatusDTO(
+                        s.getId(),
+                        s.getName()))
+                .toList();
+
+        return ResponseEntity.ok(statusDTOs);
     }
 
     @PutMapping("/update/{id}")
