@@ -8,7 +8,11 @@
     </div>
     
     <h2 *ngIf="mode === 'create-project'" >Ajouter une vidéo d'un projet</h2>
+    <title *ngIf="mode === 'create-project'">Ajouter une vidéo</title>
+
     <h2 *ngIf="mode === 'update-project'" >Modifier le vidéo du projet</h2>
+    <title *ngIf="mode === 'update-project'">Modifier le projet</title>
+
 
     <div class="form-group">
       <label for="name">Nom du projet</label>

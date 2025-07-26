@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Tool } from '../models/Tool';
 import { UserService } from './user.service';
+import { ResponseMessage } from '../utils/ResponseMessage';
 
 @Injectable({ providedIn: 'root' })
 export class ToolService {
@@ -20,8 +21,8 @@ export class ToolService {
     return this.http.post<Tool[]>(`${this.apiUrl}/by-ids`, ids);
   }
 
-  addTool(tool: FormData): Observable<any> {
-      return this.http.post<Tool>(`${this.apiUrl}/create`, tool,{
+  addTool(tool: FormData): Observable<ResponseMessage> {
+      return this.http.post<ResponseMessage>(`${this.apiUrl}/create`, tool,{
         headers: this.userService.getAuthHeaders() 
       });
   }

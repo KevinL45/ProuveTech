@@ -30,6 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (token != null && token.startsWith("Bearer ")) {
             token = token.substring(7); // Retirer le "Bearer " du début du token
             logger.info("Validation du token en cours...");
+            logger.info("Token reçu : " + token);
             if (jwtTokenProvider.validateToken(token)) {
                 String mail = jwtTokenProvider.getUsernameFromToken(token);
                 logger.info("Utilisateur authentifié : " + mail);

@@ -146,7 +146,7 @@ export class ProjectFormComponent implements OnInit {
 
     https.subscribe({
       next: (res) => {
-        this.message = res.message
+        this.message = res.toString()
         this.success = true;
         this.router.navigate(['/profil']);
       },

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Project } from '../models/Project';
 import { UserService } from './user.service';
+import { ResponseMessage } from '../utils/ResponseMessage';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class ProjectService {
 
   constructor(private http: HttpClient, private userService: UserService) {}
 
-  addProject(project: FormData): Observable<any> {
+  addProject(project: FormData): Observable<Object> {
     return this.http.post<Project>(`${this.apiUrl}/create`, project,{
       headers: this.userService.getAuthHeaders() 
     });
@@ -34,14 +35,14 @@ export class ProjectService {
     });
   }
 
-  updateProject(project:FormData, id: number): Observable<any> {
-    return this.http.put(`${this.apiUrl}/update/${id}`, project,{
+  updateProject(project:FormData, id: number): Observable<ResponseMessage> {
+    return this.http.put<ResponseMessage>(`${this.apiUrl}/update/${id}`, project,{
       headers: this.userService.getAuthHeaders()
     });
   }
 
-  deleteProject(project : Project): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/delete/${project.id}`,{
+  deleteProject(project : Project): Observable<ResponseMessage> {
+    return this.http.delete<ResponseMessage>(`${this.apiUrl}/delete/${project.id}`,{
       headers: this.userService.getAuthHeaders()
     });
   }

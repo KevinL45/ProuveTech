@@ -81,7 +81,7 @@ export class AdminComponent {
     this.toolService.addTool(formData).subscribe({
       next: (res) => {
         this.message = res.message
-        this.success = true;
+        this.success = res.success;
         this.loadTools();
       },
       error: (err) => {

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { User } from '../models/User';
 import { environment } from '../../environments/environment';
 import { Project } from '../models/Project';
+import { ResponseMessage } from '../utils/ResponseMessage';
 
 @Injectable({
   providedIn: 'root'
@@ -14,16 +15,16 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  login(user: User): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, user);
+  login(user: User): Observable<ResponseMessage> {
+    return this.http.post<ResponseMessage>(`${this.apiUrl}/login`, user);
   }
 
-  register(user: User): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, user);
+  register(user: User): Observable<ResponseMessage> {
+    return this.http.post<ResponseMessage>(`${this.apiUrl}/register`, user);
   }
 
-  updateUser(formData: FormData): Observable<any> {
-    return this.http.put(`${this.apiUrl}/update`, formData,{
+  updateUser(formData: FormData): Observable<ResponseMessage> {
+    return this.http.put<ResponseMessage>(`${this.apiUrl}/update`, formData,{
       headers : this.getAuthHeaders()
     });
   }

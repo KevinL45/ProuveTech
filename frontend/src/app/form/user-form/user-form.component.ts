@@ -145,8 +145,7 @@ mode: 'register' | 'login' | 'update' = 'register';
         this.userService.login(user).subscribe({
               next: (res) => {
                   this.router.navigate(['/accueil']);
-                  this.message = res.message
-                  this.userService.saveToken(this.message);
+                  this.userService.saveToken(res.message);
               },
               error: (err) => {
                   console.error('Erreur serveur:', err);
