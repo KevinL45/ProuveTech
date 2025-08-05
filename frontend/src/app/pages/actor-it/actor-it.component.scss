@@ -1,8 +1,4 @@
-:host {
-  display: block;
-  padding: 2rem;
-  font-family: 'Segoe UI', sans-serif;
-}
+
 
 .developers-page {
   max-width: 1200px;
@@ -20,9 +16,11 @@
     align-items: center;
     flex-wrap: wrap;
     margin-bottom: 2rem;
-    border-radius: 3rem;
-    background: linear-gradient(135deg, #0d47a1, #1976d2);
+    border-radius: 1rem;
+    background: linear-gradient(135deg, #0f53b9, #1976d2);
     padding: 0.3rem 1rem;
+    display:inline-block;
+
 
     .filters {
       display: flex;
