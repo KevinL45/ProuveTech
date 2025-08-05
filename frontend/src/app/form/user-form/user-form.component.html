@@ -1,5 +1,11 @@
 
-<section class="page">
+    <title *ngIf="mode === 'register'">Inscription</title>
+    <title *ngIf="mode === 'update'">Modifier votre profil</title>
+    <title *ngIf="mode === 'login'">Connexion</title>
+
+
+
+<div class="page">
 <form class="form" *ngIf="mode === 'register'" [formGroup]="userForm" (ngSubmit)="register()">
     <div *ngIf="message" [ngClass]="{'success': success, 'error': !success}" class="message">
       {{ message }}
@@ -60,9 +66,6 @@
         <label for="password">Mot de passe</label>
         <input type="password" id="password"  formControlName="password" required minlength="6" />
       </div>
-      <p class="login-link">
-        <a routerLink="/connexion">Mot de passe oublié ?</a>
-      </p>
       <button type="submit" [disabled]="loginForm.invalid">Se connecter</button>
       <p class="login-link">
         Vous n'avez pas de compte ? <a routerLink="/connexion">S'inscrire</a>
@@ -109,4 +112,4 @@
 
     <button type="submit" [disabled]="updateForm.invalid">Modifier</button>
   </form>
-</section>
+</div>

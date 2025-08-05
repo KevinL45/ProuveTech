@@ -1,5 +1,10 @@
-body {
-  background-color: #e0e0e0; // remplace par la couleur souhaitée
+html, body {
+  height: 100%;
   margin: 0;
   padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+
+  background: linear-gradient(to bottom, #ffffff, #e8e8e8);
+    background-attachment: fixed;
+
 }

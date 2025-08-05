@@ -1,15 +1,27 @@
 <title>Accueil</title>
 
-<section class="hero">
+<div class="intro">
   <div class="container">
-    <p>Pour les développeurs et recruteurs IT !</p>
-    <h1>🚀 Mettez en avant vos valeurs à travers vos projets.</h1>
-    <p>Acquérir des compétences, c’est bien. Les démontrer, c’est mieux.</p>
-    <a class="cta-btn" [routerLink]="['/creer-projet']">AJOUTER UNE VIDÉO +</a>
+    <h1>
+      Prouve<span class="tech">Tech</span>
+    </h1>
+    <p class="actor">Pour les développeurs et recruteurs IT </p>
+    <h1>
+      Mettez en avant votre <span class="tech">positionnement</span> à travers vos vidéos de projet
+    </h1>
+     <h1>
+      Trouvez le <span class="tech">développeur</span> dont vous avez besoin
+    </h1>
+    <p>Une plateforme où les développeurs peuvent valoriser leurs positionnements via des projets concrets, 
+      présentés en vidéo, pour des recrutements plus fluides et humains.</p>
+    <div class="options">
+    <a class="cta-btn" [routerLink]="['/acteurs-it']">Découvrez les talents</a>
+    <a class="cta-btn" [routerLink]="['/projets']">Les positionnement des développeurs</a>
+    </div>
   </div>
-</section>
+</div>
 
-<section class="features">
+<div class="features">
   <div class="feature-card">
     <h2>📁 Centralisation</h2>
     <p>Organisez toutes vos vidéos de vos projets au même endroit, avec une présentation claire et professionnelle.</p>
@@ -26,4 +38,4 @@
     <h2>🔍 Basés sur la valeur ajoutée</h2>
     <p>Identifiez les bons profils grâce aux démonstrations des développeurs.</p>
   </div>
-</section>
+</div>
