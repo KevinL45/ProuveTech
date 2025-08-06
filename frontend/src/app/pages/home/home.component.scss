@@ -1,3 +1,13 @@
+@keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 .intro {
   color: black;
@@ -24,12 +34,16 @@
   }
 
   .tech{
-      color: #0d47a1;
+      background: linear-gradient(135deg, #0f53b9, #1976d2);
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
   p {
     font-size: 1.25rem;
     margin-bottom: 2rem;
+    animation: fadeSlideUp 2s ease-in-out forwards;
+
   }
 
   .options{
@@ -71,6 +85,8 @@
     flex: 1 1 300px;
     max-width: 320px;
     text-align: center;
+    animation: fadeSlideUp 1s ease-out forwards;
+
 
   }
 

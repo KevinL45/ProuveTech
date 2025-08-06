@@ -18,22 +18,24 @@ import { Router } from '@angular/router';
 export class ActorItComponent {
 
     url:string = environment.apiUrl
-  
-
     listStatus: Status[] = [];
-
     filteredUsers: User[] = [];
     searchTitle: string = '';
     selectedStatusId: number | '' = '';
+
+    currentPage: number = 1;
+    pageSize: number = 8; 
+    paginatedUsers: User[] = [];
   
 
-  constructor(private statusService: StatusService, private userService:UserService,
-    private router:Router
-  ){
+    constructor(
+      private statusService: StatusService, 
+      private userService:UserService,
+      private router:Router
+    ){
+    }
 
-  }
-
-      ngOnInit(): void {
+    ngOnInit(): void {
       this.allStatus();
       this.allUsers();
     }
@@ -58,6 +60,7 @@ export class ActorItComponent {
            this.userService.getAllUsers().subscribe(
         (data)=>{
           this.filteredUsers = data
+          this.updatePaginatedUsers();
           },
         (error) => {
           console.error('Erreur sur les utilisateurs:', error);
@@ -75,10 +78,42 @@ export class ActorItComponent {
       }
 
       this.userService.searchUsers(params).subscribe(
-        (data) => this.filteredUsers = data,
+        (data) => {
+          this.filteredUsers = data;
+          this.currentPage = 1; // Reset à la première page
+          this.updatePaginatedUsers();
+        },
         (err) => console.error("Erreur de recherche :", err)
       );
+    }
 
+
+      updatePaginatedUsers(): void {
+              const start = (this.currentPage - 1) * this.pageSize;
+              const end = start + this.pageSize;
+              this.paginatedUsers = this.filteredUsers.slice(start, end);
       }
 
+      totalPages(): number {
+        return Math.ceil(this.filteredUsers.length / this.pageSize);
+      }
+
+      nextPage() {
+        if (this.currentPage < this.totalPages()) {
+          this.currentPage++;
+          this.updatePaginatedUsers();
+        }
+      }
+
+      prevPage() {
+        if (this.currentPage > 1) {
+          this.currentPage--;
+          this.updatePaginatedUsers();
+        }
+      }
+
+      truncate(user: User, maxLength: number): string {
+        if (!user.title) return 'Aucun titre';
+        return user.title.length > maxLength ? user.title.substring(0, maxLength) + '...' : user.title;
+      }
 }
