@@ -16,18 +16,18 @@ export const routes: Routes = [
     children: [
     { path: '', component: HomeComponent }, 
     { path: 'accueil', component: HomeComponent },
-    { path: 'projets', component: ProjectsComponent },
+
     { path: 'acteurs-it', component:  ActorItComponent},
     { path: 'profil', component: ProfileComponent },
     { path: 'admin', component: AdminComponent },
-
-
     { path: 'connexion', component: UserFormComponent },
     { path: 'inscription', component:  UserFormComponent},
     { path: 'modifier-profil', component:  UserFormComponent},
     { path: 'details-profil/:id', component: ProfileComponent },
 
 
+    { path: 'projets', component: ProjectsComponent },
+    { path: 'projets/videos', component:  ProjectsComponent},
     { path: 'creer-projet', component:  ProjectFormComponent},
     { path: 'modifier-projet/:id', component:  ProjectFormComponent},
     { path: 'details-projet/:id', component:  ProjectDetailsComponent},

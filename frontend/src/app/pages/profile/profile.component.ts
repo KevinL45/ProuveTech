@@ -104,13 +104,21 @@ export class ProfileComponent implements OnInit{
     return !!this.user?.description && this.user.description.length > 200;
   }
 
+  listProjects(){
+        return this.router.navigate(["/projets/videos"])
+  }
+
+  addProject(){
+        return this.router.navigate(["/creer-projet"])
+  }
+
+  detailsProject(project: Project){
+        return this.router.navigate(["/details-projet",project.id])
+  }
+
   editProject(project : Project){
         return this.router.navigate(["/modifier-projet",project.id])
 
-  }
-   
-  detailsProject(project: Project){
-        return this.router.navigate(["/details-projet",project.id])
   }
 
   deleteProject(project : Project){

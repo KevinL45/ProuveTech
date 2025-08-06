@@ -1,34 +1,26 @@
 <title>{{user?.firstname+" "+ user?.lastname }}</title>
 
 <div class="profile-page">
+
     <div class="profile-header">
       <div class="info">
             <img class="avatar" [src]="url+user?.linkPhoto || 'assets/default-avatar.png'" />
-
         <h1>{{user?.firstname+" "+ user?.lastname }}</h1>
-          <button *ngIf="!id" class="btn-profile" (click)="editProfile()">Modifer votre profil</button>
         <p class="title">{{user?.title || "Pas encore de titre"}}</p>
         <span class="status">{{user?.status?.name}}</span>
+          <div class="options">
+            <button *ngIf="!id" class="btn-profile" (click)="editProfile()">Modifer votre profil</button>
+            <button  class="btn-profile" (click)="listProjects()">Vidéos</button>
+            <button *ngIf="!id" class="btn-profile" (click)="addProject()">Ajouter une vidéo</button>
+          </div>
+      </div>
+    </div>
 
+    <div class="profile-description">
         <p class="bio"  [class.expanded]="showFullDescription" [innerHTML]="user?.description">{{user?.description || "Pas encore de description"}}</p> 
-          <button  class="btn-description"
-                *ngIf="isLongDescription"
-                (click)="toggleDescription()">
-          {{ showFullDescription ? 'Voir moins' : 'Voir plus' }}
-        </button>
-      </div>
+        <div class="description" *ngIf="isLongDescription()" (click)="toggleDescription()">
+          <span [class.rotate]="showFullDescription">▼</span>
+        </div>
     </div>
 
-    <div class="user-projects">
-      <div class="projects-list">
-        <div  class="project-card" *ngFor="let project of projects">
-          <img (click)="detailsProject(project)" class="thumbnail" [src]="url+project.link_thumbnail"/>
-          <h4>{{ project.name }}</h4>
-              <div class="options">
-                <button (click)="editProject(project)" *ngIf="!id " class="edit-project">Modifier</button>
-                <button (click)="deleteProject(project)" *ngIf="!id" class="delete-project">Supprimer</button>
-              </div>
-        </div>
-      </div>
-    </div>
 </div>

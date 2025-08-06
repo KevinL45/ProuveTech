@@ -1,24 +1,16 @@
-:host {
-  display: block;
-  padding: 2rem;
-  font-family: 'Segoe UI', sans-serif;
-}
-
 .profile-page {
+  padding: 2rem 4rem;
   max-width: 1000px;
   margin: auto;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
 
   .profile-header {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    align-items: center;
-    background: white;
-    padding: 2rem;
-    border-radius: 1rem;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
 
-    
+    margin: 0 auto;
+    justify-content: center; 
+    text-align: center;
 
     .info {
       flex: 1;
@@ -29,20 +21,26 @@
         border-radius: 50%;
         object-fit: cover;
       }
+      .options{
+          display: flex;
+          justify-content: center; // centre horizontalement
+          align-items: center;     // centre verticalement (si besoin)
+          gap: 1rem;
+          flex-wrap: wrap;         // pour qu’ils passent à la ligne si pas assez de place      
 
-      .btn-profile{
 
+      .btn-profile {
         padding: 0.5rem;
         font-size: 1rem;
-        background-color: #eb9c25;
+        background: linear-gradient(135deg, #0f53b9, #1976d2);
         color: white;
+        font-weight: bold;
         border: none;
         border-radius: 0.5rem;
         cursor: pointer;
         transition: background-color 0.3s;
-
-
       }
+    }
 
       h1 {
         margin: 0;
@@ -64,135 +62,50 @@
         margin-bottom: 1rem;
         background: #e0f2fe;
         color: #0284c7;
-
-        &.junior {
-          background: #fef3c7;
-          color: #f59e0b;
-        }
-
-        &.senior {
-          background: #d1fae5;
-          color: #10b981;
-        }
-      }
-
-      .bio {
-        white-space: pre-wrap;
-        max-height: 8em;
-        overflow: hidden;
-        position: relative;
-        transition: max-height 0.3s ease;
-
-        &.expanded {
-          max-height: none;
-        }
-      }
-
-      .btn-description{
-
-        width: 100%;
-        padding: 0.8rem;
-        font-size: 1rem;
-        background-color: #2563eb;
-        color: white;
-        border: none;
-        border-radius: 0.5rem;
-        cursor: pointer;
-        transition: background-color 0.3s;
-
-      }
-      .stats {
-        display: flex;
-        gap: 2rem;
-        margin-top: 1.5rem;
-
-        div {
-          text-align: center;
-
-          h3 {
-            margin: 0;
-            font-size: 1.5rem;
-            color: #111827;
-          }
-
-          p {
-            margin: 0;
-            color: #6b7280;
-          }
-        }
       }
     }
   }
 
-  .user-projects {
-    margin-top: 3rem;
+  .profile-description {
+    .bio {
+      white-space: pre-wrap;
+      max-height: 8em;
+      overflow: hidden;
+      position: relative;
+      transition: max-height 0.5s ease-in-out;
+      opacity: 0.9;
 
-    h2 {
-      font-size: 1.5rem;
-      margin-bottom: 1.5rem;
-      color: #111827;
+
+      &.expanded {
+        opacity: 1;
+        max-height: 1000px;
+      }
     }
 
-    .projects-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.5rem;
+    .description {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+      width: 100%;
+      padding: 0.8rem;
+      color: #2563eb;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
 
-      .project-card {
-        background: white;
-        border-radius: 1rem;
-        padding: 1rem;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    .stats {
+      display: flex;
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
 
-        .thumbnail {
-          width: 100%;
-          border-radius: 0.5rem;
-          max-height: 180px;
-          object-fit: cover;
-          margin-bottom: 0.5rem;
-          cursor: pointer;
-        }
+        span {
+      display: inline-block;
+      transition: transform 0.3s ease;
+    }
 
-        h4 {
-          font-size: 1rem;
-          color: #1f2937;
-          text-align: center;
-          margin: 0;
-        }
-        .options {
-          display: flex;
-          justify-content: center;
-          gap: 1rem;
-          margin-top: 0.5rem;
-
-          
-         .edit-project{
-
-          padding: 0.5rem;
-          font-size: 1rem;
-          background-color: #32e013;
-          color: white;
-          border: none;
-          border-radius: 0.5rem;
-          cursor: pointer;
-          transition: background-color 0.3s;
-          }
-          .delete-project{
-
-          padding: 0.5rem;
-          font-size: 1rem;
-          background-color: #eb2525;
-          color: white;
-          border: none;
-          border-radius: 0.5rem;
-          cursor: pointer;
-          transition: background-color 0.3s;
-          }
-      }
-      }
+    .rotate {
+      transform: rotate(180deg); // Pointe vers le haut quand ouvert
     }
   }
 }
