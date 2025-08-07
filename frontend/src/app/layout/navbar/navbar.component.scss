@@ -2,28 +2,84 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #ffffff; 
   padding: 1rem 2rem;
+  position: relative;
 
-  .nav-links {
-    list-style: none;
+  .menu-toggle {
+    display: none;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    color: #0d47a1;
+    cursor: pointer;
+  }
+
+  .nav-container {
     display: flex;
-    gap: 2rem;
+    justify-content: space-between;
+    width: 100%;
 
-    li a {
-      text-decoration: none;
-  color: linear-gradient(135deg, #0d47a1, #1976d2);
-      font-weight: bold;
-  font-family: 'Segoe UI', sans-serif;
+    ul {
+      display: flex;
+      gap: 1rem;
+      list-style: none;
 
-
-      &.active {
-        text-decoration: underline;
+      li a {
+        text-decoration: none;
+        font-weight: bold;
+        border-radius: 4px;
+        padding: 0.5rem 0.8rem;
       }
+      .url{
+        color: rgb(0, 0, 255)
+      }
+      .connexion{
+        background: linear-gradient(135deg, #0d47a1, #1976d2);
+        color: white;
+        cursor: pointer;
+      }
+      .deconnexion{
+        background: linear-gradient(135deg, #a10d0d, #d21919);
+        color: white;
+        cursor: pointer;
+      }
+    }
+    .nav-left {
+      justify-content: flex-start;
+    }
+
+    .nav-right {
+      justify-content: flex-end;
     }
   }
 
-  .logo-container img {
-    height: 40px;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: center;
+
+    .menu-toggle {
+      display: block;
+    }
+
+    .nav-container {
+      display: none;
+      flex-direction: column;
+      width: 100%;
+
+      &.open {
+        display: flex;
+      }
+
+      ul {
+        flex-direction: column;
+        width: 100%;
+
+        li a {
+          text-align: center;
+        }
+        
+      }
+    }
   }
 }

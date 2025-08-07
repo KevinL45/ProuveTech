@@ -44,9 +44,26 @@ export class UserService {
     localStorage.removeItem('authToken');
   }
 
-  isAuthenticated(): boolean {
-  return this.getToken() !== null;
+isAuthenticated(): boolean {
+  const token = this.getToken();
+  if (!token) return false;
+
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const expiry = payload.exp;
+    const now = Math.floor(Date.now() / 1000);
+
+    if (expiry > now) {
+      return true;
+    } else {
+      this.logout();
+      return false;
+    }
+  } catch (e) {
+    this.logout();
+    return false;
   }
+}
 
   getAuthHeaders(): HttpHeaders {
     const token = this.getToken();

@@ -1,18 +1,19 @@
 <nav class="navbar">
-  <ul class="nav-links">
-    <li><a [routerLink]="['/accueil']">ACCUEIL</a></li>
-    <li><a [routerLink]="['/acteurs-it']">ACTEURS IT</a></li>
-    <li><a [routerLink]="['/projets']">PROJETS</a></li>
-    <li><a *ngIf="isAuthenticated()" [routerLink]="['/profil']">PROFIL</a></li>
-  </ul>
-  <div class="logo-container">
-  <ul *ngIf="!isAuthenticated()" class="nav-links">
-      <li><a [routerLink]="['/connexion']">CONNEXION</a></li>
-      <li><a [routerLink]="['/inscription']">INSCRIPTION</a></li>
-  </ul> 
-  <ul *ngIf="isAuthenticated()" class="nav-links">
-      <li><a [routerLink]="['/admin']">ADMIN</a></li>
-      <li><a [routerLink]="['/deconnexion']" (click)="logout()">DÉCONNEXION</a></li>
-  </ul>  
-</div>
+  <button class="menu-toggle" (click)="toggleMenu()">☰</button>
+
+  <div class="nav-container" [class.open]="menuOpen">
+    <ul class="nav-left">
+      <li><a class="url" [routerLink]="['/accueil']">Accueil</a></li>
+      <li><a class="url" [routerLink]="['/acteurs-it']">Talents</a></li>
+      <li><a class="url" [routerLink]="['/projets']">Projets</a></li>
+      <li *ngIf="isAuthenticated()"><a class="url" [routerLink]="['/profil']">Profil</a></li>
+    </ul>
+
+    <ul class="nav-right">
+      <li *ngIf="!isAuthenticated()"><a class="url" [routerLink]="['/inscription']">Inscription</a></li>
+      <li *ngIf="!isAuthenticated()"><a  class="connexion" [routerLink]="['/connexion']">Connexion</a></li>
+      <li *ngIf="isAuthenticated()"><a class="url" [routerLink]="['/admin']">Admin</a></li>
+      <li *ngIf="isAuthenticated()"><a class="deconnexion" (click)="logout()">Déconnexion</a></li>
+    </ul>
+  </div>
 </nav>

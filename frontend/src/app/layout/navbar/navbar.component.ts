@@ -10,6 +10,7 @@ import { UserService } from '../../services/user.service';
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
+  menuOpen: boolean = false;
 
   constructor(private userService:UserService, private router:Router){
 
@@ -18,6 +19,10 @@ export class NavbarComponent {
   logout(){
     this.userService.logout();
     this.router.navigate(["/accueil"])
+  }
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
   }
 
   isAuthenticated():boolean{

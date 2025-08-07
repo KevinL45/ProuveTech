@@ -37,6 +37,7 @@ export class ProfileComponent implements OnInit{
   }
 
   ngOnInit():void{
+    
       this.route.paramMap.subscribe(params =>{
         const id = params.get("id");
         if(id){
@@ -49,7 +50,10 @@ export class ProfileComponent implements OnInit{
             this.loadSelectedProject(this.id);
 
           }else{
-
+              if (!this.userService.isAuthenticated()) {
+                  this.router.navigate(['/']);
+                  return;
+                }
             this.loadProfile();
             this.loadMyProject();
 
