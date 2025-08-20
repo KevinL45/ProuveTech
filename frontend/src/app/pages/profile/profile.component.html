@@ -2,25 +2,27 @@
 
 <div class="profile-page">
 
-    <div class="profile-header">
-      <div class="info">
-            <img class="avatar" [src]="url+user?.linkPhoto || 'assets/default-avatar.png'" />
-        <h1>{{user?.firstname+" "+ user?.lastname }}</h1>
-        <p class="title">{{user?.title || "Pas encore de titre"}}</p>
-        <span class="status">{{user?.status?.name}}</span>
-          <div class="options">
-            <button *ngIf="!id" class="btn-profile" (click)="editProfile()">Modifer votre profil</button>
-            <button  *ngIf="!id"class="btn-profile" (click)="listProjects()">Mes demos</button>
-            <button *ngIf="!id" class="btn-profile" (click)="addProject()">Ajouter une vidéo</button>
-          </div>
+  <div class="profile-header">
+    <div class="info">
+      <img class="avatar" [src]="url+user?.linkPhoto || 'assets/default-avatar.png'" />
+      <h1>{{user?.firstname+" "+ user?.lastname }}</h1>
+      <p class="title">{{user?.title || "Pas encore de titre"}}</p>
+      <span class="status">{{user?.status?.name}}</span>
+      <div class="options">
+        <button *ngIf="!id" class="btn-profile" (click)="editProfile()">Modifer votre profil</button>
+        <button *ngIf="!id" class="btn-profile" (click)="MyProjectList()">Mes démos</button>
+        <button *ngIf="!id" class="btn-profile" (click)="addProject()">Ajouter une vidéo</button>
       </div>
     </div>
+  </div>
 
-    <div class="profile-description">
-        <p class="bio"  [class.expanded]="showFullDescription" [innerHTML]="user?.description">{{user?.description || "Pas encore de description"}}</p> 
-        <div class="description" *ngIf="isLongDescription()" (click)="toggleDescription()">
-          <span [class.rotate]="showFullDescription">▼</span>
-        </div>
+  <div class="profile-description">
+    <p class="bio" [class.expanded]="showFullDescription">
+      {{ user?.description || "Pas encore de description" }}
+    </p>
+     <button  class="btn-pos" (click)="ProjectList(user?.id)">Vidéos de mon postionnement</button>
+    <div class="description" *ngIf="isLongDescription()" (click)="toggleDescription()">
+      <span [class.rotate]="showFullDescription">▼</span>
     </div>
-
+  </div>
 </div>

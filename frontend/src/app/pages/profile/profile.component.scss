@@ -7,9 +7,8 @@
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
 
   .profile-header {
-
     margin: 0 auto;
-    justify-content: center; 
+    justify-content: center;
     text-align: center;
 
     .info {
@@ -21,26 +20,25 @@
         border-radius: 50%;
         object-fit: cover;
       }
-      .options{
-          display: flex;
-          justify-content: center; // centre horizontalement
-          align-items: center;     // centre verticalement (si besoin)
-          gap: 1rem;
-          flex-wrap: wrap;         // pour qu’ils passent à la ligne si pas assez de place      
+      .options {
+        display: flex;
+        justify-content: center; 
+        align-items: center; 
+        gap: 1rem;
+        flex-wrap: wrap; 
 
-
-      .btn-profile {
-        padding: 0.5rem;
-        font-size: 1rem;
-        background: linear-gradient(135deg, #0f53b9, #1976d2);
-        color: white;
-        font-weight: bold;
-        border: none;
-        border-radius: 0.5rem;
-        cursor: pointer;
-        transition: background-color 0.3s;
+        .btn-profile {
+          padding: 0.5rem;
+          font-size: 1rem;
+          background: linear-gradient(135deg, #1564db, #1976d2);
+          color: white;
+          font-weight: bold;
+          border: none;
+          border-radius: 0.5rem;
+          cursor: pointer;
+          transition: background-color 0.3s;
+        }
       }
-    }
 
       h1 {
         margin: 0;
@@ -75,12 +73,25 @@
       transition: max-height 0.5s ease-in-out;
       opacity: 0.9;
 
-
       &.expanded {
         opacity: 1;
         max-height: 1000px;
       }
     }
+
+      .btn-pos {
+          padding: 0.5rem;
+          font-size: 1rem;
+          background: linear-gradient(135deg, #1564db, #1976d2);
+          color: white;
+          font-weight: bold;
+          border: none;
+          border-radius: 0.5rem;
+          cursor: pointer;
+          transition: background-color 0.3s;
+        }
+
+    
 
     .description {
       display: flex;
@@ -99,13 +110,13 @@
       margin-top: 1.5rem;
     }
 
-        span {
+    span {
       display: inline-block;
       transition: transform 0.3s ease;
     }
 
     .rotate {
-      transform: rotate(180deg); // Pointe vers le haut quand ouvert
+      transform: rotate(180deg); 
     }
   }
 }

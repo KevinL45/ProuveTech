@@ -1,6 +1,12 @@
-<title>Projets</title>
+<title  *ngIf="mode === 'projets'">Projets</title>
+<title  *ngIf="mode === 'mes-demos'">Mes démos</title>
+<title  *ngIf="mode === 'positionnement'">Mon positionnement</title>
+
+
 <div class="projects-page">
-      <h1>📽️ Les vidéos postées par les développeurs</h1>
+      <h1 *ngIf="mode === 'projets'">📽️ Les positionnement des développeurs</h1>
+      <h1  *ngIf="mode === 'mes-demos'">📽️ Mon positionnement</h1>
+      <h1  *ngIf="mode === 'positionnement'">📽️ Mon positionnement</h1>
   <div class="header">
     <div class="filters">
       <input [(ngModel)]="searchTitle" (input)="filterProjects()" type="text" placeholder="Rechercher un projet..."  />
@@ -8,23 +14,25 @@
   </div>
 
   <div class="projects-list">
-    <div
-      class="project-card"  *ngFor="let project of filteredProjects" (click)="detailsProject(project)">
-      <div class="thumbnail-wrapper">
-        <img class="thumbnail" controls [src]="url+project.link_thumbnail" />
-      </div>
-      <div class="project-content">
-        <h2>{{ truncate(project.name,34) }}</h2>
-        <div class="user-info">
-          <img
-            [src]="url+project.user?.linkPhoto"
-            alt="profil"
-          />
-          <div>
-            <p class="name">{{project.user?.firstname}} {{project.user?.lastname}}</p>
-            <p class="title">{{truncate(project.user?.title,41)}}</p>
-          </div>
+    <div class="project-card"  *ngFor="let project of filteredProjects">
+        <div class="thumbnail-wrapper">
+          <img (click)="detailsProject(project)" class="thumbnail" controls [src]="url+project.link_thumbnail" />
         </div>
+          <div class="project-content">
+            <h2>{{ truncate(project.name,34) }}</h2>
+            <div class="user-info">
+              <img  (click)="detailsUser(project)" [src]="url+project.user?.linkPhoto" alt="profil"/>
+              <div>
+                <p class="name">{{project.user?.firstname}} {{project.user?.lastname}}</p>
+                <p class="title">{{truncate(project.user?.title,41)}}</p>
+              </div>
+            </div>
+            <div class="user-info">
+              <div class="options" *ngIf="mode === 'mes-demos'">
+                <button class="update" (click)="editProject(project)">Modifier</button>
+                <button class="remove" (click)="deleteProject(project)">Supprimer</button>
+              </div>
+            </div>
       </div>
     </div>
   </div>
