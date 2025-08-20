@@ -141,7 +141,7 @@ mode: 'register' | 'login' | 'update' = 'register';
         if(this.loginForm.valid){
 
         const user = new User(this.loginForm.value.mail, 
-          this.loginForm.value.password);
+        this.loginForm.value.password);
         this.userService.login(user).subscribe({
               next: (res) => {
                   this.router.navigate(['/accueil']);

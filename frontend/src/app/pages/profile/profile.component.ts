@@ -47,7 +47,6 @@ export class ProfileComponent implements OnInit{
         if(this.id){
 
             this.loadSelectedProfile(this.id);
-            this.loadSelectedProject(this.id);
 
           }else{
               if (!this.userService.isAuthenticated()) {
@@ -55,7 +54,6 @@ export class ProfileComponent implements OnInit{
                   return;
                 }
             this.loadProfile();
-            this.loadMyProject();
 
           }
   }
@@ -70,17 +68,7 @@ export class ProfileComponent implements OnInit{
         return this.router.navigate(["/modifier-profil"])
   }
 
-  loadMyProject():void{
-    this.userService.getMyProjects().subscribe({
-        next: (data) => {
-              this.projects = data; 
-            },
-        error: (err) => {
-              console.error('Erreur chargement projets :', err);
-              this.projects = []; 
-            }    
-      })
-  }
+  
 
   loadSelectedProfile(id:number):void{
     this.userService.getUser(id).subscribe((data)=>{
@@ -88,17 +76,7 @@ export class ProfileComponent implements OnInit{
     })
   }
 
-  loadSelectedProject(id:number):void{
-    this.userService.getProjectsUser(id).subscribe({
-      next: (data) => {
-              this.projects = data; 
-            },
-      error: (err) => {
-              console.error('Erreur chargement projets :', err);
-              this.projects = []; 
-            } 
-    })
-  }
+ 
 
   toggleDescription() {
     this.showFullDescription = !this.showFullDescription;
@@ -109,29 +87,15 @@ export class ProfileComponent implements OnInit{
   }
 
   listProjects(){
-        return this.router.navigate(["/projets/videos"])
+        return this.router.navigate(["/projets/mes-videos"])
   }
 
   addProject(){
         return this.router.navigate(["/creer-projet"])
   }
 
-  detailsProject(project: Project){
-        return this.router.navigate(["/details-projet",project.id])
-  }
 
-  editProject(project : Project){
-        return this.router.navigate(["/modifier-projet",project.id])
 
-  }
-
-  deleteProject(project : Project){
-        if (confirm('Êtes-vous sûr de vouloir supprimer la vidéo du projet ?')) {
-       this.projectService.deleteProject(project).subscribe(()=>{
-        this.projects = this.projects.filter(p => p.id !== project.id)
-       });
-        }
-  }
 
   
 

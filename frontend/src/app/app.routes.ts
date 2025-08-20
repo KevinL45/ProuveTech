@@ -27,10 +27,13 @@ export const routes: Routes = [
 
 
     { path: 'projets', component: ProjectsComponent },
-    { path: 'projets/videos', component:  ProjectsComponent},
+    { path: 'projets/mes-videos', component: ProjectsComponent },
+    { path: 'projets/videos/:id', component: ProjectsComponent },
+
+
+    { path: 'details-projet/:id', component:  ProjectDetailsComponent},
     { path: 'creer-projet', component:  ProjectFormComponent},
     { path: 'modifier-projet/:id', component:  ProjectFormComponent},
-    { path: 'details-projet/:id', component:  ProjectDetailsComponent},
 
 
 

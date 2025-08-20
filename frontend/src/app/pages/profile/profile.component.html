@@ -10,7 +10,7 @@
         <span class="status">{{user?.status?.name}}</span>
           <div class="options">
             <button *ngIf="!id" class="btn-profile" (click)="editProfile()">Modifer votre profil</button>
-            <button  class="btn-profile" (click)="listProjects()">Vidéos</button>
+            <button  *ngIf="!id"class="btn-profile" (click)="listProjects()">Mes demos</button>
             <button *ngIf="!id" class="btn-profile" (click)="addProject()">Ajouter une vidéo</button>
           </div>
       </div>

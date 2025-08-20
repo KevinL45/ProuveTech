@@ -35,20 +35,24 @@ public class UserService implements UserDetailsService {
 
     public ResponseMessage authenticateUser(String email, String password) {
 
+        // Vérifier que l'email et le mot de passe ne sont pas vides
         if (email == null || email.isEmpty() || password == null || password.isEmpty()) {
-            return new ResponseMessage(false, "Email ou mot de passe ne doivent pas être vides.");
+            return new ResponseMessage(false,
+                    "Email ou mot de passe ne doivent pas être vides.");
         }
 
+        // Chercher l'utilisateur par email
         User user = userRepository.findByMail(email);
-
         if (user == null) {
             return new ResponseMessage(false, "Identifiants invalides");
         }
 
+        // Vérifier que le mot de passe correspond
         if (!passwordEncoder.matches(password, user.getPassword())) {
             return new ResponseMessage(false, "Identifiants invalides");
         }
 
+        // Créer un token JWT si tout est OK
         String token = jwtTokenProvider.createToken(user.getMail());
         return new ResponseMessage(true, token);
     }

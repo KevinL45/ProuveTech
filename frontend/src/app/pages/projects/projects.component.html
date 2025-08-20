@@ -4,15 +4,6 @@
   <div class="header">
     <div class="filters">
       <input [(ngModel)]="searchTitle" (input)="filterProjects()" type="text" placeholder="Rechercher un projet..."  />
-      <!-- <ng-select
-        [items]="listTools"
-        bindLabel="name"
-        bindValue="id"
-        [multiple]="true"
-        [searchable]="true"
-        [(ngModel)]="selectedToolIds"
-        (change)="filterProjects()">
-      </ng-select> -->
     </div>
   </div>
 
@@ -23,7 +14,7 @@
         <img class="thumbnail" controls [src]="url+project.link_thumbnail" />
       </div>
       <div class="project-content">
-        <h2>{{project.name}}</h2>
+        <h2>{{ truncate(project.name,34) }}</h2>
         <div class="user-info">
           <img
             [src]="url+project.user?.linkPhoto"
@@ -31,10 +22,16 @@
           />
           <div>
             <p class="name">{{project.user?.firstname}} {{project.user?.lastname}}</p>
-            <p class="title">{{project.user?.title}}</p>
+            <p class="title">{{truncate(project.user?.title,41)}}</p>
           </div>
         </div>
       </div>
     </div>
+  </div>
+
+   <div class="pagination">
+    <button (click)="prevPage()" [disabled]="currentPage === 1">Précédent</button>
+    <span class="pages">{{currentPage}} / {{totalPages()}}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages()">Suivant</button>
   </div>
 </div>
