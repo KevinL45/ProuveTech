@@ -1,7 +1,6 @@
 <title>{{ project?.name }}</title>
 
-<div class="container">
-  <!-- LEFT SIDE -->
+<div class="project-page">
   <div class="left">
     <div class="video-container" *ngIf="project?.link_video">
       <video controls [src]="url+project?.link_video"></video>
@@ -10,12 +9,12 @@
  
   </div>
 
-  <!-- RIGHT SIDE -->
   <div class="right">
     <div>
       <div class="title">{{ project?.name }}</div>
       <p class="description" [innerHTML]="project?.description">
        {{ project?.description }}
+       
       </p>
 
       <div *ngIf="project?.sourcecode" class="section">
@@ -24,13 +23,14 @@
 
       <div class="section">
           <div class="section-details" *ngFor="let tool of project?.tools">{{ tool.name }}</div>
+          
       </div>
 
     <div class="profile">
-      <img [src]="url+project?.user?.linkPhoto || 'assets/default-avatar.png'" alt="photo">
+      <img (click)="detailsUser(project?.user)" [src]="url+project?.user?.linkPhoto || 'assets/default-avatar.png'" alt="photo">
       <div class="profile-info">
-        <strong>{{ project?.user?.firstname  }} {{ project?.user?.lastname  }} - {{ project?.user?.title}}</strong><br>
-        {{ project?.user?.status?.name }}
+        <strong>{{ project?.user?.firstname  }} {{ project?.user?.lastname  }}</strong><br>
+         {{ truncate(project?.user?.title,54)}}
       </div>
     </div>
   </div>

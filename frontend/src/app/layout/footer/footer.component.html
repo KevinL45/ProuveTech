@@ -1,3 +1,35 @@
 <footer class="footer">
-  <p>&copy; 2025 ProuveTech. Tous droits réservés.</p>
+  <div class="footer-container">
+    <!-- Logo et description -->
+    <div class="footer-brand">
+      <img src="assets/logo/angular.png" alt="Logo" class="logo" />
+      <p>Une plateforme où les développeurs peuvent valoriser leurs positionnements via des projets concrets, présentés
+        en vidéo.</p>
+    </div>
+
+    <div class="footer-links">
+      <h4>Liens rapides</h4>
+      <ul>
+        <li><a [routerLink]="['/accueil']">Accueil</a></li>
+        <li><a [routerLink]="['/acteurs-it']">Talents</a></li>
+        <li><a [routerLink]="['/projets']">Projets</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-contact">
+      <h4>Contact</h4>
+      <div class="socials">
+        <a href="#" aria-label="Twitter">
+          <img  class="socials_networks" src="assets/logo/twitter.png" />
+        </a>
+        <a href="#" aria-label="LinkedIn">
+          <img  class="socials_networks" src="assets/logo/linkedin.png" />
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2025 ProuveTech. Tous droits réservés.</p>
+  </div>
 </footer>

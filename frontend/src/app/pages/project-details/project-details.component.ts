@@ -4,6 +4,7 @@ import { ProjectService } from '../../services/project.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { Project } from '../../models/Project';
+import { User } from '../../models/User';
 
 @Component({
   selector: 'app-project-details',
@@ -43,6 +44,15 @@ export class ProjectDetailsComponent implements OnInit{
     this.projectService.getProject(id).subscribe((data)=>{
       this.project = data;
     })
+  }
+
+   detailsUser(user: User  | undefined ) {
+    return this.router.navigate(["/details-profil",user?.id])
+  }
+
+  truncate(title: string | undefined, maxLength: number): string {
+    if (!title) return 'Aucun titre';
+    return title.length > maxLength ? title.substring(0, maxLength) + '...' : title;
   }
 
 }
