@@ -10,6 +10,7 @@ import { ProjectService } from '../../services/project.service';
 import { ToolService } from '../../services/tool.service';
 import { Project } from '../../models/Project';
 import { environment } from '../../../environments/environment';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-project-form',
@@ -20,7 +21,7 @@ import { environment } from '../../../environments/environment';
 })
 export class ProjectFormComponent implements OnInit {
 
-  url:string = environment.apiUrl;
+  url: string = environment.apiUrl;
 
   projectForm: FormGroup;
   listTools: Tool[] = [];
@@ -30,7 +31,7 @@ export class ProjectFormComponent implements OnInit {
 
   selectedVideo: File | null = null;
   selectedThumbnail: File | null = null;
-  
+
   thumbnailUrl: string | null = null;
   videoUrl: string | null = null;
 
@@ -43,32 +44,47 @@ export class ProjectFormComponent implements OnInit {
     private toolService: ToolService,
     private projectService: ProjectService,
     private router: Router,
-    private route:ActivatedRoute
+    private route: ActivatedRoute,
+    private userService: UserService
   ) {
     this.projectForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      description: ['', [Validators.required]],
-      sourcecode: [''],
-      tools: [[]] // tableau d'IDs
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      description: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(1000)]],
+      sourcecode: ['', Validators.maxLength(255)],
+      tools: [[], [this.maxToolsValidator(3)]]
     });
   }
 
   ngOnInit(): void {
 
-    this.route.paramMap.subscribe(params =>{
-        const id = params.get("id");
-        if(id){
-          this.id = Number(id);
-        }
-      })
+    this.route.paramMap.subscribe(params => {
+      const id = params.get("id");
+      if (id) {
+        this.id = Number(id);
+      }
+    })
+    // if (!this.userService.isAuthenticated()) {
+    //   this.router.navigate(['/']);
+    //   return;
+    // } else {
 
-    if(this.id){
-      this.mode = 'update-project';
-      this.loadProjectToEdit(this.id)
-    }else{
-      this.mode = 'create-project'; 
-    }
-    this.loadTools();
+      if (this.id) {
+        this.mode = 'update-project';
+        this.loadProjectToEdit(this.id)
+      } else {
+        this.mode = 'create-project';
+      }
+      this.loadTools();
+    //}
+  }
+
+  maxToolsValidator(max: number) {
+    return (control: any) => {
+      if (control.value && control.value.length > max) {
+        return { maxTools: true };
+      }
+      return null;
+    };
   }
 
   loadTools(): void {
@@ -78,16 +94,16 @@ export class ProjectFormComponent implements OnInit {
     });
   }
 
-  loadProjectToEdit(id:number):void{
-    this.projectService.getMyProject(id).subscribe((project)=>{
+  loadProjectToEdit(id: number): void {
+    this.projectService.getMyProject(id).subscribe((project) => {
       this.projectForm.patchValue({
-        name:project.name,
+        name: project.name,
         description: project.description,
         sourcecode: project.sourcecode,
         tools: project.tools?.map(t => t.id) || []
       });
-        this.thumbnailUrl = this.url+project.link_thumbnail;
-        this.videoUrl = this.url+project.link_video;
+      this.thumbnailUrl = this.url + project.link_thumbnail;
+      this.videoUrl = this.url + project.link_video;
     })
   }
 
@@ -112,7 +128,7 @@ export class ProjectFormComponent implements OnInit {
       return;
     }
 
-      if (!this.selectedVideo && !this.videoUrl) {
+    if (!this.selectedVideo && !this.videoUrl) {
       this.message = 'Veuillez ajouter une vidéo.';
       this.success = false;
       return;
@@ -128,10 +144,10 @@ export class ProjectFormComponent implements OnInit {
     formData.append('name', this.projectForm.value.name);
     formData.append('description', this.projectForm.value.description);
     formData.append('sourcecode', this.projectForm.value.sourcecode);
-    if(this.selectedVideo){
+    if (this.selectedVideo) {
       formData.append('video', this.selectedVideo!);
     }
-    if(this.selectedVideo){
+    if (this.selectedVideo) {
       formData.append('thumbnail', this.selectedThumbnail!);
     }
 
@@ -141,8 +157,8 @@ export class ProjectFormComponent implements OnInit {
     });
 
     const https = this.mode === 'create-project'
-                ? this.projectService.addProject(formData)
-                : this.projectService.updateProject(formData, this.id!);
+      ? this.projectService.addProject(formData)
+      : this.projectService.updateProject(formData, this.id!);
 
     https.subscribe({
       next: (res) => {
@@ -157,7 +173,7 @@ export class ProjectFormComponent implements OnInit {
       }
     });
 
-    
+
 
 
   }
