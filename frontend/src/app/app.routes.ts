@@ -8,6 +8,7 @@ import { ActorItComponent } from './pages/actor-it/actor-it.component';
 import { ProjectFormComponent } from './form/project-form/project-form.component';
 import { ProjectDetailsComponent } from './pages/project-details/project-details.component';
 import { AdminComponent } from './pages/admin/admin.component';
+import { ConditionsComponent } from './pages/conditions/conditions.component';
 
 export const routes: Routes = [
   {
@@ -34,6 +35,9 @@ export const routes: Routes = [
     { path: 'details-projet/:id', component:  ProjectDetailsComponent},
     { path: 'creer-projet', component:  ProjectFormComponent},
     { path: 'modifier-projet/:id', component:  ProjectFormComponent},
+
+      { path: 'conditions', component:  ConditionsComponent},
+
 
 
 

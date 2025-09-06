@@ -21,6 +21,16 @@
       p {
         font-size: 0.9rem;
         line-height: 1.5;
+
+          .conditions {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+
+            &:hover {
+              color: #90caf9;
+            }
+          }
       }
     }
 
