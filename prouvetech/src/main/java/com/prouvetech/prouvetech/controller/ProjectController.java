@@ -68,9 +68,13 @@ public class ProjectController {
                 if (!detectedType.startsWith("video/")) {
                         ResponseMessage message = new ResponseMessage(false, "Le fichier n'est pas une vidéo");
                         return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
-
                 }
 
+                // Verifie la durée et la taille de la vidéo
+                ResponseMessage validate = uploads.validateVideo(projectDTO.getVideo());
+                if (!validate.isSuccess()) {
+                        return ResponseEntity.status(HttpStatus.CONFLICT).body(validate);
+                }
                 String newVideo = uploads.saveFile(projectDTO.getVideo());
                 String newThumbnail = uploads.saveFile(projectDTO.getThumbnail());
                 List<Tool> selectedTools = toolService.getToolsByIds(projectDTO.getToolsIds());
@@ -104,8 +108,13 @@ public class ProjectController {
                 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                 String email = authentication.getName();
                 User user = userService.getUserByMail(email);
-
                 Project project = projectService.getProject(id);
+
+                // Verifie la durée et la taille de la vidéo
+                ResponseMessage validate = uploads.validateVideo(projectDTO.getVideo());
+                if (!validate.isSuccess()) {
+                        return ResponseEntity.status(HttpStatus.CONFLICT).body(validate);
+                }
 
                 if (projectDTO.getVideo() != null) {
                         String newVideo = uploads.updateFile(projectDTO.getVideo(), project.getVideo());

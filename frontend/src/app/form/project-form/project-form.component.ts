@@ -63,11 +63,6 @@ export class ProjectFormComponent implements OnInit {
         this.id = Number(id);
       }
     })
-    // if (!this.userService.isAuthenticated()) {
-    //   this.router.navigate(['/']);
-    //   return;
-    // } else {
-
       if (this.id) {
         this.mode = 'update-project';
         this.loadProjectToEdit(this.id)

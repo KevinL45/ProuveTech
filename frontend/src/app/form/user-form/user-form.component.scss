@@ -20,14 +20,10 @@
   text-align: center;
   }
 
-  .success {
-    background-color: #d4edda;
-    color: #155724;
-  }
-
   .error {
     background-color: #f8d7da;
     color: #721c24;
+    text-align: center;
   }
 
 
@@ -36,7 +32,7 @@
     padding: 2rem;
     border-radius: 1rem;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    max-width: 450px;
+    max-width: 500px;
     width: 100%;
 
     h2 {
@@ -83,6 +79,20 @@
           border: 1px solid #eee;
           border-radius: 6px;
         }
+      .char-count {
+        font-size: 0.85rem;
+        color: #6b7280; // gris
+        margin-top: 0.2rem;
+        text-align: right;
+      }
+
+      .error {
+        font-size: 0.85rem;
+        color: #dc2626; // rouge
+        margin-top: 0.2rem;
+        border-radius: 4px ;
+        padding: 4px;
+      }
 
       input,
       

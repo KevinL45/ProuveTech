@@ -1,13 +1,12 @@
-
-    <title *ngIf="mode === 'register'">Inscription</title>
-    <title *ngIf="mode === 'update'">Modifier votre profil</title>
-    <title *ngIf="mode === 'login'">Connexion</title>
+<title *ngIf="mode === 'register'">Inscription</title>
+<title *ngIf="mode === 'update'">Modifier votre profil</title>
+<title *ngIf="mode === 'login'">Connexion</title>
 
 
 
 <div class="page">
-<form class="form" *ngIf="mode === 'register'" [formGroup]="userForm" (ngSubmit)="register()">
-    <div *ngIf="message" [ngClass]="{'success': success, 'error': !success}" class="message">
+  <form class="form" *ngIf="mode === 'register'" [formGroup]="userForm" (ngSubmit)="register()">
+    <div *ngIf="message" [ngClass]="{'error': !success}" class="message">
       {{ message }}
     </div>
     <h2>Créer un compte</h2>
@@ -17,24 +16,61 @@
       <input type="text" id="firstname" formControlName="firstname" required />
     </div>
 
-    <div class="form-group">
-      <label for="lastname">Nom</label>
-      <input type="text" id="lastname"  formControlName="lastname" required />
+    <div class="char-count">
+      {{ userForm.get('firstname')?.value?.length || 0 }} / 50
+    </div>
+    <div class="error" *ngIf="userForm.get('firstname')?.hasError('maxlength')">
+      Maximum 50 caractères autorisés.
     </div>
 
     <div class="form-group">
+      <label for="lastname">Nom</label>
+      <input type="text" id="lastname" formControlName="lastname" required />
+    </div>
+
+    <div class="char-count">
+      {{ userForm.get('lastname')?.value?.length || 0 }} / 50
+    </div>
+    <div class="error" *ngIf="userForm.get('lastname')?.hasError('maxlength')">
+      Maximum 50 caractères autorisés.
+    </div>
+
+
+
+    <div class="form-group">
       <label for="email">Adresse e-mail</label>
-      <input type="email" id="email"  formControlName="mail" required />
+      <input type="email" id="email" formControlName="mail" required />
+    </div>
+
+    <div class="char-count">
+      {{ userForm.get('mail')?.value?.length || 0 }} / 255
+    </div>
+    <div class="error" *ngIf="userForm.get('mail')?.hasError('maxlength')">
+      Maximum 255 caractères autorisés.
     </div>
 
     <div class="form-group">
       <label for="password">Mot de passe</label>
-      <input type="password" id="password"  formControlName="password" required minlength="6" />
+      <input type="password" id="password" formControlName="password" required minlength="6" />
+    </div>
+
+    <div class="char-count">
+      {{ userForm.get('password')?.value?.length || 0 }} / 255
+    </div>
+    <div class="error" *ngIf="userForm.get('password')?.hasError('maxlength')">
+      Maximum 255 caractères autorisés.
     </div>
 
     <div class="form-group">
       <label for="confirmPassword">Retapez le mot de passe</label>
-      <input type="password" id="confirmPassword"  formControlName="confirmPassword" required minlength="6" />
+      <input type="password" id="confirmPassword" formControlName="confirmPassword" required minlength="6" />
+    </div>
+
+    <div class="char-count">
+      {{ userForm.get('confirmPassword')?.value?.length || 0 }} / 255
+    </div>
+    <div class="error" *ngIf="userForm.get('confirmPassword')?.hasError('maxlength')">
+      Maximum 255 caractères autorisés.
     </div>
 
     <div class="form-group">
@@ -50,37 +86,56 @@
       Déjà un compte ? <a routerLink="/connexion">Se connecter</a>
     </p>
   </form>
-  
+
   <form class="form" *ngIf="mode === 'login'" [formGroup]="loginForm" (ngSubmit)="auth()">
-        <div *ngIf="message" [ngClass]="{'success': success, 'error': !success}" class="message">
-          {{ message }}
-        </div>
-        <h2>Authentification</h2>
+    <div *ngIf="message" [ngClass]="{'error': !success}" class="message">
+      {{ message }}
+    </div>
+    <h2>Authentification</h2>
+    <div class="form-group">
+      <label for="email">Adresse e-mail</label>
+      <input type="email" id="email" formControlName="mail" required />
+    </div>
 
-      <div class="form-group">
-        <label for="email">Adresse e-mail</label>
-        <input type="email" id="email"  formControlName="mail" required />
-      </div>
+    <div class="char-count">
+      {{ loginForm.get('mail')?.value?.length || 0 }} / 50
+    </div>
 
-      <div class="form-group">
-        <label for="password">Mot de passe</label>
-        <input type="password" id="password"  formControlName="password" required minlength="6" />
-      </div>
-      <button type="submit" [disabled]="loginForm.invalid">Se connecter</button>
-      <p class="login-link">
-        Vous n'avez pas de compte ? <a routerLink="/connexion">S'inscrire</a>
-      </p>
+    <div class="error" *ngIf="loginForm.get('mail')?.hasError('maxlength')">
+      Maximum 255 caractères autorisés.
+    </div>
+
+    <div class="form-group">
+      <label for="password">Mot de passe</label>
+      <input type="password" id="password" formControlName="password" required minlength="6" />
+    </div>
+
+    <div class="char-count">
+      {{ loginForm.get('password')?.value?.length || 0 }} / 50
+    </div>
+
+    <div class="error" *ngIf="loginForm.get('password')?.hasError('maxlength')">
+      Maximum 255 caractères autorisés.
+    </div>
+
+    <button type="submit" [disabled]="loginForm.invalid">Se connecter</button>
+    <p class="login-link">
+      Vous n'avez pas de compte ? <a routerLink="/connexion">S'inscrire</a>
+    </p>
   </form>
 
   <form class="form" *ngIf="mode === 'update'" [formGroup]="updateForm" (ngSubmit)="updateUser()">
     <h2>Modifier votre profil</h2>
-        <div *ngIf="message" [ngClass]="{'success': success, 'error': !success}" class="message">
-          {{ message }}
-        </div>
+    
+    <div *ngIf="message" [ngClass]="{'error': !success}" class="message">
+      {{ message }}
+    </div>
+
     <div class="form-group">
       <img *ngIf="previewPicture" [src]="previewPicture" class="preview-picture" />
       <label for="photo">Photo du profil</label>
-      <input type="file" id="photo" (change)="onPictureSelected($event)" accept="image/*" placeholder="Votre photo profil"/>
+      <input type="file" id="photo" (change)="onPictureSelected($event)" accept="image/*"
+        placeholder="Votre photo profil" />
     </div>
 
     <div class="form-group">
@@ -88,26 +143,60 @@
       <input type="text" id="firstname" formControlName="firstname" placeholder="Votre prénom" required />
     </div>
 
+    <div class="char-count">
+      {{ updateForm.get('firstname')?.value?.length || 0 }} / 50
+    </div>
+
+    <div class="error" *ngIf="updateForm.get('firstname')?.hasError('maxlength')">
+      Maximum 50 caractères autorisés.
+    </div>
+
     <div class="form-group">
       <label for="lastname">Nom</label>
-      <input type="text" id="lastname"  formControlName="lastname" placeholder="Votre nom" required />
+      <input type="text" id="lastname" formControlName="lastname" placeholder="Votre nom" required />
+    </div>
+
+    <div class="char-count">
+      {{ updateForm.get('lastname')?.value?.length || 0 }} / 50
+    </div>
+
+    <div class="error" *ngIf="updateForm.get('lastname')?.hasError('maxlength')">
+      Maximum 50 caractères autorisés.
     </div>
 
     <div class="form-group">
       <label for="status">Statut</label>
       <select id="status" name="status" formControlName="statusId" required>
-        <option *ngFor="let status of listStatus" [value]="status.id" >{{status.name}}</option>
+        <option *ngFor="let status of listStatus" [value]="status.id">{{status.name}}</option>
       </select>
     </div>
 
     <div class="form-group">
       <label for="title">Titre</label>
-      <input type="text" id="title" formControlName="title" required placeholder="Votre titre (Ex : Développeur Angular)"/>
+      <input type="text" id="title" formControlName="title" required
+        placeholder="Votre titre (Ex : Développeur Angular)" />
+    </div>
+
+    <div class="char-count">
+      {{ updateForm.get('title')?.value?.length || 0 }} / 100
+    </div>
+
+    <div class="error" *ngIf="loginForm.get('title')?.hasError('maxlength')">
+      Maximum 100 caractères autorisés.
     </div>
 
     <div class="form-group">
       <label for="description">Description</label>
-      <textarea type="text" id="description" formControlName="description" required placeholder="Description de votre profil"></textarea>
+      <textarea type="text" id="description" formControlName="description" required
+        placeholder="Description de votre profil"></textarea>
+    </div>
+
+    <div class="char-count">
+      {{ updateForm.get('description')?.value?.length || 0 }} / 5000
+    </div>
+
+    <div class="error" *ngIf="updateForm.get('description')?.hasError('maxlength')">
+      Maximum 5000 caractères autorisés.
     </div>
 
     <button type="submit" [disabled]="updateForm.invalid">Modifier</button>

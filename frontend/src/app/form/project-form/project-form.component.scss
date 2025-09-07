@@ -26,6 +26,7 @@
   .error {
     background-color: #f8d7da;
     color: #721c24;
+    text-align: center;
   }
 
   .form {
@@ -85,6 +86,8 @@
         font-size: 0.85rem;
         color: #dc2626; // rouge
         margin-top: 0.2rem;
+        border-radius: 4px ;
+        padding: 4px;
       }
 
       input,

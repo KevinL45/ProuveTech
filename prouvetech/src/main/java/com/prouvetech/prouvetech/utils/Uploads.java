@@ -7,6 +7,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.UUID;
+import org.jcodec.common.DemuxerTrack;
+import org.jcodec.common.DemuxerTrackMeta;
+import org.jcodec.common.io.NIOUtils;
+import org.jcodec.containers.mp4.demuxer.MP4Demuxer;
+import org.jcodec.common.io.SeekableByteChannel;
 
 import org.apache.tika.Tika;
 import org.springframework.stereotype.Component;
@@ -14,6 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class Uploads {
+
+    private static final long MAX_VIDEO_SIZE = 50 * 1024 * 1024; // 50MB
+    private static final double MAX_DURATION_SECONDS = 120.0; // 2 minutes
 
     public String saveFile(MultipartFile file) throws IOException {
 
@@ -116,19 +124,81 @@ public class Uploads {
 
     }
 
-    // public String generateThumbail(MultipartFile videofile) {
+    public ResponseMessage validateVideo(MultipartFile file) throws IOException {
+        Tika tika = new Tika();
 
-    // String uploadDir = "uploads/thumbnails/";
-    // File uploadPath = new File(uploadDir);
-    // if (!uploadPath.exists())
-    // uploadPath.mkdirs();
+        // Vérifier que le fichier n'est pas null ou vide
+        if (file == null || file.isEmpty()) {
+            return new ResponseMessage(false, "Aucun fichier fourni");
+        }
 
-    // String baseName = UUID.randomUUID().toString();
-    // String thumbName = baseName + ".jpg";
-    // Path thumbPath = Paths.get(uploadDir + thumbName);
+        // Vérifier que c'est bien une vidéo
+        String detectedType = tika.detect(file.getInputStream());
+        if (!detectedType.startsWith("video/")) {
+            return new ResponseMessage(false, "Le fichier doit être une vidéo");
+        }
 
-    // return "ok";
+        // Vérifier la taille du fichier (50MB max)
+        if (file.getSize() > MAX_VIDEO_SIZE) {
+            return new ResponseMessage(false, "Le fichier ne doit pas dépasser 50MB max");
+        }
 
-    // }
+        // Créer un fichier temporaire pour analyser la durée
+        String tempFileName = System.currentTimeMillis() + "_temp_" + file.getOriginalFilename();
+        Path tempPath = Paths.get(System.getProperty("java.io.tmpdir"), tempFileName);
+
+        try {
+            // Copier le fichier dans un dossier temporaire
+            Files.copy(file.getInputStream(), tempPath, StandardCopyOption.REPLACE_EXISTING);
+
+            // Vérifier la durée de la vidéo
+            double duration = getVideoDuration(tempPath.toFile());
+            if (duration > MAX_DURATION_SECONDS) {
+                return new ResponseMessage(false, "Le fichier ne doit pas dépasser 2 minutes");
+            }
+
+            // Si tout est OK
+            return new ResponseMessage(true, "Vidéo valide");
+
+        } catch (Exception e) {
+            // En cas d'erreur lors de l'analyse de la durée
+            System.err.println("Erreur lors de l'analyse de la vidéo: " + e.getMessage());
+            return new ResponseMessage(false, "Erreur lors de l'analyse de la vidéo");
+
+        } finally {
+            // Supprimer le fichier temporaire
+            try {
+                Files.deleteIfExists(tempPath);
+            } catch (IOException e) {
+                // Log l'erreur mais ne pas faire planter l'application
+                System.err.println("Erreur lors de la suppression du fichier temporaire: " + e.getMessage());
+            }
+        }
+    }
+
+    private double getVideoDuration(File videoFile) throws IOException {
+        try {
+            // Utiliser NIOUtils pour créer un SeekableByteChannel
+            SeekableByteChannel channel = NIOUtils.readableChannel(videoFile);
+
+            MP4Demuxer demuxer = MP4Demuxer.createMP4Demuxer(channel);
+            DemuxerTrack videoTrack = demuxer.getVideoTrack();
+
+            if (videoTrack == null) {
+                throw new IOException("Aucune piste vidéo trouvée dans le fichier");
+            }
+
+            // Calculer la durée en secondes
+            DemuxerTrackMeta meta = videoTrack.getMeta();
+            return meta.getTotalDuration();
+
+        } catch (Exception e) {
+            // Fallback: estimation basée sur la taille
+            System.err.println("Erreur analyse vidéo, utilisation estimation: " + e.getMessage());
+            long fileSizeInBytes = videoFile.length();
+            double fileSizeInMB = fileSizeInBytes / (1024.0 * 1024.0);
+            return fileSizeInMB * 7; // 1MB ≈ 7 secondes
+        }
+    }
 
 }

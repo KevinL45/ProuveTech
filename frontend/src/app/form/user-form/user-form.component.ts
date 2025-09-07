@@ -37,25 +37,25 @@ mode: 'register' | 'login' | 'update' = 'register';
     private router:Router, private fb: FormBuilder){
 
     this.userForm =  this.fb.group({
-      firstname: ['', [Validators.required, Validators.minLength(3)]],
-      lastname: ['', [Validators.required, Validators.minLength(3)]],
-      mail: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]],
+      firstname: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      lastname: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      mail: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(255), Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
+      confirmPassword:  ['', [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
       statusId: [null, [Validators.required]],
     }, { validators: this.passwordsMatch });
 
     this.loginForm = fb.group({
-      mail: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      mail: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(255), Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(255)]]
     });
 
     this.updateForm = this.fb.group({
-      firstname: ["", [Validators.required, Validators.minLength(3)]],
-      lastname: ["", [Validators.required, Validators.minLength(3)]],
+      firstname: ["", [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      lastname: ["", [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       statusId: ["", [Validators.required]],
-      title: ["", [Validators.required, Validators.minLength(3)]],
-      description: ["", [Validators.required, Validators.minLength(3)]],
+      title: ["", [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+      description: ["", [Validators.required, Validators.minLength(3), Validators.maxLength(5000)]],
     });
 
  
