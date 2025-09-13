@@ -18,6 +18,8 @@ export class ProjectDetailsComponent implements OnInit{
   id: number | null = null
   project: Project | null = null;
   url:string = environment.apiUrl
+  isVideoLoading: boolean = true;
+  isProjectLoading: boolean = true;
 
     constructor(
     private route:ActivatedRoute, 
@@ -41,8 +43,10 @@ export class ProjectDetailsComponent implements OnInit{
   }
 
   loadProject(id : number){
+    this.isProjectLoading = true;
     this.projectService.getProject(id).subscribe((data)=>{
       this.project = data;
+      this.isProjectLoading = false
     })
   }
 
@@ -53,6 +57,19 @@ export class ProjectDetailsComponent implements OnInit{
   truncate(title: string | undefined, maxLength: number): string {
     if (!title) return 'Aucun titre';
     return title.length > maxLength ? title.substring(0, maxLength) + '...' : title;
+  }
+
+  onVideoLoaded() {
+    this.isVideoLoading = false;
+  }
+
+  copyToClipboard(text: string) {
+    navigator.clipboard.writeText(text);
+  }
+
+  getToolColor(index: number): string {
+    const colors = ['#1564db', '#28a745', '#dc3545', '#ffc107', '#6f42c1', '#20c997'];
+    return colors[index % colors.length];
   }
 
 }

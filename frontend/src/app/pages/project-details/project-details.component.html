@@ -1,37 +1,120 @@
-<title>{{ project?.name }}</title>
 
-<div class="project-page">
-  <div class="left">
-    <div class="video-container" *ngIf="project?.link_video">
-      <video controls [src]="url+project?.link_video"></video>
-    </div>
+<title>{{ project?.name || 'Détails du projet' }}</title>
 
- 
+<div class="project-page" [class.loading]="isProjectLoading">
+
+
+  <div *ngIf="isProjectLoading" class="loading-container">
+    <div class="loader"></div>
+    <p>Chargement du projet...</p>
   </div>
 
-  <div class="right">
-    <div>
-      <div class="title">{{ project?.name }}</div>
-      <p class="description" [innerHTML]="project?.description">
-       {{ project?.description }}
-       
-      </p>
+  <div *ngIf="!isProjectLoading && project" class="content-wrapper">
+    
+    <nav class="breadcrumb">
+      <a routerLink="/projets" class="breadcrumb-item">
+        <i class="icon-arrow-left"></i> Retour aux projets
+      </a>
+    </nav>
 
-      <div *ngIf="project?.sourcecode" class="section">
-              <div class="section-details">Lien du code</div>
+    <div class="project-content">
+      
+      <div class="video-section">
+        <div class="video-container" *ngIf="project?.link_video">
+          <div *ngIf="isVideoLoading" class="video-loader">
+            <div class="video-skeleton"></div>
+            <p>Chargement de la vidéo...</p>
+          </div>
+          <video 
+            controls 
+            [src]="url + project.link_video"
+            (loadeddata)="onVideoLoaded()"
+            [class.loaded]="!isVideoLoading"
+            preload="metadata">
+            Votre navigateur ne supporte pas la lecture vidéo.
+          </video>
+        </div>
+          <div class="author-section">
+          <div class="profile-card" (click)="detailsUser(project.user)">
+            <div class="profile-avatar">
+              <img 
+                [src]="url + project.user?.linkPhoto || 'assets/default-avatar.png'" 
+                [alt]="project.user?.firstname + ' ' + project.user?.lastname"
+                onerror="this.src='assets/default-avatar.png'">
+            </div>
+            <div class="profile-info">
+              <div class="profile-name">
+                {{ project.user?.firstname }} {{ project.user?.lastname }}
+              </div>
+              <div class="profile-title">
+                {{ truncate(project.user?.title, 80) }}
+              </div>
+            </div>
+            <div class="profile-action">
+              <i class="icon-arrow-right"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div *ngIf="!project?.link_video" class="no-video">
+          <div class="no-video-icon">🎥</div>
+          <p>Aucune vidéo disponible pour ce projet</p>
+        </div>
       </div>
 
-      <div class="section">
-          <div class="section-details" *ngFor="let tool of project?.tools">{{ tool.name }}</div>
-          
-      </div>
+      <div class="info-section">
+        
+        <div class="project-header">
+          <h1 class="project-title">{{ project.name }}</h1>
+          <div class="project-meta">
+            <span class="meta-item">
+              {{ project.createdDate | date:'dd MMM yyyy' }}
+            </span>
+          </div>
+        </div>
 
-    <div class="profile">
-      <img (click)="detailsUser(project?.user)" [src]="url+project?.user?.linkPhoto || 'assets/default-avatar.png'" alt="photo">
-      <div class="profile-info">
-        <strong>{{ project?.user?.firstname  }} {{ project?.user?.lastname  }}</strong><br>
-         {{ truncate(project?.user?.title,54)}}
+        <div class="description-section">
+          <h3>Description</h3>
+          <div class="description-content" [innerHTML]="project.description">
+            {{ project.description }}
+          </div>
+        </div>
+
+        <div *ngIf="project?.sourcecode" class="code-section">
+          <h3>Code source</h3>
+          <div class="code-link">
+            <a [href]="project.sourcecode" target="_blank" class="code-btn">
+              <i class="icon-github"></i>
+              Voir sur GitHub
+            </a>
+            <button (click)="copyToClipboard(project.sourcecode!)" class="copy-btn" title="Copier le lien">
+              <i class="icon-copy"></i>
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="project?.tools" class="tech-section">
+          <h3>Technologies utilisées</h3>
+          <div class="tech-tags">
+            <span 
+              *ngFor="let tool of project?.tools; index as i" 
+              class="tech-tag"
+              [style.background-color]="getToolColor(i)">
+              {{ tool.name }}
+            </span>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
+
+  <!-- Error state -->
+  <div *ngIf="!isProjectLoading && !project" class="error-container">
+    <div class="error-icon">⚠️</div>
+    <h2>Projet non trouvé</h2>
+    <p>Le projet demandé n'existe pas ou n'est plus disponible.</p>
+    <a routerLink="/projets" class="back-btn">Retour aux projets</a>
+  </div>
+
 </div>
