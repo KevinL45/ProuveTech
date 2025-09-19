@@ -1,34 +1,94 @@
 <footer class="footer">
+  <!-- Wave decoration -->
+
+
   <div class="footer-container">
-    <!-- Logo et description -->
-    <div class="footer-brand">
-      <img src="assets/logo/logo.png" alt="Logo" class="logo" />
-      <h4>ProuveTech, c'est quoi ?</h4>
-      <p>Une plateforme où les développeurs peuvent valoriser leurs positionnements via des projets concrets, présentés
-        en vidéo.</p>
-    </div>
+    <!-- Section principale -->
+    <div class="footer-main">
+      <!-- Logo et description -->
+      <div class="footer-brand">
+        <div class="brand-wrapper">
+          <img src="assets/logo/logo.png" alt="ProuveTech Logo" class="logo" />
+          <div class="brand-text">
+            <h3>Prouve Tech</h3>
+            <p class="brand-tagline">La plateforme qui connecte devs & recruteurs IT</p>
+          </div>
+        </div>
+        <p class="brand-description">
+          Une plateforme où les développeurs peuvent valoriser leurs positionnements via des projets concrets, présentés en vidéo.
+        </p>
+      </div>
 
-    <div class="footer-links">
-      <h4>Liens utiles</h4>
-      <ul>
-        <li><a [routerLink]="['/conditions']">Conditions générales</a></li>
-      </ul>
-    </div>
+      <!-- Navigation rapide -->
+      <div class="footer-section footer-nav">
+        <h4>Navigation</h4>
+        <ul>
+          <li>
+            <a [routerLink]="['/accueil']" class="footer-link">
+              <span class="link-icon">→</span>
+              <span>Accueil</span>
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/acteurs-it']" class="footer-link">
+              <span class="link-icon">→</span>
+              <span>Talents</span>
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/projets']" class="footer-link">
+              <span class="link-icon">→</span>
+              <span>Projets</span>
+            </a>
+          </li>
+          <li>
+          </li>
+        </ul>
+      </div>
 
-    <div class="footer-contact">
-      <h4>Réseaux sociaux</h4>
-      <div class="socials">
-        <a href="#" aria-label="Twitter">
-          <img  class="socials_networks" src="assets/logo/twitter.png" />
-        </a>
-        <a href="#" aria-label="LinkedIn">
-          <img  class="socials_networks" src="assets/logo/linkedin.png" />
-        </a>
+      <!-- Informations légales -->
+      <div class="footer-section footer-legal">
+        <h4>Informations</h4>
+        <ul>
+          <li>
+            <a [routerLink]="['/conditions']" class="footer-link">
+              <span class="link-icon">→</span>
+              <span>Conditions générales</span>
+            </a>
+          </li>
+          <li>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Contact et réseaux sociaux -->
+      <div class="footer-section footer-contact">
+        <h4>Réseaux sociaux</h4>
+        <p class="contact-intro">Suivez-nous pour rester informé de nos dernières actualités</p>
+        
+        <div class="social-container">
+          <a href="https://linkedin.com" 
+             aria-label="Suivez-nous sur LinkedIn" 
+             class="social-link linkedin"
+             target="_blank"
+             rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+            </svg>
+          </a>
+        </div>
       </div>
     </div>
   </div>
 
+  <!-- Footer bottom -->
   <div class="footer-bottom">
-    <p>© 2025 ProuveTech. Tous droits réservés.</p>
+    <div class="footer-bottom-content">
+      <p class="copyright">© 2025 ProuveTech. Tous droits réservés.</p>
+      <div class="footer-badges">
+        <span class="badge">🔒 Site sécurisé</span>
+        <span class="badge">♿ Accessible</span>
+      </div>
+    </div>
   </div>
 </footer>
