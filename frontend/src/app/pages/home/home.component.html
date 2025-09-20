@@ -1,44 +1,311 @@
-<title>Accueil</title>
+<!-- Hero Section -->
+<section class="hero-section">
+  <!-- Animated Background -->
+  <div class="hero-bg">
+    <div class="gradient-sphere sphere-1"></div>
+    <div class="gradient-sphere sphere-2"></div>
+    <div class="gradient-sphere sphere-3"></div>
+    <div class="grid-pattern"></div>
+  </div>
 
-<div class="intro">
-  <div class="container">
-  <!-- <div>             
-    <img src="assets/logo/logo.png" alt="Logo" class="logo" />
-  </div> -->
-    <h1>
-      Prouve<span class="tech">Tech</span>
+  <div class="hero-container">
+    <!-- Badge -->
+    <div class="hero-badge">
+      <span>Pour les développeurs et recruteurs IT</span>
+    </div>
+
+    <!-- Main Title -->
+    <h1 class="hero-title">
+      <span class="title-line">Au-delà du CV,</span>
+      <span class="title-line">montrez ce que vous <span class="gradient-text">créez vraiment</span></span>
     </h1>
-    <p class="actor">Pour les développeurs et recruteurs IT </p>
-    <h1>
-      Mettez en avant votre <span class="tech">positionnement</span> à travers vos vidéos de projet
-    </h1>
-     <!-- <h1>
-      Trouvez le <span class="tech">développeur</span> dont vous avez besoin
-    </h1> -->
-    <p>Une plateforme où les développeurs peuvent valoriser leurs positionnements via des projets concrets, 
-      présentés en vidéo, pour des recrutements plus fluides et humains.</p>
-    <div class="options">
-    <a class="cta-btn" [routerLink]="['/acteurs-it']">Découvrez les talents</a>
-    <a class="cta-btn" [routerLink]="['/projets']">Vidéos de projet</a>
+
+    <!-- Subtitle -->
+    <p class="hero-subtitle">
+      La plateforme où les développeurs présentent leurs projets en vidéo.
+      <br>Des démonstrations concrètes qui humanisent le recrutement tech.
+    </p>
+
+    <!-- CTA Buttons -->
+    <div class="hero-actions">
+      <a [routerLink]="['/projets']" class="btn-primary">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+        <span>Voir les projets en vidéo</span>
+      </a>
+      <a [routerLink]="['/inscription']" class="btn-secondary">
+        <span>Créer mon profil</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+    </div>
+
+    <!-- Stats -->
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-number">500+</span>
+        <span class="stat-label">Développeurs</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">1200+</span>
+        <span class="stat-label">Projets vidéo</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">98%</span>
+        <span class="stat-label">Satisfaction</span>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="features">
-  <div class="feature-card">
-    <h2>Centralisation</h2>
-    <p>Organisez toutes vos vidéos de vos projets au même endroit, avec une présentation claire et professionnelle.</p>
+  <!-- Scroll Indicator -->
+  <div class="scroll-indicator">
+    <div class="mouse">
+      <div class="wheel"></div>
+    </div>
+    <span>Scroll pour découvrir</span>
   </div>
-  <div class="feature-card">
-    <h2>Visibilité</h2>
-    <p>Exposez vos compétences, les outils utilisés et l'impact de vos projets afin de renforcer votre visibilité.</p>
+</section>
+
+<!-- Problem/Solution Section -->
+<section class="problem-solution">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-badge">Le problème</span>
+      <h2>Les CV et le code ne racontent pas votre histoire</h2>
+    </div>
+
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="card-icon">😔</div>
+        <h3>CV réduits à des mots-clés</h3>
+        <p>Votre expertise se perd dans une liste de technologies</p>
+      </div>
+      <div class="problem-card">
+        <div class="card-icon">⏰</div>
+        <h3>Tests techniques déconnectés</h3>
+        <p>Des exercices qui ne reflètent pas votre vraie valeur</p>
+      </div>
+      <div class="problem-card">
+        <div class="card-icon">🔍</div>
+        <h3>Difficile de se démarquer</h3>
+        <p>Des mois de recherche sans pouvoir montrer votre potentiel</p>
+      </div>
+    </div>
+
+    <div class="solution-wrapper">
+      <div class="solution-content">
+        <span class="section-badge green">La solution</span>
+        <h2>Montrez votre valeur réelle en vidéo</h2>
+        <p class="solution-text">
+          ProuveTech transforme la façon dont les développeurs se présentent. 
+          Plus qu'un portfolio, c'est votre scène pour briller.
+        </p>
+        <div class="solution-features">
+          <div class="feature-item">
+            <svg class="check-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            <span>Présentez le contexte de vos projets</span>
+          </div>
+          <div class="feature-item">
+            <svg class="check-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            <span>Expliquez la valeur que vous apportez</span>
+          </div>
+          <div class="feature-item">
+            <svg class="check-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            <span>Montrez votre positionnement unique</span>
+          </div>
+        </div>
+      </div>
+      <div class="solution-visual">
+        <div class="video-preview">
+          <div class="video-player">
+            <svg class="play-icon" width="60" height="60" viewBox="0 0 24 24" fill="white">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+          </div>
+          <div class="video-info">
+            <img src="https://ui-avatars.com/api/?name=Alex+Dev" alt="Avatar" class="avatar">
+            <div>
+              <p class="video-title">Application e-commerce scalable</p>
+              <p class="video-author">Alex Dev • 2.3k vues</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="feature-card">
-    <h2>Connexion simplifiée</h2>
-    <p>Découvrez qui travaille sur quoi, entrez en contact avec d'autres développeurs ou trouvez de l'inspiration.</p>
+</section>
+
+<!-- How It Works -->
+<section class="how-it-works">
+  <div class="container">
+    <div class="section-header center">
+      <span class="section-badge">Comment ça marche</span>
+      <h2>3 étapes pour transformer votre profil</h2>
+    </div>
+
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <div class="step-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <polyline points="10 9 9 9 8 9"/>
+          </svg>
+        </div>
+        <h3>Créez votre profil</h3>
+        <p>Inscrivez-vous et complétez votre profil développeur en quelques minutes</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <div class="step-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="23 7 16 12 23 17 23 7"/>
+            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+          </svg>
+        </div>
+        <h3>Uploadez vos vidéos</h3>
+        <p>Enregistrez des démos de 2-5 minutes présentant vos projets</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <div class="step-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <h3>Connectez-vous</h3>
+        <p>Les recruteurs découvrent votre travail et vous contactent directement</p>
+      </div>
+    </div>
   </div>
-  <div class="feature-card">
-    <h2>Basés sur la valeur ajoutée</h2>
-    <p>Identifiez les bons profils grâce aux démonstrations claires et ciblées.</p>
+</section>
+
+<!-- Features Section -->
+<section class="features-section">
+  <div class="container">
+    <div class="section-header center">
+      <span class="section-badge">Fonctionnalités</span>
+      <h2>Tout ce dont vous avez besoin pour briller</h2>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <line x1="9" y1="9" x2="15" y2="9"/>
+            <line x1="9" y1="12" x2="15" y2="12"/>
+            <line x1="9" y1="15" x2="12" y2="15"/>
+          </svg>
+        </div>
+        <h3>Centralisation</h3>
+        <p>Tous vos projets organisés au même endroit avec une présentation professionnelle</p>
+        <div class="feature-badge">Organisation</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </div>
+        <h3>Visibilité accrue</h3>
+        <p>Exposez vos compétences et l'impact réel de vos projets aux bonnes personnes</p>
+        <div class="feature-badge">Exposition</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c1.1 0 2 .9 2 2H2c0-1.1.9-2 2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22 6 12 13 2 6"/>
+          </svg>
+        </div>
+        <h3>Connexion directe</h3>
+        <p>Entrez facilement en contact avec recruteurs et développeurs de votre écosystème</p>
+        <div class="feature-badge">Réseau</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+        </div>
+        <h3>Valeur ajoutée</h3>
+        <p>Montrez concrètement l'impact et la valeur de vos réalisations techniques</p>
+        <div class="feature-badge">Impact</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <h3>Gain de temps</h3>
+        <p>Recruteurs identifient rapidement les bons profils sans entretiens inutiles</p>
+        <div class="feature-badge">Efficacité</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </div>
+        <h3>Approche humaine</h3>
+        <p>Un recrutement basé sur la personnalité et les compétences réelles</p>
+        <div class="feature-badge">Humain</div>
+      </div>
+    </div>
   </div>
-</div>
+</section>
+
+<!-- <section class="cta-section">
+  <div class="cta-container">
+    <div class="cta-content">
+      <h2>Prêt à transformer votre profil ?</h2>
+      <p>Rejoignez les développeurs qui montrent vraiment ce qu'ils savent faire</p>
+      <div class="cta-actions">
+        <a [routerLink]="['/inscription']" class="btn-cta">
+          <span class="section-badge">Commencer gratuitement</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </a>
+        <a [routerLink]="['/acteurs-it']" class="btn-ghost">
+          Explorer les talents
+        </a>
+      </div>
+    </div>
+    <div class="cta-visual">
+      <div class="floating-cards">
+        <div class="card card-1">React.js</div>
+        <div class="card card-2">Node.js</div>
+        <div class="card card-3">Python</div>
+        <div class="card card-4">Docker</div>
+      </div>
+    </div>
+  </div>
+</section> -->

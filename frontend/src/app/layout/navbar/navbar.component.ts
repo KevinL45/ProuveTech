@@ -11,9 +11,23 @@ import { UserService } from '../../services/user.service';
 })
 export class NavbarComponent {
   menuOpen: boolean = false;
+  isScrolled: boolean = false;
+  scrollProgress: number = 0;
 
   constructor(private userService:UserService, private router:Router){
 
+  }
+
+  ngOnInit(): void {
+        
+    // Vérifier l'état du scroll au chargement
+    this.checkScroll();
+    this.calculateScrollProgress();
+    
+    // Fermer le menu lors du changement de route
+    this.router.events.subscribe(() => {
+      this.closeMenu();
+    });
   }
 
   logout(){
@@ -27,6 +41,45 @@ export class NavbarComponent {
 
   isAuthenticated():boolean{
     return this.userService.isAuthenticated()
+  }
+
+  closeMenu(): void {
+    this.menuOpen = false;
+    this.updateBodyScroll();
+  }
+
+    /**
+   * Vérifie l'état du scroll
+   */
+  private checkScroll(): void {
+    // La navbar est considérée comme "scrolled" après 50px
+    this.isScrolled = window.scrollY > 50;
+  }
+
+  private updateBodyScroll(): void {
+    if (this.menuOpen) {
+      // Empêcher le scroll du body quand le menu est ouvert
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+    } else {
+      // Restaurer le scroll normal
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+    }
+  }
+
+    /**
+   * Calcule la progression du scroll
+   */
+  private calculateScrollProgress(): void {
+    // Hauteur totale scrollable
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    
+    // Calcul du pourcentage (0 à 100)
+    this.scrollProgress = height > 0 ? (winScroll / height) * 100 : 0;
   }
 
 }
