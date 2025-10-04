@@ -16,6 +16,8 @@ import { ProjectService } from '../../services/project.service';
 })
 export class ProfileComponent implements OnInit {
 
+  fabMenuOpen = false;
+
   user: User | null = null;
   projects: Project[] = [];
 
@@ -44,16 +46,21 @@ export class ProfileComponent implements OnInit {
         this.id = Number(id);
       }
     })
+
+    //Si il voit les détails du profil
     if (this.id) {
 
       this.loadSelectedProfile(this.id);
+      this.loadSelectedProjects(this.id)
 
     } else {
+      //Si il est connecté
       if (!this.userService.isAuthenticated()) {
         this.router.navigate(['/']);
         return;
       }
       this.loadProfile();
+      this.loadMyProjects();
 
     }
   }
@@ -64,6 +71,13 @@ export class ProfileComponent implements OnInit {
     })
   }
 
+  loadMyProjects():void{
+    this.userService.getMyProjects().subscribe((data)=>{
+      this.projects = data
+    })
+
+  }
+
   editProfile() {
     return this.router.navigate(["/modifier-profil"])
   }
@@ -71,6 +85,12 @@ export class ProfileComponent implements OnInit {
   loadSelectedProfile(id: number): void {
     this.userService.getUser(id).subscribe((data) => {
       this.user = data
+    })
+  }
+
+  loadSelectedProjects(id:number) : void{
+    this.userService.getProjectsUser(id).subscribe((data)=>{
+      this.projects = data
     })
   }
 
@@ -92,5 +112,9 @@ export class ProfileComponent implements OnInit {
 
   addProject() {
     return this.router.navigate(["/creer-projet"])
+  }
+
+  detailsProject(project: Project) {
+    return this.router.navigate(["/details-projet", project.id])
   }
 }

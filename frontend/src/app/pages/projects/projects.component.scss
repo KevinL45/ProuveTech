@@ -1,4 +1,8 @@
 .projects-page {
+
+  max-width: 1200px;
+  margin: auto;
+
   @keyframes fadeSlideUp {
     from {
       opacity: 0;
@@ -9,9 +13,6 @@
       transform: translateY(0);
     }
   }
-
-  max-width: 1200px;
-  margin: auto;
 
   h1 {
     font-size: 2rem;

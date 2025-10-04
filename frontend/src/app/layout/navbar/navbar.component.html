@@ -80,7 +80,7 @@
         </li>
         
         <!-- Connecté -->
-        <li *ngIf="isAuthenticated()">
+        <!-- <li *ngIf="isAuthenticated()">
           <a class="nav-link admin-link" [routerLink]="['/admin']">
             <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="3"/>
@@ -89,7 +89,7 @@
             <span>Admin</span>
             <span class="admin-badge">Admin</span>
           </a>
-        </li>
+        </li> -->
         <li *ngIf="isAuthenticated()">
           <a class="btn-danger" (click)="logout()">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

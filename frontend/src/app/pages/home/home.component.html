@@ -1,3 +1,4 @@
+<title>Accueil</title>
 <!-- Hero Section -->
 <section class="hero-section">
   <!-- Animated Background -->
@@ -22,17 +23,17 @@
 
     <!-- Subtitle -->
     <p class="hero-subtitle">
-      La plateforme où les développeurs présentent leurs projets en vidéo.
-      <br>Des démonstrations concrètes qui humanisent le recrutement tech.
+      ProuveTech crée le pont entre développeurs et recruteurs.<br>
+      Présentez vos projets en 2 minutes vidéo, montrez le contexte et la valeur réelle
     </p>
 
     <!-- CTA Buttons -->
-    <div class="hero-actions">
-      <a [routerLink]="['/projets']" class="btn-primary">
+    <div *ngIf="!isAuthenticated()" class="hero-actions">
+      <a [routerLink]="['/connexion']" class="btn-primary">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <polygon points="5 3 19 12 5 21 5 3"/>
         </svg>
-        <span>Voir les projets en vidéo</span>
+        <span>Se connecter</span>
       </a>
       <a [routerLink]="['/inscription']" class="btn-secondary">
         <span>Créer mon profil</span>
@@ -43,8 +44,17 @@
       </a>
     </div>
 
+    <div *ngIf="isAuthenticated()" class="hero-actions">
+      <a [routerLink]="['/acteurs-it']" class="btn-primary">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+        <span>Voir les meilleurs talents</span>
+      </a>
+    </div>
+
     <!-- Stats -->
-    <div class="hero-stats">
+    <!-- <div class="hero-stats">
       <div class="stat-item">
         <span class="stat-number">500+</span>
         <span class="stat-label">Développeurs</span>
@@ -57,16 +67,16 @@
         <span class="stat-number">98%</span>
         <span class="stat-label">Satisfaction</span>
       </div>
-    </div>
+    </div> -->
   </div>
 
-  <!-- Scroll Indicator -->
+  <!-- Scroll Indicator
   <div class="scroll-indicator">
     <div class="mouse">
       <div class="wheel"></div>
     </div>
     <span>Scroll pour découvrir</span>
-  </div>
+  </div> -->
 </section>
 
 <!-- Problem/Solution Section -->
@@ -132,10 +142,10 @@
             </svg>
           </div>
           <div class="video-info">
-            <img src="https://ui-avatars.com/api/?name=Alex+Dev" alt="Avatar" class="avatar">
+            <!-- <img src="https://ui-avatars.com/api/?name=Alex+Dev" alt="Avatar" class="avatar"> -->
             <div>
-              <p class="video-title">Application e-commerce scalable</p>
-              <p class="video-author">Alex Dev • 2.3k vues</p>
+              <p class="video-title">Titre du projet</p>
+              <p class="video-author">Créateur</p>
             </div>
           </div>
         </div>
@@ -177,7 +187,7 @@
           </svg>
         </div>
         <h3>Uploadez vos vidéos</h3>
-        <p>Enregistrez des démos de 2-5 minutes présentant vos projets</p>
+        <p>Enregistrez des démos de 2 minutes présentant vos projets</p>
       </div>
 
       <div class="step-card">
@@ -191,7 +201,7 @@
           </svg>
         </div>
         <h3>Connectez-vous</h3>
-        <p>Les recruteurs découvrent votre travail et vous contactent directement</p>
+        <p>Les recruteurs découvrent votre travail</p>
       </div>
     </div>
   </div>
@@ -240,7 +250,7 @@
           </svg>
         </div>
         <h3>Connexion directe</h3>
-        <p>Entrez facilement en contact avec recruteurs et développeurs de votre écosystème</p>
+        <p>Entrez en contact avec recruteurs et développeurs</p>
         <div class="feature-badge">Réseau</div>
       </div>
 
@@ -251,7 +261,7 @@
           </svg>
         </div>
         <h3>Valeur ajoutée</h3>
-        <p>Montrez concrètement l'impact et la valeur de vos réalisations techniques</p>
+        <p>Montrez concrètement l'impact et la valeur de vos réalisations</p>
         <div class="feature-badge">Impact</div>
       </div>
 
@@ -263,7 +273,7 @@
           </svg>
         </div>
         <h3>Gain de temps</h3>
-        <p>Recruteurs identifient rapidement les bons profils sans entretiens inutiles</p>
+        <p>Recruteurs identifient les bons profils</p>
         <div class="feature-badge">Efficacité</div>
       </div>
 
