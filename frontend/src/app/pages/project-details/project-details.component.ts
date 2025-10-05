@@ -67,9 +67,4 @@ export class ProjectDetailsComponent implements OnInit{
     navigator.clipboard.writeText(text);
   }
 
-  getToolColor(index: number): string {
-    const colors = ['#1564db', '#28a745', '#dc3545', '#ffc107', '#6f42c1', '#20c997'];
-    return colors[index % colors.length];
-  }
-
 }

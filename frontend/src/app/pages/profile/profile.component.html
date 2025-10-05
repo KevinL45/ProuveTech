@@ -168,7 +168,7 @@
                 <polygon points="23 7 16 12 23 17 23 7"/>
                 <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
               </svg>
-              Projets récents
+              Vidéos récents
             </h2>
             <button class="btn-see-all" (click)="ProjectList(user?.id)">
               Voir tout
@@ -254,31 +254,3 @@
     </div>
   </div>
 </section>
-
-<!-- Floating Action Button -->
-<div class="fab-container" *ngIf="!id">
-  <button class="fab-main">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <line x1="12" y1="5" x2="12" y2="19"/>
-      <line x1="5" y1="12" x2="19" y2="12"/>
-    </svg>
-  </button>
-  
-  <div class="fab-menu" [class.open]="fabMenuOpen">
-    <button class="fab-item" (click)="addProject()">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polygon points="23 7 16 12 23 17 23 7"/>
-        <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
-      </svg>
-      <span class="fab-label">Nouveau projet</span>
-    </button>
-    
-    <button class="fab-item" (click)="editProfile()">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-      </svg>
-      <span class="fab-label">Éditer profil</span>
-    </button>
-  </div>
-</div>
