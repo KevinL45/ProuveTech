@@ -5,10 +5,10 @@
   <div class="header">
     <div class="filters">
       <input [(ngModel)]="searchTitle" (input)="filterUsers()" type="text" placeholder="Rechercher par titre" />
-      <select [(ngModel)]="selectedStatusId" (change)="filterUsers()">
+      <!-- <select [(ngModel)]="selectedStatusId" (change)="filterUsers()">
         <option value="">Tous les statuts</option>
         <option *ngFor="let status of listStatus" [value]="status.id">{{status.name}}</option>
-      </select>
+      </select> -->
     </div>
   </div>
 

@@ -397,7 +397,7 @@ $border-radius: 12px;
       background: rgba(239, 68, 68, 0.1);
       color: $danger;
       border-radius: 50px;
-      font-size: 0.9rem;
+      font-size: 1.1rem;
       font-weight: 600;
       margin-bottom: 1rem;
 
@@ -496,6 +496,17 @@ $border-radius: 12px;
       }
     }
 
+    .section-badge {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: rgba(59, 130, 246, 0.1);
+      color: $primary;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
     .solution-visual {
       .video-preview {
         background: white;
@@ -570,6 +581,17 @@ $border-radius: 12px;
   .section-header {
     &.center {
       text-align: center;
+    }
+
+    .section-badge {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: rgba(59, 130, 246, 0.1);
+      color: $primary;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
     }
   }
 
@@ -665,7 +687,7 @@ $border-radius: 12px;
       background: rgba(59, 130, 246, 0.1);
       color: $primary;
       border-radius: 50px;
-      font-size: 0.9rem;
+      font-size: 1.1rem;
       font-weight: 600;
       margin-bottom: 1rem;
     }
