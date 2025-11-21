@@ -480,38 +480,22 @@ $border-radius: 12px;
           justify-content: center;
           cursor: pointer;
           position: relative;
-
-          .play-icon {
-            transition: transform 0.3s ease;
-          }
-
-          &:hover .play-icon {
-            transform: scale(1.2);
-          }
+          width: 100%;
+          height: 100%;
         }
+        
+        video {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          opacity: 0;
+          transition: opacity 0.5s ease-in;
 
-        .video-info {
-          padding: 1rem;
-          display: flex;
-          gap: 1rem;
-          align-items: center;
-
-          .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-          }
-
-          .video-title {
-            font-weight: 600;
-            color: $text-dark;
-            margin: 0;
-          }
-
-          .video-author {
-            font-size: 0.9rem;
-            color: $text-light;
-            margin: 0;
+          &.loaded {
+            opacity: 1;
           }
         }
       }
