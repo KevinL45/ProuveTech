@@ -1,6 +1,44 @@
-.actor-page {
+// ==========================================
+// Variables
+// ==========================================
+$primary: #6366f1;
+$primary-dark: #2563eb;
+$primary-light: #60a5fa;
+$secondary: #10b981;
+$secondary-dark: #059669;
+$accent: #8b5cf6;
+$danger: #ef4444;
 
-  @keyframes fadeSlideUp {
+$text-dark: #0f172a;
+$text-gray: #475569;
+$text-light: #64748b;
+$bg-white: #ffffff;
+$bg-light: #f8fafc;
+$bg-gradient: linear-gradient(135deg, $primary, $primary-dark);
+
+$shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+$shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.15);
+
+$transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+$border-radius: 12px;
+
+// ==========================================
+// Animations
+// ==========================================
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeSlideUp {
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -11,129 +49,327 @@
   }
 }
 
-  max-width: 1200px;
-  margin: auto;
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
 
-    h1 {
-      font-size: 2rem;
+// ==========================================
+// Main Container
+// ==========================================
+.actor-page {
+  min-height: 100vh;
+  padding: 3rem 2rem;
+
+  max-width: 1200px;
+  margin: 0 auto;
+
+  // ==========================================
+  // Section Header
+  // ==========================================
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    animation: fadeInUp 1s ease-out;
+
+    .section-badge {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: rgba(99, 102, 241, 0.1);
+      color: $primary;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 600;
       margin-bottom: 1rem;
-      color : black;
-      text-align: center;
+      animation: fadeInUp 1s ease-out 0.1s both;
     }
 
-  .header {
-    margin: 0 auto 2rem auto; 
-    border-radius: 1rem;
-    background: linear-gradient(135deg, #0f53b9, #1976d2);
-    padding: 0.3rem 1rem;
-    width: fit-content;
+    .page-title {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      color: $text-dark;
+      margin: 0 0 1rem 0;
+      line-height: 1.2;
+      animation: fadeInUp 1s ease-out 0.2s both;
 
+      .gradient-text {
+        background: linear-gradient(135deg, $primary, $accent);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        background-size: 200% 200%;
+        animation: gradient 3s ease infinite;
+      }
+    }
 
-    .filters {
-      display: flex;
-      gap: 1rem;
+    .page-subtitle {
+      font-size: 1.1rem;
+      color: $text-gray;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+      animation: fadeInUp 1s ease-out 0.3s both;
+    }
+  }
 
-      input,
-      select {
-        padding: 0.5rem 1rem;
-        border: 1px solid #d1d5db;
-        border-radius: 0.5rem;
+  // ==========================================
+  // Search Section
+  // ==========================================
+  .search-section {
+    margin-bottom: 3rem;
+    animation: fadeInUp 1s ease-out 0.4s both;
+
+    .search-container {
+      position: relative;
+      max-width: 500px;
+      margin: 0 auto;
+
+      .search-icon {
+        position: absolute;
+        left: 1.25rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: $text-light;
+        pointer-events: none;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 1rem 1rem 1rem 3rem;
         font-size: 1rem;
-        outline: none;
+        border: 2px solid rgba(99, 102, 241, 0.15);
+        border-radius: $border-radius;
+        background: white;
+        color: $text-dark;
+        transition: $transition;
+        box-shadow: $shadow-sm;
+
+        &::placeholder {
+          color: $text-light;
+        }
 
         &:focus {
-          border-color: #2563eb;
+          outline: none;
+          border-color: $primary;
+          box-shadow: $shadow-md, 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
       }
     }
   }
 
+  // ==========================================
+  // Developers List
+  // ==========================================
   .developers-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
 
     .developer-card {
       animation: fadeSlideUp 0.5s ease forwards;
-      opacity: 0; 
+      opacity: 0;
       background: white;
-      padding: 1.5rem;
-      border-radius: 1rem;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+      padding: 2rem;
+      border-radius: $border-radius;
+      box-shadow: $shadow-md;
+      border: 1px solid rgba(0, 0, 0, 0.03);
       display: flex;
-      gap: 1rem;
+      flex-direction: column;
+      gap: 1.25rem;
       cursor: pointer;
       align-items: center;
+      text-align: center;
+      transition: $transition;
+      position: relative;
+      overflow: hidden;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: $bg-gradient;
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      &:hover {
+        transform: translateY(-8px);
+        box-shadow: $shadow-lg;
+        border-color: transparent;
+
+        &::before {
+          transform: scaleX(1);
+        }
+
+        img {
+          transform: scale(1.1);
+        }
+      }
 
       img {
-        width: 64px;
-        height: 64px;
+        width: 80px;
+        height: 80px;
         border-radius: 50%;
         object-fit: cover;
+        transition: $transition;
+        border: 3px solid rgba(99, 102, 241, 0.1);
       }
 
       .dev-info {
+        width: 100%;
+
         h2 {
-          font-size: 1.25rem;
-          margin: 0;
-          color: #111827;
+          font-size: 1.35rem;
+          font-weight: 700;
+          margin: 0.5rem 0;
+          color: $text-dark;
         }
 
         .status {
-          color: #ffffff;
-          font-weight: 700;
-          font-size: 0.9rem;
-          background: #2ea5e1;
-          display:inline-block;
-          border-radius: 1rem;
-          padding: 0.3rem 0.8rem;
-
-
+          display: inline-block;
+          color: white;
+          font-weight: 600;
+          font-size: 0.85rem;
+          background: $primary;
+          border-radius: 50px;
+          padding: 0.4rem 1rem;
+          margin: 0.5rem 0;
+          transition: $transition;
         }
 
         .title {
-          color: #374151;
-          font-size: 1rem;
-          padding: 0.3rem 0.8rem;
+          color: $text-gray;
+          font-size: 0.95rem;
+          margin: 0.75rem 0 0;
+          line-height: 1.5;
+          word-break: break-word;
         }
 
         .tags {
-          color: #4b5563;
-          font-size: 0.9rem;
-          margin-top: 0.3rem;
+          color: $text-light;
+          font-size: 0.85rem;
+          margin-top: 0.75rem;
         }
       }
     }
+
+    // Stagger animation for cards
+    .developer-card:nth-child(1) { animation-delay: 0s; }
+    .developer-card:nth-child(2) { animation-delay: 0.1s; }
+    .developer-card:nth-child(3) { animation-delay: 0.2s; }
+    .developer-card:nth-child(4) { animation-delay: 0.3s; }
+    .developer-card:nth-child(5) { animation-delay: 0.4s; }
+    .developer-card:nth-child(6) { animation-delay: 0.5s; }
+    .developer-card:nth-child(n+7) { animation-delay: 0.6s; }
   }
 
+  // ==========================================
+  // Pagination
+  // ==========================================
   .pagination {
-  flex: 1; 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 10rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    animation: fadeInUp 1s ease-out 0.5s both;
 
-  button {
-    padding: 0.5rem 1rem;
-    background: #1976d2;
-    color: white;
-    border: none;
-    border-radius: 0.5rem;
-    cursor: pointer;
+    button {
+      padding: 0.75rem 1.5rem;
+      background: $bg-gradient;
+      color: white;
+      border: none;
+      border-radius: $border-radius;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: $transition;
+      box-shadow: $shadow-md;
 
-    &:disabled {
-      background: #b0bec5;
-      cursor: not-allowed;
+      &:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: $shadow-lg;
+      }
+
+      &:disabled {
+        background: rgba(99, 102, 241, 0.3);
+        color: rgba(255, 255, 255, 0.6);
+        cursor: not-allowed;
+      }
+    }
+
+    .pages {
+      background: rgba(99, 102, 241, 0.1);
+      padding: 0.5rem 1.25rem;
+      color: $primary;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.95rem;
     }
   }
+}
 
-  .pages{
-        background: #1976d2;
-        padding: 0.3rem 1rem;
-        color: white;
-        border: none;
-        border-radius: 0.5rem;
+// ==========================================
+// Responsive
+// ==========================================
+@media (max-width: 768px) {
+  .actor-page {
+    padding: 2rem 1rem;
+
+    .section-header {
+      margin-bottom: 2rem;
+
+      .page-title {
+        font-size: 1.75rem;
+      }
+
+      .page-subtitle {
+        font-size: 1rem;
+      }
+    }
+
+    .search-section .search-container .search-input {
+      font-size: 16px; // Prevent zoom on iOS
+    }
+
+    .developers-list {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .pagination {
+      flex-direction: column;
+      gap: 1rem;
+
+      button,
+      .pages {
+        width: 100%;
+      }
+    }
   }
 }
+
+@media (max-width: 480px) {
+  .actor-page {
+    .section-header .page-title {
+      font-size: 1.5rem;
+    }
+
+    .developers-list .developer-card {
+      padding: 1.5rem;
+    }
+  }
 }

@@ -1,38 +1,58 @@
-<title  *ngIf="mode === 'projets'">Projets</title>
-<title  *ngIf="mode === 'mes-demos'">Mes démos</title>
-<title  *ngIf="mode === 'positionnement'">Mon positionnement</title>
-
+<title *ngIf="mode === 'projets'">Projets</title>
+<title *ngIf="mode === 'mes-demos'">Mes démos</title>
+<title *ngIf="mode === 'positionnement'">Mon positionnement</title>
 
 <div class="projects-page">
-      <h1 *ngIf="mode === 'projets'">Les positionnements des développeurs</h1>
-      <h1  *ngIf="mode === 'mes-demos'">Mon positionnement</h1>
-      <h1  *ngIf="mode === 'positionnement'">Mon positionnement</h1>
-  <div class="header">
-    <div class="filters">
-      <input [(ngModel)]="searchTitle" (input)="filterProjects()" type="text" placeholder="Rechercher un projet..."  />
+  <!-- Section Header -->
+  <div class="section-header">
+    <span class="section-badge" *ngIf="mode === 'projets'">Explorez les démos</span>
+    <span class="section-badge" *ngIf="mode === 'mes-demos'">Gérez vos contenus</span>
+    <span class="section-badge" *ngIf="mode === 'positionnement'">Votre profil</span>
+    
+    <h1 class="page-title" *ngIf="mode === 'projets'">Les <span class="gradient-text">positionnements</span> des développeurs</h1>
+    <h1 class="page-title" *ngIf="mode === 'mes-demos'">Mon <span class="gradient-text">positionnement</span></h1>
+    <h1 class="page-title" *ngIf="mode === 'positionnement'">Mon <span class="gradient-text">positionnement</span></h1>
+    
+    <p class="page-subtitle" *ngIf="mode === 'projets'">Découvrez comment les meilleurs développeurs se positionnent à travers leurs projets</p>
+    <p class="page-subtitle" *ngIf="mode === 'mes-demos'">Créez et gérez vos démos pour montrer votre vraie valeur</p>
+    <p class="page-subtitle" *ngIf="mode === 'positionnement'">Votre profil et vos réalisations</p>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-section">
+    <div class="search-container">
+      <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+      </svg>
+      <input 
+        [(ngModel)]="searchTitle" 
+        (input)="filterProjects()" 
+        type="text" 
+        placeholder="Rechercher un projet..." 
+        class="search-input"
+      />
     </div>
   </div>
 
   <div class="projects-list">
-    <div class="project-card"  *ngFor="let project of filteredProjects">
-        <div class="thumbnail-wrapper">
-          <img (click)="detailsProject(project)" class="thumbnail" controls [src]="url+project.link_thumbnail" />
+    <div class="project-card" *ngFor="let project of filteredProjects">
+      <div class="thumbnail-wrapper">
+        <img (click)="detailsProject(project)" class="thumbnail" [src]="url+project.link_thumbnail" />
+      </div>
+      <div class="project-content">
+        <h2>{{ truncate(project.name, 34) }}</h2>
+        <div class="user-info">
+          <img (click)="detailsUser(project)" [src]="url+project.user?.linkPhoto" alt="profil" />
+          <div class="user-text">
+            <p class="name">{{project.user?.firstname}} {{project.user?.lastname}}</p>
+            <p class="title">{{truncate(project.user?.title, 41)}}</p>
+          </div>
         </div>
-          <div class="project-content">
-            <h2>{{ truncate(project.name,34) }}</h2>
-            <div class="user-info">
-              <img  (click)="detailsUser(project)" [src]="url+project.user?.linkPhoto" alt="profil"/>
-              <div>
-                <p class="name">{{project.user?.firstname}} {{project.user?.lastname}}</p>
-                <p class="title">{{truncate(project.user?.title,41)}}</p>
-              </div>
-            </div>
-            <div class="user-info">
-              <div class="options" *ngIf="mode === 'mes-demos'">
-                <button class="update" (click)="editProject(project)">Modifier</button>
-                <button class="remove" (click)="deleteProject(project)">Supprimer</button>
-              </div>
-            </div>
+        <div class="options" *ngIf="mode === 'mes-demos'">
+          <button class="update" (click)="editProject(project)">Modifier</button>
+          <button class="remove" (click)="deleteProject(project)">Supprimer</button>
+        </div>
       </div>
     </div>
   </div>

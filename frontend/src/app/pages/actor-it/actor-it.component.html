@@ -1,14 +1,27 @@
 <title>Acteurs IT</title>
 
 <div class="actor-page">
-      <h1>Découvrez les talents </h1>
-  <div class="header">
-    <div class="filters">
-      <input [(ngModel)]="searchTitle" (input)="filterUsers()" type="text" placeholder="Rechercher par titre" />
-      <!-- <select [(ngModel)]="selectedStatusId" (change)="filterUsers()">
-        <option value="">Tous les statuts</option>
-        <option *ngFor="let status of listStatus" [value]="status.id">{{status.name}}</option>
-      </select> -->
+  <!-- Section Header -->
+  <div class="section-header">
+    <span class="section-badge">Trouvez votre prochain talent</span>
+    <h1 class="page-title">Découvrez les <span class="gradient-text">meilleurs développeurs</span></h1>
+    <p class="page-subtitle">Explorez les profils des développeurs qui pensent produit et démontrent leur vraie valeur</p>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-section">
+    <div class="search-container">
+      <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+      </svg>
+      <input 
+        [(ngModel)]="searchTitle" 
+        (input)="filterUsers()" 
+        type="text" 
+        placeholder="Rechercher par titre, compétence..." 
+        class="search-input"
+      />
     </div>
   </div>
 

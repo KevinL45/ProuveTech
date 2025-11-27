@@ -1,15 +1,28 @@
-// Variables
+// Variables - Design System
 $primary: #6366f1;
 $primary-dark: #2563eb;
 $primary-light: #60a5fa;
-$secondary: #ec4899;
+$accent: #8b5cf6;
+$secondary: #10b981;
+$danger: #ef4444;
+$warning: #f59e0b;
 $dark: #1e293b;
 $gray: #64748b;
 $light-gray: #f1f5f9;
 $white: #ffffff;
-$success: #10b981;
-$warning: #f59e0b;
-$error: #ef4444;
+
+$bg-gradient: linear-gradient(135deg, $primary, $primary-dark);
+$text-dark: $dark;
+$text-gray: $gray;
+$text-light: #cbd5e1;
+
+$shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
+$shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+$shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+$shadow-xl: 0 20px 50px rgba(0, 0, 0, 0.15);
+
+$border-radius: 12px;
+$transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
 // Mixins
 @mixin glass-effect {
@@ -20,22 +33,21 @@ $error: #ef4444;
 }
 
 @mixin card-shadow {
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 
-              0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: $shadow-lg;
 }
 
 @mixin hover-lift {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: $transition;
   &:hover {
     transform: translateY(-4px);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    box-shadow: $shadow-xl;
   }
 }
 
 // Main container
 .project-page {
   min-height: 100vh;
-  // background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
   position: relative;
   overflow: hidden;
 
@@ -46,7 +58,7 @@ $error: #ef4444;
     right: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.05) 1px, transparent 1px);
     background-size: 50px 50px;
     animation: float 20s linear infinite;
   }
@@ -78,7 +90,7 @@ $error: #ef4444;
       height: 100%;
       border: 3px solid transparent;
       border-radius: 50%;
-      border-top-color: $white;
+      border-top-color: $primary;
       animation: spin 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
 
       &:nth-child(2) {
@@ -87,7 +99,7 @@ $error: #ef4444;
         height: 60px;
         top: 10px;
         left: 10px;
-        border-top-color: $primary-light;
+        border-top-color: $accent;
       }
 
       &:nth-child(3) {
@@ -102,7 +114,7 @@ $error: #ef4444;
   }
 
   .loading-text {
-    color: $white;
+    color: $text-dark;
     margin-top: 2rem;
     font-size: 1.1rem;
     font-weight: 500;
@@ -144,18 +156,19 @@ $error: #ef4444;
       align-items: center;
       gap: 0.5rem;
       padding: 0.75rem 1.5rem;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid $primary-dark;
+      background: rgba(99, 102, 241, 0.1);
+      border: 2px solid $primary;
       border-radius: 50px;
-      color: $primary-dark;
+      color: $primary;
       text-decoration: none;
-      font-weight: 500;
-      transition: all 0.3s;
+      font-weight: 600;
+      transition: $transition;
       backdrop-filter: blur(10px);
 
       &:hover {
-        background: rgba(255, 255, 255, 0.2);
+        background: rgba(99, 102, 241, 0.2);
         transform: translateX(-4px);
+        box-shadow: $shadow-md;
       }
 
       .icon-back {
@@ -167,7 +180,7 @@ $error: #ef4444;
   }
 
   .hero-content {
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
   }
 
@@ -178,7 +191,7 @@ $error: #ef4444;
     .project-badge {
       display: inline-block;
       padding: 0.5rem 1.5rem;
-      background: linear-gradient(135deg, $secondary, $primary);
+      background: $bg-gradient;
       color: $white;
       font-size: 0.75rem;
       font-weight: 700;
@@ -189,12 +202,11 @@ $error: #ef4444;
     }
 
     .project-title {
-      font-size: clamp(2rem, 5vw, 4rem);
+      font-size: clamp(2rem, 5vw, 3.5rem);
       font-weight: 800;
-      color: $primary-dark;
+      color: $text-dark;
       margin-bottom: 1.5rem;
-      line-height: 1.1;
-      // text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
+      line-height: 1.2;
     }
 
     .project-meta {
@@ -207,8 +219,8 @@ $error: #ef4444;
         display: flex;
         align-items: center;
         gap: 0.5rem;
-        color: rgba(255, 255, 255, 0.9);
-        font-size: 1rem;
+        color: $text-gray;
+        font-size: 0.95rem;
 
         .meta-icon {
           width: 20px;
@@ -227,16 +239,17 @@ $error: #ef4444;
   max-width: 500px;
   margin: 0 auto 3rem;
   padding: 1.5rem;
-  border-radius: 20px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   gap: 1.25rem;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: $transition;
+  box-shadow: $shadow-md;
 
   &:hover {
     transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 25px 50px -12px $primary-light;
+    box-shadow: $shadow-lg;
 
     .avatar-ring {
       transform: rotate(360deg) scale(1.1);
@@ -263,7 +276,7 @@ $error: #ef4444;
     .avatar-ring {
       position: absolute;
       inset: -4px;
-      background: linear-gradient(135deg, $primary, $primary-dark);
+      background: $bg-gradient;
       border-radius: 50%;
       z-index: 1;
       transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
@@ -277,20 +290,20 @@ $error: #ef4444;
       font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      color: $gray;
+      color: $text-gray;
       margin-bottom: 0.25rem;
     }
 
     .author-name {
       font-size: 1.25rem;
       font-weight: 700;
-      color: $dark;
+      color: $text-dark;
       margin-bottom: 0.25rem;
     }
 
     .author-title {
       font-size: 0.9rem;
-      color: $gray;
+      color: $text-gray;
       line-height: 1.4;
     }
   }
@@ -314,14 +327,15 @@ $error: #ef4444;
 .video-card {
   @include glass-effect;
   @include card-shadow;
-  border-radius: 24px;
+  border-radius: 16px;
   overflow: hidden;
   margin-bottom: 2rem;
   animation: slideUp 0.6s ease-out;
 
   .card-header {
     padding: 1.5rem 2rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
 
     .card-title {
       display: flex;
@@ -329,7 +343,7 @@ $error: #ef4444;
       gap: 0.75rem;
       font-size: 1.25rem;
       font-weight: 700;
-      color: $dark;
+      color: $text-dark;
       margin: 0;
 
       .title-icon {
@@ -343,7 +357,7 @@ $error: #ef4444;
   .video-wrapper {
     position: relative;
     padding-top: 56.25%;
-    background: linear-gradient(135deg, $dark 0%, $gray 100%);
+    background: linear-gradient(135deg, $dark 0%, rgba(99, 102, 241, 0.1) 100%);
     overflow: hidden;
 
     video {
@@ -367,7 +381,7 @@ $error: #ef4444;
       left: 0;
       right: 0;
       height: 50%;
-      background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%);
+      background: linear-gradient(to top, rgba(0,0,0,0.3) 0%, transparent 100%);
       pointer-events: none;
     }
 
@@ -381,13 +395,14 @@ $error: #ef4444;
       .skeleton-play {
         width: 80px;
         height: 80px;
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(99, 102, 241, 0.15);
         backdrop-filter: blur(10px);
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         z-index: 2;
+        box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
 
         svg {
           width: 40px;
@@ -402,7 +417,7 @@ $error: #ef4444;
         inset: 0;
         background: linear-gradient(90deg, 
           transparent 0%, 
-          rgba(255,255,255,0.1) 50%, 
+          rgba(99, 102, 241, 0.1) 50%, 
           transparent 100%);
         animation: shimmer 2s infinite;
       }
@@ -417,19 +432,19 @@ $error: #ef4444;
       width: 64px;
       height: 64px;
       margin: 0 auto 1.5rem;
-      fill: $gray;
+      fill: $primary;
       opacity: 0.3;
     }
 
     p {
       font-size: 1.25rem;
       font-weight: 600;
-      color: $dark;
+      color: $text-dark;
       margin-bottom: 0.5rem;
     }
 
     span {
-      color: $gray;
+      color: $text-gray;
       font-size: 0.9rem;
     }
   }
@@ -454,7 +469,7 @@ $error: #ef4444;
 .info-card {
   @include glass-effect;
   @include card-shadow;
-  border-radius: 20px;
+  border-radius: 16px;
   overflow: hidden;
   animation: slideUp 0.6s ease-out backwards;
 
@@ -468,7 +483,8 @@ $error: #ef4444;
 
   .card-header {
     padding: 1.5rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
 
     .card-title {
       display: flex;
@@ -476,7 +492,7 @@ $error: #ef4444;
       gap: 0.75rem;
       font-size: 1.1rem;
       font-weight: 700;
-      color: $dark;
+      color: $text-dark;
       margin: 0;
 
       .title-icon {
@@ -504,7 +520,7 @@ $error: #ef4444;
     padding: 1.5rem;
     
     p {
-      color: $gray;
+      color: $text-gray;
       line-height: 1.8;
       font-size: 1rem;
       white-space: pre-wrap;
@@ -523,8 +539,12 @@ $error: #ef4444;
       }
 
       &::-webkit-scrollbar-thumb {
-        background: linear-gradient(135deg, $primary, $secondary);
+        background: $bg-gradient;
         border-radius: 4px;
+
+        &:hover {
+          background: linear-gradient(135deg, $primary-dark, $accent);
+        }
       }
     }
   }
@@ -544,23 +564,24 @@ $error: #ef4444;
     align-items: center;
     gap: 0.75rem;
     padding: 0.75rem 1.25rem;
-    background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
+    background: $bg-gradient;
     border-radius: 50px;
     color: $white;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 0.9rem;
-    transition: all 0.3s;
+    transition: $transition;
     animation: fadeInScale 0.5s ease-out backwards;
+    box-shadow: $shadow-md;
 
     &:hover {
       transform: translateY(-2px) scale(1.05);
-      box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.35);
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
     }
 
     .tech-icon {
       width: 28px;
       height: 28px;
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.25);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -582,19 +603,20 @@ $error: #ef4444;
     align-items: center;
     gap: 0.75rem;
     padding: 1rem;
-    background: $light-gray;
+    background: rgba(99, 102, 241, 0.05);
+    border: 1px solid rgba(99, 102, 241, 0.15);
     border-radius: 12px;
     margin-bottom: 1.5rem;
 
     .code-icon {
       width: 20px;
       height: 20px;
-      fill: $gray;
+      fill: $primary;
       flex-shrink: 0;
     }
 
     span {
-      color: $gray;
+      color: $text-gray;
       font-family: 'Courier New', monospace;
       font-size: 0.9rem;
       overflow: hidden;
@@ -610,12 +632,13 @@ $error: #ef4444;
     .btn-primary, .btn-secondary {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 0.5rem;
       padding: 0.875rem 1.5rem;
       border-radius: 12px;
       font-weight: 600;
       font-size: 0.9rem;
-      transition: all 0.3s;
+      transition: $transition;
       cursor: pointer;
       border: none;
       text-decoration: none;
@@ -628,24 +651,30 @@ $error: #ef4444;
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, $primary, $primary-dark);
+      background: $bg-gradient;
       color: $white;
       flex: 1;
-      justify-content: center;
+      box-shadow: $shadow-md;
 
       &:hover {
         transform: translateY(-2px);
-        box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.35);
+        box-shadow: $shadow-lg;
+      }
+
+      &:active {
+        transform: translateY(0);
       }
     }
 
     .btn-secondary {
-      background: $light-gray;
-      color: $gray;
+      background: rgba(99, 102, 241, 0.1);
+      color: $primary;
+      border: 2px solid rgba(99, 102, 241, 0.2);
 
       &:hover {
-        background: darken($light-gray, 5%);
-        color: $dark;
+        background: rgba(99, 102, 241, 0.15);
+        border-color: rgba(99, 102, 241, 0.3);
+        box-shadow: $shadow-sm;
       }
 
       &:active {
@@ -678,19 +707,20 @@ $error: #ef4444;
     svg {
       width: 100%;
       height: 100%;
-      fill: rgba(255, 255, 255, 0.2);
+      fill: $primary;
+      opacity: 0.2;
     }
   }
 
   h2 {
     font-size: 2rem;
     font-weight: 700;
-    color: $white;
+    color: $text-dark;
     margin-bottom: 1rem;
   }
 
   p {
-    color: rgba(255, 255, 255, 0.8);
+    color: $text-gray;
     margin-bottom: 2rem;
     font-size: 1.1rem;
   }
@@ -700,12 +730,13 @@ $error: #ef4444;
     align-items: center;
     gap: 0.75rem;
     padding: 1rem 2rem;
-    background: rgba(255, 255, 255, 0.95);
-    color: $primary;
+    background: $bg-gradient;
+    color: $white;
     border-radius: 50px;
     text-decoration: none;
     font-weight: 600;
-    transition: all 0.3s;
+    transition: $transition;
+    box-shadow: $shadow-md;
 
     svg {
       width: 20px;
@@ -715,7 +746,7 @@ $error: #ef4444;
 
     &:hover {
       transform: translateY(-2px);
-      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2);
+      box-shadow: $shadow-lg;
     }
   }
 }
@@ -798,7 +829,7 @@ $error: #ef4444;
 
     .hero-header {
       .project-title {
-        font-size: 2rem;
+        font-size: 1.75rem;
       }
     }
   }
@@ -827,6 +858,17 @@ $error: #ef4444;
       .btn-primary {
         width: 100%;
       }
+    }
+  }
+
+  .video-card {
+    margin-bottom: 1.5rem;
+  }
+
+  .tech-card {
+    .tech-grid {
+      justify-content: center;
+      padding: 1.5rem 1rem;
     }
   }
 }
