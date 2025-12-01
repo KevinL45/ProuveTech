@@ -18,15 +18,11 @@ public class Tool implements Serializable {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(nullable = false)
-    private String logo;
-
     public Tool() {
     }
 
-    public Tool(String name, String logo) {
+    public Tool(String name) {
         this.name = name;
-        this.logo = logo;
     }
 
     // Relation Many-to-Many avec Project
@@ -45,14 +41,6 @@ public class Tool implements Serializable {
         this.name = name;
     }
 
-    public String getLogo() {
-        return logo;
-    }
-
-    public void setLogo(String logo) {
-        this.logo = logo;
-    }
-
     public List<Project> getProjects() {
         return projects;
     }
@@ -68,7 +56,6 @@ public class Tool implements Serializable {
         return "Tool{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", logo='" + logo + '\'' +
                 '}';
     }
 }

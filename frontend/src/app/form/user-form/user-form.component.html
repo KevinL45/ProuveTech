@@ -12,24 +12,20 @@
     <h2>Créer un compte</h2>
 
     <div class="form-group">
-      <label for="firstname">Prénom</label>
+      <label for="firstname">Prénom -     
+        {{ userForm.get('firstname')?.value?.length || 0 }} / 50
+    </label>
       <input type="text" id="firstname" formControlName="firstname" required />
-    </div>
-
-    <div class="char-count">
-      {{ userForm.get('firstname')?.value?.length || 0 }} / 50
     </div>
     <div class="error" *ngIf="userForm.get('firstname')?.hasError('maxlength')">
       Maximum 50 caractères autorisés.
     </div>
 
     <div class="form-group">
-      <label for="lastname">Nom</label>
+      <label for="lastname">Nom -
+          {{ userForm.get('lastname')?.value?.length || 0 }} / 50
+      </label>
       <input type="text" id="lastname" formControlName="lastname" required />
-    </div>
-
-    <div class="char-count">
-      {{ userForm.get('lastname')?.value?.length || 0 }} / 50
     </div>
     <div class="error" *ngIf="userForm.get('lastname')?.hasError('maxlength')">
       Maximum 50 caractères autorisés.
@@ -38,36 +34,30 @@
 
 
     <div class="form-group">
-      <label for="email">Adresse e-mail</label>
+      <label for="email">Adresse e-mail -
+          {{ userForm.get('mail')?.value?.length || 0 }} / 255
+      </label>
       <input type="email" id="email" formControlName="mail" required />
-    </div>
-
-    <div class="char-count">
-      {{ userForm.get('mail')?.value?.length || 0 }} / 255
     </div>
     <div class="error" *ngIf="userForm.get('mail')?.hasError('maxlength')">
       Maximum 255 caractères autorisés.
     </div>
 
     <div class="form-group">
-      <label for="password">Mot de passe</label>
+      <label for="password">Mot de passe -
+            {{ userForm.get('password')?.value?.length || 0 }} / 255
+      </label>
       <input type="password" id="password" formControlName="password" required minlength="6" />
-    </div>
-
-    <div class="char-count">
-      {{ userForm.get('password')?.value?.length || 0 }} / 255
     </div>
     <div class="error" *ngIf="userForm.get('password')?.hasError('maxlength')">
       Maximum 255 caractères autorisés.
     </div>
 
     <div class="form-group">
-      <label for="confirmPassword">Retapez le mot de passe</label>
+      <label for="confirmPassword">Retapez le mot de passe -
+          {{ userForm.get('confirmPassword')?.value?.length || 0 }} / 255
+      </label>
       <input type="password" id="confirmPassword" formControlName="confirmPassword" required minlength="6" />
-    </div>
-
-    <div class="char-count">
-      {{ userForm.get('confirmPassword')?.value?.length || 0 }} / 255
     </div>
     <div class="error" *ngIf="userForm.get('confirmPassword')?.hasError('maxlength')">
       Maximum 255 caractères autorisés.
@@ -93,27 +83,21 @@
     </div>
     <h2>Authentification</h2>
     <div class="form-group">
-      <label for="email">Adresse e-mail</label>
+      <label for="email">Adresse e-mail -
+          {{ loginForm.get('mail')?.value?.length || 0 }} / 50
+      </label>
       <input type="email" id="email" formControlName="mail" required />
     </div>
-
-    <div class="char-count">
-      {{ loginForm.get('mail')?.value?.length || 0 }} / 50
-    </div>
-
     <div class="error" *ngIf="loginForm.get('mail')?.hasError('maxlength')">
       Maximum 255 caractères autorisés.
     </div>
 
     <div class="form-group">
-      <label for="password">Mot de passe</label>
+      <label for="password">Mot de passe -
+            {{ loginForm.get('password')?.value?.length || 0 }} / 50
+      </label>
       <input type="password" id="password" formControlName="password" required minlength="6" />
     </div>
-
-    <div class="char-count">
-      {{ loginForm.get('password')?.value?.length || 0 }} / 50
-    </div>
-
     <div class="error" *ngIf="loginForm.get('password')?.hasError('maxlength')">
       Maximum 255 caractères autorisés.
     </div>
@@ -139,27 +123,21 @@
     </div>
 
     <div class="form-group">
-      <label for="firstname">Prénom</label>
+      <label for="firstname">Prénom -
+          {{ updateForm.get('firstname')?.value?.length || 0 }} / 50
+      </label>
       <input type="text" id="firstname" formControlName="firstname" placeholder="Votre prénom" required />
     </div>
-
-    <div class="char-count">
-      {{ updateForm.get('firstname')?.value?.length || 0 }} / 50
-    </div>
-
     <div class="error" *ngIf="updateForm.get('firstname')?.hasError('maxlength')">
       Maximum 50 caractères autorisés.
     </div>
 
     <div class="form-group">
-      <label for="lastname">Nom</label>
+      <label for="lastname">Nom
+          {{ updateForm.get('lastname')?.value?.length || 0 }} / 50
+      </label>
       <input type="text" id="lastname" formControlName="lastname" placeholder="Votre nom" required />
     </div>
-
-    <div class="char-count">
-      {{ updateForm.get('lastname')?.value?.length || 0 }} / 50
-    </div>
-
     <div class="error" *ngIf="updateForm.get('lastname')?.hasError('maxlength')">
       Maximum 50 caractères autorisés.
     </div>
@@ -172,29 +150,23 @@
     </div>
 
     <div class="form-group">
-      <label for="title">Titre</label>
+      <label for="title">Titre -
+              {{ updateForm.get('title')?.value?.length || 0 }} / 100
+      </label>
       <input type="text" id="title" formControlName="title" required
-        placeholder="Votre titre (Ex : Développeur Angular)" />
+        placeholder="Votre positionnement unique" />
     </div>
-
-    <div class="char-count">
-      {{ updateForm.get('title')?.value?.length || 0 }} / 100
-    </div>
-
     <div class="error" *ngIf="loginForm.get('title')?.hasError('maxlength')">
       Maximum 100 caractères autorisés.
     </div>
 
     <div class="form-group">
-      <label for="description">Description</label>
+      <label for="description">Description -
+          {{ updateForm.get('description')?.value?.length || 0 }} / 5000
+      </label>
       <textarea type="text" id="description" formControlName="description" required
         placeholder="Description de votre profil"></textarea>
     </div>
-
-    <div class="char-count">
-      {{ updateForm.get('description')?.value?.length || 0 }} / 5000
-    </div>
-
     <div class="error" *ngIf="updateForm.get('description')?.hasError('maxlength')">
       Maximum 5000 caractères autorisés.
     </div>

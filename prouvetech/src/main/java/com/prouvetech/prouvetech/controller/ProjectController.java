@@ -181,7 +181,7 @@ public class ProjectController {
                                 .collect(Collectors.toList());
                 List<Tool> tools = toolService.getToolsByIds(toolIds);
                 List<ToolDTO> toolsDto = tools.stream()
-                                .map(t -> new ToolDTO(t.getId(), t.getName(), t.getLogo()))
+                                .map(t -> new ToolDTO(t.getId(), t.getName()))
                                 .collect(Collectors.toList());
 
                 ProjectDTO projectDTO = new ProjectDTO(
@@ -220,7 +220,7 @@ public class ProjectController {
                                 .collect(Collectors.toList());
                 List<Tool> tools = toolService.getToolsByIds(toolIds);
                 List<ToolDTO> toolsDto = tools.stream()
-                                .map(t -> new ToolDTO(t.getId(), t.getName(), t.getLogo()))
+                                .map(t -> new ToolDTO(t.getId(), t.getName()))
                                 .collect(Collectors.toList());
 
                 ProjectDTO projectDTO = new ProjectDTO(

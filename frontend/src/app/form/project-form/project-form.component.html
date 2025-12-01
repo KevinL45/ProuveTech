@@ -5,36 +5,34 @@
       {{ message }}
     </div>
 
-    <h2 *ngIf="mode === 'create-project'">Ajouter une vidéo d'un projet</h2>
+    <h2 *ngIf="mode === 'create-project'">Ajouter une vidéo</h2>
     <title *ngIf="mode === 'create-project'">Ajouter une vidéo</title>
 
-    <h2 *ngIf="mode === 'update-project'">Modifier la vidéo du projet</h2>
-    <title *ngIf="mode === 'update-project'">Modifier le projet</title>
+    <h2 *ngIf="mode === 'update-project'">Modifier la vidéo</h2>
+    <title *ngIf="mode === 'update-project'">Modifier la vidéo</title>
 
 
     <div class="form-group">
-      <label for="name">*Nom du projet</label>
-      <input type="text" id="name" formControlName="name" required />
-      <div class="char-count">
+      <label for="name">*Nom -
         {{ projectForm.get('name')?.value?.length || 0 }} / 50
-      </div>
+      </label>
+      <input type="text" id="name" formControlName="name" required />
       <div class="error" *ngIf="projectForm.get('name')?.hasError('maxlength')">
         Maximum 50 caractères autorisés.
       </div>
     </div>
 
     <div class="form-group">
-      <label for="description">*Description</label>
-      <textarea id="description" formControlName="description" required></textarea>
-      <div class="char-count">
+      <label for="description">*Description -
         {{ projectForm.get('description')?.value?.length || 0 }} / 1000
-      </div>
+      </label>
+      <textarea id="description" formControlName="description" required></textarea>
       <div class="error" *ngIf="projectForm.get('description')?.hasError('maxlength')">
         Maximum 1000 caractères autorisés.
       </div>
     </div>
 
-    <div class="form-group">
+    <!-- <div class="form-group">
       <label for="sourcecode">Lien du code source (facultatif)</label>
       <input type="text" id="sourcecode" formControlName="sourcecode" />
       <div class="char-count">
@@ -43,32 +41,31 @@
       <div class="error" *ngIf="projectForm.get('sourcecode')?.hasError('maxlength')">
         Maximum 255 caractères autorisés.
       </div>
-    </div>
+    </div> -->
 
     <div class="form-group">
-      <label for="tools">*Outils utilisés</label>
+      <label for="tools">*Outils utilisés -
+          {{ projectForm.get('tools')?.value?.length || 0 }} / 3
+      </label>
       <ng-select [items]="listTools" bindLabel="name" bindValue="id" [multiple]="true" [searchable]="true"
         [maxSelectedItems]="3" formControlName="tools">
       </ng-select>
-      <div class="char-count">
-        {{ projectForm.get('tools')?.value?.length || 0 }} / 3
-      </div>
       <div class="error" *ngIf="projectForm.get('tools')?.hasError('maxTools')">
         Maximum 3 outils autorisés.
       </div>
     </div>
 
     <div class="form-group">
-      <label for="video">*Miniature du projet</label>
+      <label for="video">*Miniature</label>
       <input class="uploads" type="file" id="thumbnail" (change)="onThumbnailChange($event)" accept="image/*" />
     </div>
     <div *ngIf="thumbnailUrl" class="form-group">
       <label>Miniature actuelle :</label><br>
-      <img [src]="thumbnailUrl" alt="Miniature du projet">
+      <img [src]="thumbnailUrl" alt="Miniature">
     </div>
 
     <div class="form-group">
-      <label for="video">*Vidéo du projet</label>
+      <label for="video">*Vidéo</label>
       <input type="file" id="video" class="uploads" (change)="onVideoChange($event)" accept="video/*" />
     </div>
     <div *ngIf="videoUrl" class="form-group">
@@ -77,7 +74,7 @@
     </div>
 
     <button type="submit" [disabled]="projectForm.invalid">
-      {{ mode === 'create-project' ? 'Ajouter le projet' : 'Mettre à jour' }}
+      {{ mode === 'create-project' ? 'Ajouter la vidéo' : 'Mettre à jour' }}
     </button>
   </form>
 </div>

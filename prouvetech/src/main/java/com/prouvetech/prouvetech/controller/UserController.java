@@ -4,20 +4,16 @@ import com.prouvetech.prouvetech.dto.ProjectDTO;
 import com.prouvetech.prouvetech.dto.StatusDTO;
 import com.prouvetech.prouvetech.dto.UserDTO;
 import com.prouvetech.prouvetech.model.Project;
-import com.prouvetech.prouvetech.model.Role;
 import com.prouvetech.prouvetech.model.Status;
 import com.prouvetech.prouvetech.model.User;
 import com.prouvetech.prouvetech.service.ProjectService;
-import com.prouvetech.prouvetech.service.RoleService;
 import com.prouvetech.prouvetech.service.StatusService;
 import com.prouvetech.prouvetech.service.UserService;
 import com.prouvetech.prouvetech.utils.ResponseMessage;
 import com.prouvetech.prouvetech.utils.Uploads;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,9 +42,6 @@ public class UserController {
     @Autowired
     private Uploads uploads;
 
-    @Autowired
-    private RoleService roleService;
-
     @PostMapping("/register")
     public ResponseEntity<ResponseMessage> addUser(@RequestBody UserDTO userDTO) {
 
@@ -73,7 +66,6 @@ public class UserController {
         User user = userService.getUserByMail(email);
 
         Status status = statusService.getStatus(userDTO.getStatusId());
-        Optional<Role> role = roleService.getRoleByStatus(status);
 
         Tika tika = new Tika();
 
@@ -86,40 +78,12 @@ public class UserController {
 
         String newphoto = uploads.updateFile(userDTO.getPhoto(), user.getPhoto());
 
-        // List<UserSocialNetworks> newUserSocials = new ArrayList<>();
-
-        // for (String link : userDTO.getLink_social_networks()) {
-        // SocialNetworks socialNetwork =
-        // socialNetworksService.detectNetworkNameFromUrl(link);
-
-        // if (socialNetwork != null) {
-        // UserSocialNetworks usn = new UserSocialNetworks();
-
-        // UserSocialNetworksId compositeKey = new UserSocialNetworksId(user.getId(),
-        // socialNetwork.getId());
-        // usn.setUserSocialNetworksId(compositeKey);
-
-        // usn.setUser(user);
-        // usn.setSocialNetwork(socialNetwork);
-        // usn.setProfileUrl(link);
-        // newUserSocials.add(usn);
-        // } else {
-        // ResponseMessage message = new ResponseMessage(false,
-        // "Le réseau social pour le lien '" + link + "' n'est pas reconnu.");
-        // return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
-
-        // }
-        // }
-
         user.setFirstname(userDTO.getFirstname());
         user.setLastname(userDTO.getLastname());
         user.setTitle(userDTO.getTitle());
         user.setDescription(userDTO.getDescription());
         user.setPhoto(newphoto);
         user.setStatus(status);
-        user.setRoles(new ArrayList<>(List.of(role.get())));
-        // user.getSocialNetworks().clear();
-        // user.getSocialNetworks().addAll(newUserSocials);
         ResponseMessage result = userService.updateUser(user);
 
         if (!result.isSuccess()) {

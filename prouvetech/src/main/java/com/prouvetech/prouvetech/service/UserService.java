@@ -4,6 +4,7 @@ import com.prouvetech.prouvetech.config.JwtTokenProvider;
 import com.prouvetech.prouvetech.model.Role;
 import com.prouvetech.prouvetech.model.User;
 import com.prouvetech.prouvetech.repository.UserRepository;
+import com.prouvetech.prouvetech.repository.RoleRepository;
 import com.prouvetech.prouvetech.utils.ResponseMessage;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Autowired
-    private RoleService roleService;
+    private RoleRepository roleRepository;
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
@@ -65,13 +66,13 @@ public class UserService implements UserDetailsService {
             return new ResponseMessage(false, "Vous avez déja un compte");
 
         user.setPassword(hashPassword(user.getPassword()));
-        Role roleToAssign = new Role();
-        roleToAssign = roleService.getRoleByStatus(user.getStatus()).get();
+
+        Role roleToAssign = roleRepository.findByName("ROLE_DEVELOPER")
+                .orElseThrow(() -> new RuntimeException("Rôle non trouvé"));
 
         user.setRoles(List.of(roleToAssign));
         userRepository.save(user);
-        return new ResponseMessage(true, "Vous êtes inscrit. Votre rôle est \"" + roleToAssign.getName() +
-                "\", et votre statut est \"" + user.getStatus().getName() + "\".");
+        return new ResponseMessage(true, "Vous êtes inscrit. ");
     }
 
     public ResponseMessage updateUser(User user) {
@@ -79,9 +80,7 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
 
         return new ResponseMessage(true,
-                "Votre compte a été modifié, Voici votre role de '"
-                        + roleService.getRoleByStatus(user.getStatus()).get().getName()
-                        + "'', votre statut est '" + user.getStatus().getName() + "'");
+                "Votre compte a été modifié");
 
     }
 
