@@ -5,11 +5,11 @@
       {{ message }}
     </div>
 
-    <h2 *ngIf="mode === 'create-project'">Ajouter une vidéo</h2>
-    <title *ngIf="mode === 'create-project'">Ajouter une vidéo</title>
+    <h2 *ngIf="mode === 'create-project'">Ajouter un projet</h2>
+    <title *ngIf="mode === 'create-project'">Ajouter un projet</title>
 
-    <h2 *ngIf="mode === 'update-project'">Modifier la vidéo</h2>
-    <title *ngIf="mode === 'update-project'">Modifier la vidéo</title>
+    <h2 *ngIf="mode === 'update-project'">Modifier le projet</h2>
+    <title *ngIf="mode === 'update-project'">Modifier le projet</title>
 
 
     <div class="form-group">
@@ -32,8 +32,8 @@
       </div>
     </div>
 
-    <!-- <div class="form-group">
-      <label for="sourcecode">Lien du code source (facultatif)</label>
+    <div class="form-group">
+      <label for="sourcecode">*Lien du code source</label>
       <input type="text" id="sourcecode" formControlName="sourcecode" />
       <div class="char-count">
         {{ projectForm.get('sourcecode')?.value?.length || 0 }} / 255
@@ -41,7 +41,7 @@
       <div class="error" *ngIf="projectForm.get('sourcecode')?.hasError('maxlength')">
         Maximum 255 caractères autorisés.
       </div>
-    </div> -->
+    </div>
 
     <div class="form-group">
       <label for="tools">*Outils utilisés -
@@ -64,17 +64,8 @@
       <img [src]="thumbnailUrl" alt="Miniature">
     </div>
 
-    <div class="form-group">
-      <label for="video">*Vidéo</label>
-      <input type="file" id="video" class="uploads" (change)="onVideoChange($event)" accept="video/*" />
-    </div>
-    <div *ngIf="videoUrl" class="form-group">
-      <label>Vidéo actuelle :</label><br>
-      <video [src]="videoUrl" controls></video>
-    </div>
-
     <button type="submit" [disabled]="projectForm.invalid">
-      {{ mode === 'create-project' ? 'Ajouter la vidéo' : 'Mettre à jour' }}
+      {{ mode === 'create-project' ? 'Ajouter le projet' : 'Mettre à jour' }}
     </button>
   </form>
 </div>
