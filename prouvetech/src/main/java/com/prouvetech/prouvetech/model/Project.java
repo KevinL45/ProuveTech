@@ -21,16 +21,10 @@ public class Project {
     private String description;
 
     @Column(nullable = false)
-    private String video;
-
-    @Column(nullable = false)
     private String thumbnail;
 
     @Column(nullable = true)
     private String sourceCode;
-
-    @Column(nullable = true)
-    private String videoExplained;
 
     @Column(nullable = false)
     private LocalDateTime createDate;
@@ -54,13 +48,12 @@ public class Project {
     public Project() {
     }
 
-    public Project(String name, String description, String video, String thumbnail, String sourceCode, User user,
+    public Project(String name, String description, String thumbnail, String sourceCode, User user,
             List<Tool> tools,
             LocalDateTime createDate,
             LocalDateTime updateDate) {
         this.name = name;
         this.description = description;
-        this.video = video;
         this.thumbnail = thumbnail;
         this.sourceCode = sourceCode;
         this.user = user;
@@ -69,11 +62,10 @@ public class Project {
         this.tools = tools;
     }
 
-    public Project(String name, String description, String video, String thumbnail, String sourceCode, User user,
+    public Project(String name, String description, String thumbnail, String sourceCode, User user,
             LocalDateTime updateDate) {
         this.name = name;
         this.description = description;
-        this.video = video;
         this.thumbnail = thumbnail;
         this.sourceCode = sourceCode;
         this.user = user;
@@ -104,14 +96,6 @@ public class Project {
         this.description = description;
     }
 
-    public String getVideo() {
-        return video;
-    }
-
-    public void setVideo(String video) {
-        this.video = video;
-    }
-
     public String getThumbnail() {
         return thumbnail;
     }
@@ -126,14 +110,6 @@ public class Project {
 
     public void setSourceCode(String sourceCode) {
         this.sourceCode = sourceCode;
-    }
-
-    public String getVideoExplained() {
-        return videoExplained;
-    }
-
-    public void setVideoExplained(String videoExplained) {
-        this.videoExplained = videoExplained;
     }
 
     public LocalDateTime getCreateDate() {
@@ -182,9 +158,7 @@ public class Project {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", video='" + video + '\'' +
                 ", sourceCode='" + sourceCode + '\'' +
-                ", videoExplained='" + videoExplained + '\'' +
                 ", createDate=" + createDate +
                 ", updateDate=" + updateDate +
                 ", deleteDate=" + deleteDate +

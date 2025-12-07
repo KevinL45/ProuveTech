@@ -32,7 +32,6 @@ public class SecurityConfig {
                                                 .requestMatchers(
                                                                 "/user/register",
                                                                 "/user/login",
-
                                                                 "/user/list",
                                                                 "/user/details/{id}",
                                                                 "/user/projects/{id}",
@@ -48,6 +47,10 @@ public class SecurityConfig {
                                                                 "/project/details/{id}",
                                                                 "/project/search",
 
+                                                                "/demo/list",
+                                                                "/demo/details/{id}",
+                                                                "/demo/search",
+
                                                                 "/uploads/**")
                                                 .permitAll()
                                                 .requestMatchers(
@@ -55,8 +58,7 @@ public class SecurityConfig {
                                                                 "/user/profile",
                                                                 "/user/myprojects",
 
-                                                                "project/myproject/{id}",
-                                                                "project/delete/{id}")
+                                                                "project/myproject/{id}")
                                                 .authenticated()
                                                 .requestMatchers("/tool/create",
                                                                 "/tool/update/{id}",
@@ -69,7 +71,11 @@ public class SecurityConfig {
                                                 .requestMatchers(
                                                                 "/project/create",
                                                                 "/project/update/{id}",
-                                                                "/project/delete/{id}")
+                                                                "/project/delete/{id}",
+
+                                                                "/demo/create",
+                                                                "/demo/update/{id}",
+                                                                "/demo/delete/{id}")
                                                 .hasAnyAuthority("ROLE_DEVELOPER"))
                                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

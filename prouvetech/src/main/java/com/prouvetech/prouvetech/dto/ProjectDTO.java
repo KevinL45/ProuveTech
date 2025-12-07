@@ -9,8 +9,6 @@ public class ProjectDTO {
     private String name;
     private String description;
     private String sourcecode;
-    private MultipartFile video;
-    private String link_video;
     private MultipartFile thumbnail;
     private String link_thumbnail;
     private UserDTO user;
@@ -22,25 +20,23 @@ public class ProjectDTO {
 
     }
 
-    public ProjectDTO(long id, String name, String description, String link_video, String link_thumbnail,
+    public ProjectDTO(long id, String name, String description, String link_thumbnail,
             String soucecode, UserDTO user) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.sourcecode = soucecode;
-        this.link_video = link_video;
         this.link_thumbnail = link_thumbnail;
         this.user = user;
     }
 
-    public ProjectDTO(long id, String name, String description, String link_video, String link_thumbnail,
+    public ProjectDTO(long id, String name, String description, String link_thumbnail,
             String soucecode,
             UserDTO user, List<ToolDTO> tools) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.sourcecode = soucecode;
-        this.link_video = link_video;
         this.link_thumbnail = link_thumbnail;
         this.tools = tools;
         this.user = user;
@@ -86,14 +82,6 @@ public class ProjectDTO {
         this.tools = tools;
     }
 
-    public MultipartFile getVideo() {
-        return video;
-    }
-
-    public void setVideo(MultipartFile video) {
-        this.video = video;
-    }
-
     public MultipartFile getThumbnail() {
         return thumbnail;
     }
@@ -116,14 +104,6 @@ public class ProjectDTO {
 
     public void setUser(UserDTO user) {
         this.user = user;
-    }
-
-    public String getLink_video() {
-        return link_video;
-    }
-
-    public void setLink_video(String link_video) {
-        this.link_video = link_video;
     }
 
     public List<Long> getToolsIds() {

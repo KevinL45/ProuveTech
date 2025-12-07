@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.tika.Tika;
+// import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,29 +60,12 @@ public class ProjectController {
                 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                 String email = authentication.getName();
                 User user = userService.getUserByMail(email);
-
-                Tika tika = new Tika();
-
-                String detectedType = tika.detect(projectDTO.getVideo().getInputStream());
-
-                if (!detectedType.startsWith("video/")) {
-                        ResponseMessage message = new ResponseMessage(false, "Le fichier n'est pas une vidéo");
-                        return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
-                }
-
-                // Verifie la durée et la taille de la vidéo
-                ResponseMessage validate = uploads.validateVideo(projectDTO.getVideo());
-                if (!validate.isSuccess()) {
-                        return ResponseEntity.status(HttpStatus.CONFLICT).body(validate);
-                }
-                String newVideo = uploads.saveFile(projectDTO.getVideo());
                 String newThumbnail = uploads.saveFile(projectDTO.getThumbnail());
                 List<Tool> selectedTools = toolService.getToolsByIds(projectDTO.getToolsIds());
 
                 Project project = new Project(
                                 projectDTO.getName(),
                                 projectDTO.getDescription(),
-                                newVideo,
                                 newThumbnail,
                                 projectDTO.getSourcecode(),
                                 user,
@@ -109,17 +92,6 @@ public class ProjectController {
                 String email = authentication.getName();
                 User user = userService.getUserByMail(email);
                 Project project = projectService.getProject(id);
-
-                // Verifie la durée et la taille de la vidéo
-                ResponseMessage validate = uploads.validateVideo(projectDTO.getVideo());
-                if (!validate.isSuccess()) {
-                        return ResponseEntity.status(HttpStatus.CONFLICT).body(validate);
-                }
-
-                if (projectDTO.getVideo() != null) {
-                        String newVideo = uploads.updateFile(projectDTO.getVideo(), project.getVideo());
-                        project.setVideo(newVideo);
-                }
 
                 if (projectDTO.getThumbnail() != null) {
                         String newThumbnail = uploads.updateFile(projectDTO.getThumbnail(), project.getThumbnail());
@@ -153,7 +125,6 @@ public class ProjectController {
                                                 p.getId(),
                                                 p.getName(),
                                                 p.getDescription(),
-                                                p.getVideo(),
                                                 p.getThumbnail(),
                                                 p.getSourceCode(),
                                                 new UserDTO(
@@ -188,7 +159,6 @@ public class ProjectController {
                                 p.getId(),
                                 p.getName(),
                                 p.getDescription(),
-                                p.getVideo(),
                                 p.getThumbnail(),
                                 p.getSourceCode(),
                                 new UserDTO(
@@ -227,7 +197,6 @@ public class ProjectController {
                                 p.getId(),
                                 p.getName(),
                                 p.getDescription(),
-                                p.getVideo(),
                                 p.getThumbnail(),
                                 p.getSourceCode(),
                                 new UserDTO(
@@ -257,7 +226,6 @@ public class ProjectController {
                                                 p.getId(),
                                                 p.getName(),
                                                 p.getDescription(),
-                                                p.getVideo(),
                                                 p.getThumbnail(),
                                                 p.getSourceCode(),
                                                 new UserDTO(
@@ -296,7 +264,6 @@ public class ProjectController {
                 }
 
                 uploads.deleteFile(project.getThumbnail());
-                uploads.deleteFile(project.getVideo());
                 ResponseMessage result = projectService.deleteProject(project.getId());
 
                 if (!result.isSuccess()) {

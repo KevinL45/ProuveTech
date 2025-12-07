@@ -155,7 +155,6 @@ public class UserController {
                         p.getId(),
                         p.getName(),
                         p.getDescription(),
-                        p.getVideo(),
                         p.getThumbnail(),
                         p.getSourceCode(),
                         userDTO))
@@ -186,7 +185,6 @@ public class UserController {
                         p.getId(),
                         p.getName(),
                         p.getDescription(),
-                        p.getVideo(),
                         p.getThumbnail(),
                         p.getSourceCode(),
                         userDTO))
