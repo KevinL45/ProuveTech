@@ -9,6 +9,8 @@ import { ProjectFormComponent } from './form/project-form/project-form.component
 import { ProjectDetailsComponent } from './pages/project-details/project-details.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { ConditionsComponent } from './pages/conditions/conditions.component';
+import { Demo } from './models/Demo';
+import { DemoFormComponent } from './form/demo-form/demo-form.component';
 
 export const routes: Routes = [
   {
@@ -36,7 +38,11 @@ export const routes: Routes = [
     { path: 'creer-projet', component:  ProjectFormComponent},
     { path: 'modifier-projet/:id', component:  ProjectFormComponent},
 
-      { path: 'conditions', component:  ConditionsComponent},
+    { path: 'details-demo/:id', component:  DemoFormComponent},
+    { path: 'creer-demo', component:  DemoFormComponent},
+    { path: 'modifier-demo/:id', component:  DemoFormComponent},
+
+    { path: 'conditions', component:  ConditionsComponent},
 
 
 

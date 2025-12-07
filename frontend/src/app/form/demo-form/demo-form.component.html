@@ -1,0 +1,58 @@
+<div class="page">
+  <form class="form" [formGroup]="demoForm" (ngSubmit)="submit()" enctype="multipart/form-data">
+
+    <div *ngIf="message" [ngClass]="{'success': success, 'error': !success}" class="message">
+      {{ message }}
+    </div>
+
+    <h2 *ngIf="mode === 'create-demo'">Ajouter une démo</h2>
+    <title *ngIf="mode === 'create-demo'">Ajouter une démo</title>
+
+    <h2 *ngIf="mode === 'update-demo'">Modifier une démo</h2>
+    <title *ngIf="mode === 'update-demo'">Modifier une démo</title>
+
+
+    <div class="form-group">
+      <label for="name">*Nom -
+        {{ demoForm.get('name')?.value?.length || 0 }} / 50
+      </label>
+      <input type="text" id="name" formControlName="name" required />
+      <div class="error" *ngIf="demoForm.get('name')?.hasError('maxlength')">
+        Maximum 50 caractères autorisés.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">*Description -
+        {{ demoForm.get('description')?.value?.length || 0 }} / 1000
+      </label>
+      <textarea id="description" formControlName="description" required></textarea>
+      <div class="error" *ngIf="demoForm.get('description')?.hasError('maxlength')">
+        Maximum 1000 caractères autorisés.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="video">*Miniature</label>
+      <input class="uploads" type="file" id="thumbnail" (change)="onThumbnailChange($event)" accept="image/*" />
+    </div>
+    <div *ngIf="thumbnailUrl" class="form-group">
+      <label>Miniature actuelle :</label><br>
+      <img [src]="thumbnailUrl" alt="Miniature">
+    </div>
+    
+
+    <div class="form-group">
+      <label for="video">*Miniature</label>
+      <input class="uploads" type="file" id="thumbnail" (change)="onThumbnailChange($event)" accept="image/*" />
+    </div>
+    <div *ngIf="thumbnailUrl" class="form-group">
+      <label>Miniature actuelle :</label><br>
+      <img [src]="thumbnailUrl" alt="Miniature">
+    </div>
+
+    <button type="submit" [disabled]="demoForm.invalid">
+      {{ mode === 'create-demo' ? 'Ajouter une demo' : 'Mettre à jour' }}
+    </button>
+  </form>
+</div>
