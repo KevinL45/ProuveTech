@@ -53,6 +53,7 @@ public class Demo {
         this.name = name;
         this.description = description;
         this.thumbnail = thumbnail;
+        this.video = video;
         this.project = project;
         this.createDate = createDate;
         this.updateDate = updateDate;

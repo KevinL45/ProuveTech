@@ -11,6 +11,7 @@ import { AdminComponent } from './pages/admin/admin.component';
 import { ConditionsComponent } from './pages/conditions/conditions.component';
 import { Demo } from './models/Demo';
 import { DemoFormComponent } from './form/demo-form/demo-form.component';
+import { DemoDetailsComponent } from './pages/demo-details/demo-details.component';
 
 export const routes: Routes = [
   {
@@ -38,7 +39,7 @@ export const routes: Routes = [
     { path: 'creer-projet', component:  ProjectFormComponent},
     { path: 'modifier-projet/:id', component:  ProjectFormComponent},
 
-    { path: 'details-demo/:id', component:  DemoFormComponent},
+    { path: 'details-demo/:id', component:  DemoDetailsComponent},
     { path: 'creer-demo', component:  DemoFormComponent},
     { path: 'modifier-demo/:id', component:  DemoFormComponent},
 

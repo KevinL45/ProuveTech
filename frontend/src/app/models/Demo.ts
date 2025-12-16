@@ -1,3 +1,4 @@
+import { Project } from "./Project";
 
 export class Demo{
         id?: number;
@@ -9,6 +10,7 @@ export class Demo{
         link_video?:string
         updatedDate: Date;
         createdDate?: Date;
+        project?: Project
     
         constructor(name: string, description:string, thumbnail:File, video: File,
             createdDate?: Date, id?: number, link_thumbnail?:string, link_video?:string  ) {

@@ -61,46 +61,51 @@
     <!-- Main Content Grid -->
     <div class="main-content">
       
-      <!-- Video Section -->
-      <div class="video-card">
+      <!-- Demos Section -->
+      <div class="demos-card" [class.loading]="isDemosLoading">
         <div class="card-header">
           <h2 class="card-title">
             <svg class="title-icon" viewBox="0 0 24 24">
               <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/>
             </svg>
-            Démonstration vidéo
+            Vidéos
           </h2>
+          <span class="demos-count" *ngIf="demos.length">{{ demos.length }}</span>
         </div>
         
-        <!-- <div class="video-wrapper" *ngIf="project?.link_video">
-          <div *ngIf="isVideoLoading" class="video-skeleton">
-            <div class="skeleton-play">
-              <svg viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z"/>
-              </svg>
+        <div *ngIf="isDemosLoading" class="loading-demos">
+          <div class="spinner-mini"></div>
+          <p>Chargement des démos...</p>
+        </div>
+
+        <div *ngIf="!isDemosLoading && demos.length > 0" class="demos-grid">
+          <div class="demo-item" *ngFor="let demo of demos; let i = index" [style.animation-delay.ms]="i * 50">
+            <div class="demo-thumbnail" (click)="detailsDemo(demo)">
+              <img 
+                [src]="url + demo.link_thumbnail" 
+                [alt]="demo.name"
+                onerror="this.src='assets/default-placeholder.png'">
+              <div class="play-overlay">
+                <svg class="play-icon" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              </div>
             </div>
-            <div class="skeleton-shimmer"></div>
-          </div> -->
-          <!-- <video 
-            controls 
-            [src]="url + project.link_video"
-            (loadeddata)="onVideoLoaded()"
-            [class.loaded]="!isVideoLoading"
-            poster=""
-            preload="metadata">
-            Votre navigateur ne supporte pas la lecture vidéo.
-          </video> -->
-          <div class="video-gradient"></div>
+            <div class="demo-info">
+              <h3 class="demo-name">{{ demo.name }}</h3>
+              <p class="demo-description">{{ truncate(demo.description, 80) }}</p>
+            </div>
+          </div>
         </div>
-        
-        <!-- <div *ngIf="!project?.link_video" class="no-video">
-          <svg class="no-video-icon" viewBox="0 0 24 24">
+
+        <div *ngIf="!isDemosLoading && demos.length === 0" class="no-demos">
+          <svg class="no-demos-icon" viewBox="0 0 24 24">
             <path d="M21 6.5l-4 4V7c0-.55-.45-1-1-1H9.82L21 17.18V6.5zM3.27 2L2 3.27 4.73 6H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.21 0 .39-.08.54-.18L19.73 21 21 19.73 3.27 2z"/>
           </svg>
-          <p>Aucune vidéo disponible</p>
-          <span>Une démonstration sera bientôt ajoutée</span>
+          <p>Aucune démonstration disponible</p>
+          <span>Des vidéos seront bientôt ajoutées</span>
         </div>
-      </div> -->
+      </div>
 
       <!-- Info Cards Grid -->
       <div class="info-grid">
@@ -121,7 +126,7 @@
         </div>
 
         <!-- Technologies Card -->
-        <div class="info-card tech-card" *ngIf="project?.tools?.length">
+        <div class="info-card tech-card" *ngIf="project.tools?.length">
           <div class="card-header">
             <h2 class="card-title">
               <svg class="title-icon" viewBox="0 0 24 24">
@@ -131,7 +136,7 @@
             </h2>
           </div>
           <div class="tech-grid">
-            <div class="tech-item" *ngFor="let tool of project?.tools; let i = index" 
+            <div class="tech-item" *ngFor="let tool of project.tools; let i = index" 
                  [style.animation-delay.ms]="i * 50">
               <div class="tech-icon">
                 <span>{{ tool.name.charAt(0).toUpperCase() }}</span>
@@ -142,7 +147,7 @@
         </div>
 
         <!-- Source Code Card -->
-        <div class="info-card code-card" *ngIf="project?.sourcecode">
+        <div class="info-card code-card" *ngIf="project.sourcecode">
           <div class="card-header">
             <h2 class="card-title">
               <svg class="title-icon" viewBox="0 0 24 24">

@@ -82,6 +82,10 @@ export class ProfileComponent implements OnInit {
     return this.router.navigate(["/modifier-profil"])
   }
 
+  addDemo() {
+    return this.router.navigate(["/creer-demo"])
+  }
+
   loadSelectedProfile(id: number): void {
     this.userService.getUser(id).subscribe((data) => {
       this.user = data

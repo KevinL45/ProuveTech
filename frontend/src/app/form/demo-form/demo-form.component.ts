@@ -6,6 +6,7 @@ import { environment } from '../../../environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { DemoService } from '../../services/demo.service';
+import { Project } from '../../models/Project';
 
 @Component({
   selector: 'app-demo-form',
@@ -14,6 +15,8 @@ import { DemoService } from '../../services/demo.service';
   styleUrl: './demo-form.component.scss'
 })
 export class DemoFormComponent implements OnInit {
+
+  projects:Project[] = []
 
   url: string = environment.apiUrl;
 
@@ -37,18 +40,21 @@ export class DemoFormComponent implements OnInit {
     private demoService: DemoService,
     private router: Router,
     private route: ActivatedRoute,
+    private projectService: UserService,
     private userService: UserService
   ) {
     this.demoForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       description: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(1000)]],
-      sourcecode: ['', Validators.maxLength(255)],
+      projectId: ['', Validators.required],
     });
 
     
   }
 
     ngOnInit(): void {
+
+    this.allMyProject();
 
     this.route.paramMap.subscribe(params => {
       const id = params.get("id");
@@ -71,15 +77,53 @@ export class DemoFormComponent implements OnInit {
         description: demo.description,
       });
       this.thumbnailUrl = this.url + demo.link_thumbnail;
-    })
-  }
-
-  onThumbnailChange(event: any): void {
-    const file = event.target.files[0];
-    if (file) {
-      this.selectedThumbnail = file;
+      })
     }
-  }
+
+    allMyProject() : void{
+      this.projectService.getMyProjects().subscribe(
+        (data)=>{
+          this.projects = data;
+          },
+        (error) => {
+          console.error('Erreur sur les projets:', error);
+        }
+      )
+    }
+
+    onThumbnailChange(event: Event): void {
+      const input = event.target as HTMLInputElement;
+      const file = input.files?.[0];
+      if (file && this.isValidImage(file)) {
+        this.selectedThumbnail = file;
+      } else {
+        this.message = 'Veuillez sélectionner une image valide (JPG, PNG, GIF, WebP).';
+        this.success = false;
+      }
+    }
+
+    onVideoChange(event: Event): void {
+      const input = event.target as HTMLInputElement;
+      const file = input.files?.[0];
+      if (file && this.isValidVideo(file)) {
+        this.selectedVideo = file;
+      } else {
+        this.message = 'Veuillez sélectionner une vidéo valide (MP4, WebM, Ogg).';
+        this.success = false;
+      }
+    }
+
+    private isValidImage(file: File): boolean {
+      const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      return validTypes.includes(file.type) && file.size <= maxSize;
+    }
+
+    private isValidVideo(file: File): boolean {
+      const validTypes = ['video/mp4', 'video/webm', 'video/ogg'];
+      const maxSize = 500 * 1024 * 1024; // 500MB
+      return validTypes.includes(file.type) && file.size <= maxSize;
+    }
 
     submit(): void {
     if (this.demoForm.invalid) {
@@ -103,9 +147,11 @@ export class DemoFormComponent implements OnInit {
     const formData = new FormData();
     formData.append('name', this.demoForm.value.name);
     formData.append('description', this.demoForm.value.description);
+    formData.append('project.id', this.demoForm.value.projectId);
 
     if (this.selectedVideo) {
       formData.append('video', this.selectedVideo!);
+      console.log(this.selectedVideo);
     }
     if (this.selectedThumbnail) {
       formData.append('thumbnail', this.selectedThumbnail!);

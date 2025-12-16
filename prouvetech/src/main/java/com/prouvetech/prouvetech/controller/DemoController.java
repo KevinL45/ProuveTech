@@ -58,24 +58,19 @@ public class DemoController {
     @PostMapping("/create")
     public ResponseEntity<ResponseMessage> addDemo(@ModelAttribute DemoDTO demoDTO) throws IOException {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-        User user = userService.getUserByMail(email);
         String detectedType = tika.detect(demoDTO.getVideo().getInputStream());
-
         // Verfie si la video est bien un fichier video
         if (!detectedType.startsWith("video/")) {
-            ResponseMessage message = new ResponseMessage(false, "Le fichier n'est pasune vidéo");
+            ResponseMessage message = new ResponseMessage(false, "Le fichier n'est pas une vidéo");
             return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
         }
-
         // Verifie la durée et la taille de la vidéo
         ResponseMessage validate = uploads.validateVideo(demoDTO.getVideo());
         if (!validate.isSuccess()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(validate);
         }
 
-        Project project = projectService.getProject(demoDTO.getProjectDTO().getId());
+        Project project = projectService.getProject(demoDTO.getProject().getId());
         String newVideo = uploads.saveFile(demoDTO.getVideo());
         String newThumbnail = uploads.saveFile(demoDTO.getThumbnail());
 
@@ -103,8 +98,6 @@ public class DemoController {
             @PathVariable Long id,
             @ModelAttribute DemoDTO demoDTO) throws IOException {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
         Project project = projectService.getProject(id);
         Demo demo = demoService.getDemo(id);
 

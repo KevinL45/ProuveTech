@@ -11,7 +11,7 @@ public class DemoDTO {
     private String link_thumbnail;
     private MultipartFile video;
     private String link_video;
-    private ProjectDTO projectDTO;
+    private ProjectDTO project;
 
     public DemoDTO() {
 
@@ -19,24 +19,24 @@ public class DemoDTO {
 
     public DemoDTO(long id, String name, String description,
             String link_thumbnail, String link_video,
-            ProjectDTO projectDTO) {
+            ProjectDTO project) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.link_thumbnail = link_thumbnail;
         this.link_video = link_video;
-        this.projectDTO = projectDTO;
+        this.project = project;
     }
 
     public DemoDTO(String name, String description,
             String link_thumbnail, String link_video,
-            ProjectDTO projectDTO) {
+            ProjectDTO project) {
 
         this.name = name;
         this.description = description;
         this.link_thumbnail = link_thumbnail;
         this.link_video = link_video;
-        this.projectDTO = projectDTO;
+        this.project = project;
     }
 
     public long getId() {
@@ -95,12 +95,12 @@ public class DemoDTO {
         this.link_video = link_video;
     }
 
-    public ProjectDTO getProjectDTO() {
-        return projectDTO;
+    public ProjectDTO getProject() {
+        return project;
     }
 
-    public void setProjectDTO(ProjectDTO projectDTO) {
-        this.projectDTO = projectDTO;
+    public void setProject(ProjectDTO project) {
+        this.project = project;
     }
 
 }
