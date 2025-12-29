@@ -98,7 +98,6 @@ public class DemoController {
             @PathVariable Long id,
             @ModelAttribute DemoDTO demoDTO) throws IOException {
 
-        Project project = projectService.getProject(id);
         Demo demo = demoService.getDemo(id);
 
         // Verifie la durée et la taille de la vidéo
@@ -121,9 +120,8 @@ public class DemoController {
 
         demo.setName(demoDTO.getName());
         demo.setDescription(demoDTO.getDescription());
-        project.setUpdateDate(LocalDateTime.now());
 
-        ResponseMessage result = this.projectService.updateProject(project);
+        ResponseMessage result = this.demoService.updateDemo(demo);
 
         if (!result.isSuccess()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(result);
@@ -168,6 +166,46 @@ public class DemoController {
     public ResponseEntity<DemoDTO> getDemo(@PathVariable Long id) {
 
         Demo p = demoService.getDemo(id);
+        DemoDTO demoDTO = new DemoDTO(
+                p.getId(),
+                p.getName(),
+                p.getDescription(),
+                p.getThumbnail(),
+                p.getVideo(),
+                new ProjectDTO(
+                        p.getProject().getId(),
+                        p.getProject().getName(),
+                        p.getProject().getDescription(),
+                        p.getProject().getThumbnail(),
+                        p.getProject().getSourceCode(),
+                        new UserDTO(
+                                p.getProject().getUser().getId(),
+                                p.getProject().getUser().getFirstname(),
+                                p.getProject().getUser().getLastname(),
+                                p.getProject().getUser().getMail(),
+                                p.getProject().getUser().getTitle(),
+                                p.getProject().getUser().getDescription(),
+                                new StatusDTO(
+                                        p.getProject().getUser().getStatus().getId(),
+                                        p.getProject().getUser().getStatus().getName()),
+                                p.getProject().getUser().getPhoto())));
+        return ResponseEntity.ok(demoDTO);
+    }
+
+    @GetMapping("/mydemo/{id}")
+    public ResponseEntity<DemoDTO> getMyDemo(@PathVariable Long id) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User currentUser = userService.getUserByMail(email);
+
+        Demo p = demoService.getDemo(id);
+
+        boolean isOwner = p.getProject().getUser().getId().equals(currentUser.getId());
+        if (!isOwner) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
         DemoDTO demoDTO = new DemoDTO(
                 p.getId(),
                 p.getName(),

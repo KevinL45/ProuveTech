@@ -53,10 +53,6 @@
       <label for="video">*Video</label>
       <input class="uploads" type="file" id="video" (change)="onVideoChange($event)" accept="video/*" />
     </div>
-    <div *ngIf="thumbnailUrl" class="form-group">
-      <label>Miniature actuelle :</label><br>
-      <img [src]="thumbnailUrl" alt="Miniature">
-    </div>
 
     <button type="submit" [disabled]="demoForm.invalid">
       {{ mode === 'create-demo' ? 'Ajouter une demo' : 'Mettre à jour' }}

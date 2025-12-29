@@ -75,6 +75,7 @@ export class DemoFormComponent implements OnInit {
       this.demoForm.patchValue({
         name: demo.name,
         description: demo.description,
+        projectId: demo.project?.id
       });
       this.thumbnailUrl = this.url + demo.link_thumbnail;
       })

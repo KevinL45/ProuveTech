@@ -6,6 +6,8 @@ import { UserService } from '../../services/user.service';
 import { Project } from '../../models/Project';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectService } from '../../services/project.service';
+import { DemoService } from '../../services/demo.service';
+import { Demo } from '../../models/Demo';
 
 @Component({
   selector: 'app-profile',
@@ -20,6 +22,7 @@ export class ProfileComponent implements OnInit {
 
   user: User | null = null;
   projects: Project[] = [];
+  demos: Demo[] = [];
 
   url: string = environment.apiUrl;
   showFullDescription = false;
@@ -33,7 +36,8 @@ export class ProfileComponent implements OnInit {
     private userService: UserService,
     private route: ActivatedRoute,
     private router: Router,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private demoService: DemoService
   ) {
 
   }
@@ -51,7 +55,8 @@ export class ProfileComponent implements OnInit {
     if (this.id) {
 
       this.loadSelectedProfile(this.id);
-      this.loadSelectedProjects(this.id)
+      this.loadSelectedProjects(this.id);
+      this.loadSelectedDemos(this.id);
 
     } else {
       //Si il est connecté
@@ -61,6 +66,7 @@ export class ProfileComponent implements OnInit {
       }
       this.loadProfile();
       this.loadMyProjects();
+      this.loadMyDemos();
 
     }
   }
@@ -96,6 +102,22 @@ export class ProfileComponent implements OnInit {
     this.userService.getProjectsUser(id).subscribe((data)=>{
       this.projects = data
     })
+  }
+
+  loadMyDemos(): void {
+    this.demoService.getAllDemos().subscribe((data) => {
+      this.demos = data.filter(demo => {
+        return this.projects.some(p => p.id === demo.project?.id);
+      });
+    });
+  }
+
+  loadSelectedDemos(id: number): void {
+    this.demoService.getAllDemos().subscribe((data) => {
+      this.demos = data.filter(demo => {
+        return demo.project?.user?.id === id;
+      });
+    });
   }
 
   toggleDescription() {

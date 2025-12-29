@@ -177,6 +177,8 @@ export class ProjectsComponent {
     return this.router.navigate(["/details-profil",project.user?.id])
   }
 
-
+  createProject(): void {
+    this.router.navigate(["/creer-projet"])
+  }
 
 }

@@ -45,7 +45,6 @@ export class ProjectFormComponent implements OnInit {
     private projectService: ProjectService,
     private router: Router,
     private route: ActivatedRoute,
-    private userService: UserService
   ) {
     this.projectForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
@@ -98,16 +97,8 @@ export class ProjectFormComponent implements OnInit {
         tools: project.tools?.map(t => t.id) || []
       });
       this.thumbnailUrl = this.url + project.link_thumbnail;
-      // this.videoUrl = this.url + project.link_video;
     })
   }
-
-  // onVideoChange(event: any): void {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     this.selectedVideo = file;
-  //   }
-  // }
 
   onThumbnailChange(event: any): void {
     const file = event.target.files[0];
@@ -123,12 +114,6 @@ export class ProjectFormComponent implements OnInit {
       return;
     }
 
-    // if (!this.selectedVideo && !this.videoUrl) {
-    //   this.message = 'Veuillez ajouter une vidéo.';
-    //   this.success = false;
-    //   return;
-    // }
-
     if (!this.selectedThumbnail && !this.thumbnailUrl) {
       this.message = 'Veuillez ajouter une miniature.';
       this.success = false;
@@ -139,9 +124,7 @@ export class ProjectFormComponent implements OnInit {
     formData.append('name', this.projectForm.value.name);
     formData.append('description', this.projectForm.value.description);
     formData.append('sourcecode', this.projectForm.value.sourcecode);
-    // if (this.selectedVideo) {
-    //   formData.append('video', this.selectedVideo!);
-    // }
+
     if (this.selectedThumbnail) {
       formData.append('thumbnail', this.selectedThumbnail!);
     }

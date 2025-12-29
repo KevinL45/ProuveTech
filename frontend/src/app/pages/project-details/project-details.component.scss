@@ -237,7 +237,7 @@ $transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 .author-card-hero {
   @include glass-effect;
   max-width: 500px;
-  margin: 0 auto 3rem;
+  margin: 0 auto 2rem;
   padding: 1.5rem;
   border-radius: 16px;
   display: flex;
@@ -313,6 +313,40 @@ $transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     height: 24px;
     fill: $primary;
     transition: transform 0.3s;
+  }
+}
+
+// Add Demo Button
+.btn-add-demo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.5rem;
+  background: $bg-gradient;
+  color: white;
+  border: none;
+  border-radius: $border-radius;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: $transition;
+  box-shadow: $shadow-md;
+  margin: 0 auto 3rem;
+  animation: slideUp 0.6s ease-out;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-lg;
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 }
 
@@ -488,6 +522,52 @@ $transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         margin-bottom: 1rem;
         flex: 1;
         line-height: 1.5;
+      }
+
+      .demo-actions {
+        display: flex;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+
+        .btn-demo-edit, .btn-demo-delete {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 36px;
+          height: 36px;
+          border-radius: 8px;
+          border: none;
+          cursor: pointer;
+          transition: $transition;
+          background: rgba(99, 102, 241, 0.1);
+          color: $primary;
+          padding: 0;
+
+          svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+          }
+
+          &:hover {
+            background: rgba(99, 102, 241, 0.2);
+            transform: translateY(-2px);
+            box-shadow: $shadow-sm;
+          }
+
+          &:active {
+            transform: translateY(0);
+          }
+        }
+
+        .btn-demo-delete {
+          background: rgba(239, 68, 68, 0.1);
+          color: $danger;
+
+          &:hover {
+            background: rgba(239, 68, 68, 0.2);
+          }
+        }
       }
 
       .demo-link {
@@ -927,6 +1007,20 @@ $transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         font-size: 1.75rem;
       }
     }
+
+    .author-card-hero {
+      flex-direction: column;
+      text-align: center;
+
+      .author-arrow {
+        display: none;
+      }
+    }
+
+    .btn-add-demo {
+      width: 90%;
+      margin: 0 auto 2rem;
+    }
   }
 
   .main-content {
@@ -935,15 +1029,6 @@ $transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   .info-grid {
     grid-template-columns: 1fr;
-  }
-
-  .author-card-hero {
-    flex-direction: column;
-    text-align: center;
-
-    .author-arrow {
-      display: none;
-    }
   }
 
   .code-card {

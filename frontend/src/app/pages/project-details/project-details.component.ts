@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../../services/project.service';
 import { DemoService } from '../../services/demo.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { Project } from '../../models/Project';
 import { Demo } from '../../models/Demo';
@@ -11,7 +11,7 @@ import { User } from '../../models/User';
 @Component({
   selector: 'app-project-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './project-details.component.html',
   styleUrl: './project-details.component.scss'
 })
@@ -75,6 +75,29 @@ export class ProjectDetailsComponent implements OnInit{
 
   detailsDemo(demo: Demo  | undefined ) {
     return this.router.navigate(["/details-demo",demo?.id])
+  }
+
+  createDemo(): void {
+    this.router.navigate(["/creer-demo"])
+  }
+
+  editDemo(demo: Demo): void {
+    this.router.navigate(["/modifier-demo", demo.id]);
+  }
+
+  deleteDemo(demo: Demo): void {
+    if (confirm(`Êtes-vous sûr de vouloir supprimer la vidéo "${demo.name}" ?`)) {
+      this.demoService.deleteDemo(demo).subscribe(
+        () => {
+          this.demos = this.demos.filter(d => d.id !== demo.id);
+          alert('Vidéo supprimée avec succès');
+        },
+        (error) => {
+          console.error('Erreur lors de la suppression:', error);
+          alert('Erreur lors de la suppression de la vidéo');
+        }
+      );
+    }
   }
 
   truncate(title: string | undefined, maxLength: number): string {

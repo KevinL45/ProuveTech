@@ -58,7 +58,9 @@ public class SecurityConfig {
                                                                 "/user/profile",
                                                                 "/user/myprojects",
 
-                                                                "project/myproject/{id}")
+                                                                "project/myproject/{id}",
+
+                                                                "/demo/mydemo/{id}")
                                                 .authenticated()
                                                 .requestMatchers("/tool/create",
                                                                 "/tool/update/{id}",

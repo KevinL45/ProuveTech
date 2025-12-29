@@ -55,6 +55,14 @@
             <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/>
           </svg>
         </div>
+
+        <!-- Add Demo Button -->
+        <button class="btn-add-demo" (click)="createDemo()">
+          <svg viewBox="0 0 24 24" width="20" height="20">
+            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="currentColor"/>
+          </svg>
+          Ajouter une démo
+        </button>
       </div>
     </div>
 
@@ -94,6 +102,19 @@
             <div class="demo-info">
               <h3 class="demo-name">{{ demo.name }}</h3>
               <p class="demo-description">{{ truncate(demo.description, 80) }}</p>
+              <div class="demo-actions">
+                <button class="btn-demo-edit" (click)="editDemo(demo)" title="Modifier">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z"/>
+                    <path d="M20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                  </svg>
+                </button>
+                <button class="btn-demo-delete" (click)="deleteDemo(demo)" title="Supprimer">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-9l-1 1H5v2h14V4z"/>
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>
