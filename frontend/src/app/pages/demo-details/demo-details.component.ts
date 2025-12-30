@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DemoService } from '../../services/demo.service';
 import { User } from '../../models/User';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-demo-details',
@@ -25,12 +26,18 @@ export class DemoDetailsComponent implements OnInit{
     private route:ActivatedRoute, 
     private demoService:DemoService,
     private router:Router,
+    private userService: UserService
   ){
 
   }
 
 
   ngOnInit():void{
+    
+    if (!this.userService.isAuthenticated()) {
+        this.router.navigate(['/']);
+        return;
+      }
 
     this.route.paramMap.subscribe(params =>{
       const id = params.get("id");

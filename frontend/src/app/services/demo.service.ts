@@ -22,11 +22,15 @@ export class DemoService {
   }
 
   getAllDemos(): Observable<Demo[]> {
-    return this.http.get<Demo[]>(`${this.apiUrl}/list`);
+    return this.http.get<Demo[]>(`${this.apiUrl}/list`,{
+        headers: this.userService.getAuthHeaders()
+      });
   }
 
   getDemo(id: number): Observable<Demo> {
-    return this.http.get<Demo>(`${this.apiUrl}/details/${id}`);
+    return this.http.get<Demo>(`${this.apiUrl}/details/${id}`, {
+        headers: this.userService.getAuthHeaders()
+      });
   }
 
   getMyDemo(id: number): Observable<Demo> {
@@ -48,6 +52,6 @@ export class DemoService {
   }
   
   searchDemos(params: HttpParams): Observable<Demo[]> {
-    return this.http.get<Demo[]>(`${this.apiUrl}/search`, { params });
+    return this.http.get<Demo[]>(`${this.apiUrl}/search`, { params, headers: this.userService.getAuthHeaders() });
   }
 }

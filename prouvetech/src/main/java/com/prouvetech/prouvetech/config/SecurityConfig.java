@@ -32,16 +32,23 @@ public class SecurityConfig {
                                                 .requestMatchers(
                                                                 "/user/register",
                                                                 "/user/login",
+                                                                "/status/list",
+                                                                "/status/details/{id}",
+                                                                "/uploads/**"
+
+                                                )
+                                                .permitAll()
+                                                .requestMatchers(
                                                                 "/user/list",
                                                                 "/user/details/{id}",
                                                                 "/user/projects/{id}",
                                                                 "/user/search",
+                                                                "/user/update",
+                                                                "/user/profile",
+                                                                "/user/myprojects",
 
                                                                 "/tool/list",
                                                                 "/tool/details/{id}",
-
-                                                                "/status/list",
-                                                                "/status/details/{id}",
 
                                                                 "/project/list",
                                                                 "/project/details/{id}",
@@ -50,16 +57,6 @@ public class SecurityConfig {
                                                                 "/demo/list",
                                                                 "/demo/details/{id}",
                                                                 "/demo/search",
-
-                                                                "/uploads/**")
-                                                .permitAll()
-                                                .requestMatchers(
-                                                                "/user/update",
-                                                                "/user/profile",
-                                                                "/user/myprojects",
-
-                                                                "project/myproject/{id}",
-
                                                                 "/demo/mydemo/{id}")
                                                 .authenticated()
                                                 .requestMatchers("/tool/create",

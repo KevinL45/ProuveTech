@@ -41,6 +41,11 @@ export class ProjectsComponent {
 
   ngOnInit(): void {
 
+    if (!this.userService.isAuthenticated()) {
+        this.router.navigate(['/']);
+        return;
+      }
+
     this.mode =
       this.router.url.includes('mes-demos') ? 'mes-demos' :
         this.router.url.includes('positionnement') ? 'positionnement' :

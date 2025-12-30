@@ -36,6 +36,10 @@ export class ActorItComponent {
     }
 
     ngOnInit(): void {
+      if (!this.userService.isAuthenticated()) {
+        this.router.navigate(['/']);
+        return;
+      }
       this.allStatus();
       this.allUsers();
     }

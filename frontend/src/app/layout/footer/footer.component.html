@@ -21,7 +21,7 @@
 
       <!-- Navigation rapide -->
       <div class="footer-section footer-nav">
-        <h4>Navigation</h4>
+        <h4>Menu</h4>
         <ul>
           <li>
             <a [routerLink]="['/accueil']" class="footer-link">
@@ -30,15 +30,21 @@
             </a>
           </li>
           <li>
-            <a [routerLink]="['/acteurs-it']" class="footer-link">
+            <a [routerLink]="['/acteurs-it']" class="footer-link" *ngIf="isAuthenticated()">
               <span class="link-icon">→</span>
               <span>Talents</span>
             </a>
           </li>
           <li>
-            <a [routerLink]="['/projets']" class="footer-link">
+            <a [routerLink]="['/projets']" class="footer-link" *ngIf="isAuthenticated()">
               <span class="link-icon">→</span>
               <span>Projets</span>
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/profil']" class="footer-link" *ngIf="isAuthenticated()">
+              <span class="link-icon">→</span>
+              <span>Profil</span>
             </a>
           </li>
           <li>

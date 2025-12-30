@@ -14,11 +14,15 @@ export class ToolService {
   constructor(private http: HttpClient, private userService:UserService) {}
 
   getAllTools(): Observable<Tool[]> {
-    return this.http.get<Tool[]>(`${this.apiUrl}/list`);
+    return this.http.get<Tool[]>(`${this.apiUrl}/list`, {
+      headers: this.userService.getAuthHeaders()
+    });
   }
 
   getToolsByIds(ids: number[]): Observable<Tool[]> {
-    return this.http.post<Tool[]>(`${this.apiUrl}/by-ids`, ids);
+    return this.http.post<Tool[]>(`${this.apiUrl}/by-ids`, ids, {
+      headers: this.userService.getAuthHeaders()
+    });
   }
 
   addTool(tool: FormData): Observable<ResponseMessage> {

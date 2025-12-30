@@ -22,11 +22,15 @@ export class ProjectService {
   }
 
   getAllProjects(): Observable<Project[]> {
-    return this.http.get<Project[]>(`${this.apiUrl}/list`);
+    return this.http.get<Project[]>(`${this.apiUrl}/list`,{
+        headers: this.userService.getAuthHeaders()
+      });
   }
 
   getProject(id: number): Observable<Project> {
-    return this.http.get<Project>(`${this.apiUrl}/details/${id}`);
+    return this.http.get<Project>(`${this.apiUrl}/details/${id}`,{
+        headers: this.userService.getAuthHeaders()
+      });
   }
 
   getMyProject(id: number): Observable<Project> {
@@ -48,6 +52,6 @@ export class ProjectService {
   }
   
   searchProjects(params: HttpParams): Observable<Project[]> {
-    return this.http.get<Project[]>(`${this.apiUrl}/search`, { params });
+    return this.http.get<Project[]>(`${this.apiUrl}/search`, { params, headers: this.userService.getAuthHeaders() });
   }
 }

@@ -73,11 +73,15 @@ isAuthenticated(): boolean {
   }
 
   getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.apiUrl}/list`);
+    return this.http.get<User[]>(`${this.apiUrl}/list`, {
+      headers: this.getAuthHeaders()
+    });
   }
 
   getUser(id: number): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/details/${id}`);
+    return this.http.get<User>(`${this.apiUrl}/details/${id}`, {
+      headers: this.getAuthHeaders()
+    });
   }
 
   getProfil(): Observable<User> {
@@ -93,10 +97,12 @@ isAuthenticated(): boolean {
   }
 
   getProjectsUser(id:number): Observable<Project[]> {
-    return this.http.get<Project[]>(`${this.apiUrl}/projects/${id}`);
+    return this.http.get<Project[]>(`${this.apiUrl}/projects/${id}`, {
+      headers: this.getAuthHeaders()
+    });
   }
 
   searchUsers(params: HttpParams): Observable<User[]> {
-    return this.http.get<User[]>(`${this.apiUrl}/search`, { params });
+    return this.http.get<User[]>(`${this.apiUrl}/search`, { params, headers: this.getAuthHeaders() });
   }
 }

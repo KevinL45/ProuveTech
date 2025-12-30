@@ -7,6 +7,7 @@ import { environment } from '../../../environments/environment';
 import { Project } from '../../models/Project';
 import { Demo } from '../../models/Demo';
 import { User } from '../../models/User';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-project-details',
@@ -29,12 +30,18 @@ export class ProjectDetailsComponent implements OnInit{
     private projectService:ProjectService,
     private demoService:DemoService,
     private router:Router,
+    private userService: UserService
   ){
 
   }
 
 
   ngOnInit():void{
+
+      if (!this.userService.isAuthenticated()) {
+        this.router.navigate(['/']);
+        return;
+      }
 
     this.route.paramMap.subscribe(params =>{
       const id = params.get("id");
