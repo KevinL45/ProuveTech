@@ -24,6 +24,8 @@ export class ProjectDetailsComponent implements OnInit{
   url:string = environment.apiUrl
   isProjectLoading: boolean = true;
   isDemosLoading: boolean = true;
+  user: User | null = null;
+  hasAccess: boolean = false;
 
     constructor(
     private route:ActivatedRoute, 
@@ -41,6 +43,10 @@ export class ProjectDetailsComponent implements OnInit{
       if (!this.userService.isAuthenticated()) {
         this.router.navigate(['/']);
         return;
+      }else{
+        this.userService.getProfil().subscribe((data) => {
+        this.user = data
+    })
       }
 
     this.route.paramMap.subscribe(params =>{
@@ -58,6 +64,7 @@ export class ProjectDetailsComponent implements OnInit{
     this.projectService.getProject(id).subscribe((data)=>{
       this.project = data;
       this.isProjectLoading = false;
+      this.checkAccess();
       this.loadDemos(id);
     })
   }
@@ -76,8 +83,18 @@ export class ProjectDetailsComponent implements OnInit{
     );
   }
 
-   detailsUser(user: User  | undefined ) {
+  detailsUser(user: User  | undefined ) {
     return this.router.navigate(["/details-profil",user?.id])
+  }
+
+  checkAccess(): void {
+    if (!this.user || !this.project) {
+      this.hasAccess = false;
+      return;
+    }
+    const isOwner = this.user.id === this.project.user?.id;
+    const isAdmin = this.user.roles?.some(role => role.name === 'ROLE_ADMIN') ?? false;    
+    this.hasAccess = isOwner || isAdmin;
   }
 
   detailsDemo(demo: Demo  | undefined ) {

@@ -1,4 +1,5 @@
 import { Status } from "./Status";
+import { Role } from "./Role";
 
 export class User {
     id?: number;
@@ -14,6 +15,7 @@ export class User {
     linkPhoto?:string;
     status?:Status;
     statusId?:number;
+    roles?: Role[]
 
 
     constructor(mail: string, password: string, firstname?:string, lastname?:string, statusId?:number, status?:Status, 

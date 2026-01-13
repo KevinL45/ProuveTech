@@ -41,7 +41,6 @@ export class DemoFormComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private projectService: UserService,
-    private userService: UserService
   ) {
     this.demoForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
@@ -78,6 +77,7 @@ export class DemoFormComponent implements OnInit {
         projectId: demo.project?.id
       });
       this.thumbnailUrl = this.url + demo.link_thumbnail;
+      this.videoUrl = this.url + demo.link_video;
       })
     }
 
@@ -166,7 +166,7 @@ export class DemoFormComponent implements OnInit {
       next: (res) => {
         this.message = res.toString()
         this.success = true;
-        this.router.navigate(['/profil']);
+        this.router.navigate(['/details-projet',this.projects.find(p => p.id === this.demoForm.value.projectId)?.id]);
       },
       error: (err) => {
         console.error('Erreur du projet :', err);

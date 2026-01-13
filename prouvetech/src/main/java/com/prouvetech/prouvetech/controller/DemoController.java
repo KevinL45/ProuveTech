@@ -100,13 +100,12 @@ public class DemoController {
 
         Demo demo = demoService.getDemo(id);
 
-        // Verifie la durée et la taille de la vidéo
-        ResponseMessage validate = uploads.validateVideo(demoDTO.getVideo());
-        if (!validate.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(validate);
-        }
-
         if (demoDTO.getVideo() != null) {
+            // Verifie la durée et la taille de la vidéo
+            ResponseMessage validate = uploads.validateVideo(demoDTO.getVideo());
+            if (!validate.isSuccess()) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(validate);
+            }
             String newVideo = uploads.updateFile(demoDTO.getVideo(),
                     demo.getVideo());
             demo.setVideo(newVideo);
@@ -286,7 +285,8 @@ public class DemoController {
         }
 
         uploads.deleteFile(demo.getThumbnail());
-        ResponseMessage result = projectService.deleteProject(demo.getId());
+        uploads.deleteFile(demo.getVideo());
+        ResponseMessage result = demoService.deleteDemo(demo.getId());
 
         if (!result.isSuccess()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(result);

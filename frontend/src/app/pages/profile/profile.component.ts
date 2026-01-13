@@ -84,6 +84,12 @@ export class ProfileComponent implements OnInit {
 
   }
 
+    loadMyDemos(): void {
+    this.demoService.getAllDemos().subscribe((data) => {
+      this.demos =data
+    });
+  }
+
   editProfile() {
     return this.router.navigate(["/modifier-profil"])
   }
@@ -102,14 +108,6 @@ export class ProfileComponent implements OnInit {
     this.userService.getProjectsUser(id).subscribe((data)=>{
       this.projects = data
     })
-  }
-
-  loadMyDemos(): void {
-    this.demoService.getAllDemos().subscribe((data) => {
-      this.demos = data.filter(demo => {
-        return this.projects.some(p => p.id === demo.project?.id);
-      });
-    });
   }
 
   loadSelectedDemos(id: number): void {
