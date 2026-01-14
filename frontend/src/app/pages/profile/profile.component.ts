@@ -127,11 +127,11 @@ export class ProfileComponent implements OnInit {
   }
 
   MyProjectList() {
-    return this.router.navigate(["/projets/mes-demos"])
+    return this.router.navigate(["/projets/mes-projets"])
   }
 
   ProjectList(id:number | undefined) {
-    return this.router.navigate(["/projets/positionnement", id])
+    return this.router.navigate(["/projets/les-projets", id])
   }
 
   addProject() {

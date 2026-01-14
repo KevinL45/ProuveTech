@@ -17,7 +17,7 @@ import { UserService } from '../../services/user.service';
 })
 export class ProjectsComponent {
 
-  mode: 'positionnement' | 'mes-demos' | 'projets' = 'projets';
+  mode: 'les-projets' | 'mes-projets' | 'projets' = 'projets';
 
   id: number | null = null
 
@@ -47,12 +47,12 @@ export class ProjectsComponent {
       }
 
     this.mode =
-      this.router.url.includes('mes-demos') ? 'mes-demos' :
-        this.router.url.includes('positionnement') ? 'positionnement' :
+      this.router.url.includes('mes-projets') ? 'mes-projets' :
+        this.router.url.includes('les-projets') ? 'les-projets' :
           this.router.url.includes('projets') ? 'projets' :
             'projets';
 
-    if (this.mode === "mes-demos") {
+    if (this.mode === "mes-projets") {
       if (!this.userService.isAuthenticated()) {
         this.router.navigate(['/']);
         return;
@@ -61,7 +61,7 @@ export class ProjectsComponent {
     } else if (this.mode === 'projets') {
       this.allProjet();
 
-    } else if (this.mode === 'positionnement') {
+    } else if (this.mode === 'les-projets') {
       this.route.paramMap.subscribe(params => {
         const id = params.get("id");
         if (id) {
@@ -84,6 +84,8 @@ export class ProjectsComponent {
     this.userService.getMyProjects().subscribe({
       next: (data) => {
         this.filteredProjects = data;
+        this.currentPage = 1;
+        this.updatePaginatedProject();
       },
       error: (err) => {
         console.error('Erreur chargement projets :', err);
@@ -96,6 +98,8 @@ export class ProjectsComponent {
     this.userService.getProjectsUser(id).subscribe({
       next: (data) => {
         this.filteredProjects = data;
+        this.currentPage = 1;
+        this.updatePaginatedProject();
       },
       error: (err) => {
         console.error('Erreur chargement projets :', err);

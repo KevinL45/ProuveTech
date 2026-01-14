@@ -1,25 +1,25 @@
 <title *ngIf="mode === 'projets'">Projets</title>
-<title *ngIf="mode === 'mes-demos'">Mes démos</title>
-<title *ngIf="mode === 'positionnement'">Mon positionnement</title>
+<title *ngIf="mode === 'mes-projets'">Mes projets</title>
+<title *ngIf="mode === 'les-projets'">Les projets</title>
 
 <div class="projects-page">
   <!-- Section Header -->
   <div class="section-header">
-    <span class="section-badge" *ngIf="mode === 'projets'">Explorez les démos</span>
-    <span class="section-badge" *ngIf="mode === 'mes-demos'">Gérez vos contenus</span>
-    <span class="section-badge" *ngIf="mode === 'positionnement'">Votre profil</span>
+    <span class="section-badge" *ngIf="mode === 'projets'">Explorez les projets</span>
+    <span class="section-badge" *ngIf="mode === 'mes-projets'">Gérez vos projets</span>
+    <span class="section-badge" *ngIf="mode === 'les-projets'">Les projets</span>
     
     <h1 class="page-title" *ngIf="mode === 'projets'">Les <span class="gradient-text">positionnements</span> des développeurs</h1>
-    <h1 class="page-title" *ngIf="mode === 'mes-demos'">Mon <span class="gradient-text">positionnement</span></h1>
-    <h1 class="page-title" *ngIf="mode === 'positionnement'">Mon <span class="gradient-text">positionnement</span></h1>
+    <h1 class="page-title" *ngIf="mode === 'mes-projets'">Mon <span class="gradient-text">positionnement</span></h1>
+    <h1 class="page-title" *ngIf="mode === 'les-projets'">Son <span class="gradient-text">positionnement</span></h1>
     
     <p class="page-subtitle" *ngIf="mode === 'projets'">Découvrez comment les développeurs se positionnent à travers leurs projets</p>
-    <p class="page-subtitle" *ngIf="mode === 'mes-demos'">Créez et gérez vos démos pour montrer votre vraie valeur</p>
-    <p class="page-subtitle" *ngIf="mode === 'positionnement'">Votre profil et vos réalisations</p>
+    <p class="page-subtitle" *ngIf="mode === 'mes-projets'">Créez et gérez vos projets pour montrer votre vraie valeur</p>
+    <p class="page-subtitle" *ngIf="mode === 'les-projets'">Ses réalisations</p>
   </div>
 
   <!-- Add Project Button -->
-  <button class="btn-add-project" *ngIf="mode === 'mes-demos'" (click)="createProject()">
+  <button class="btn-add-project" *ngIf="mode === 'mes-projets'" (click)="createProject()">
     <svg viewBox="0 0 24 24" width="20" height="20">
       <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="currentColor"/>
     </svg>
@@ -44,7 +44,7 @@
   </div>
 
   <div class="projects-list">
-    <div class="project-card" *ngFor="let project of filteredProjects">
+    <div class="project-card" *ngFor="let project of paginatedProject">
       <div class="thumbnail-wrapper">
         <img (click)="detailsProject(project)" class="thumbnail" [src]="url+project.link_thumbnail" />
       </div>
@@ -57,9 +57,18 @@
             <p class="title">{{truncate(project.user?.title, 41)}}</p>
           </div>
         </div>
-        <div class="options" *ngIf="mode === 'mes-demos'">
-          <button class="update" (click)="editProject(project)">Modifier</button>
-          <button class="remove" (click)="deleteProject(project)">Supprimer</button>
+        <div class="options" *ngIf="mode === 'mes-projets'">
+          <button class="update" (click)="editProject(project)" title="Modifier">
+            <svg viewBox="0 0 24 24">
+              <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z"/>
+              <path d="M20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+            </svg>
+          </button>
+          <button class="remove" (click)="deleteProject(project)" title="Supprimer">
+            <svg viewBox="0 0 24 24">
+              <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-9l-1 1H5v2h14V4z"/>
+            </svg>
+          </button>
         </div>
       </div>
     </div>
