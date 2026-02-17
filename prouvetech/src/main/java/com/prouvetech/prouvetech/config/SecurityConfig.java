@@ -53,6 +53,7 @@ public class SecurityConfig {
                                                                 "/project/list",
                                                                 "/project/details/{id}",
                                                                 "/project/search",
+                                                                "project/myproject/{id}",
 
                                                                 "/demo/list",
                                                                 "/demo/details/{id}",

@@ -15,7 +15,7 @@
     
     <p class="page-subtitle" *ngIf="mode === 'projets'">Découvrez comment les développeurs se positionnent à travers leurs projets</p>
     <p class="page-subtitle" *ngIf="mode === 'mes-projets'">Créez et gérez vos projets pour montrer votre vraie valeur</p>
-    <p class="page-subtitle" *ngIf="mode === 'les-projets'">Ses réalisations</p>
+    <p class="page-subtitle" *ngIf="mode === 'les-projets'">Les projets de ce développeur</p>
   </div>
 
   <!-- Add Project Button -->
@@ -27,7 +27,7 @@
   </button>
 
   <!-- Search Bar -->
-  <div class="search-section">
+  <div class="search-section" *ngIf="mode === 'projets'">
     <div class="search-container">
       <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <circle cx="11" cy="11" r="8"></circle>
@@ -37,7 +37,7 @@
         [(ngModel)]="searchTitle" 
         (input)="filterProjects()" 
         type="text" 
-        placeholder="Rechercher un projet..." 
+        placeholder="Rechercher par titre" 
         class="search-input"
       />
     </div>
@@ -74,7 +74,7 @@
     </div>
   </div>
 
-   <div class="pagination">
+   <div class="pagination" *ngIf="mode === 'projets'">
     <button (click)="prevPage()" [disabled]="currentPage === 1">Précédent</button>
     <span class="pages">{{currentPage}} / {{totalPages()}}</span>
     <button (click)="nextPage()" [disabled]="currentPage === totalPages()">Suivant</button>

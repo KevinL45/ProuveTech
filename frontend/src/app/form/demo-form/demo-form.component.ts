@@ -166,7 +166,7 @@ export class DemoFormComponent implements OnInit {
       next: (res) => {
         this.message = res.toString()
         this.success = true;
-        this.router.navigate(['/details-projet',this.projects.find(p => p.id === this.demoForm.value.projectId)?.id]);
+        this.router.navigate(['/details-projet', this.demoForm.value.projectId]);
       },
       error: (err) => {
         console.error('Erreur du projet :', err);

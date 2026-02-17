@@ -6,6 +6,7 @@ import { User } from '../../models/User';
 import { Status } from '../../models/Status';
 import { StatusService } from '../../services/status.service';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment.prod';
 
 @Component({
   selector: 'app-user-form',
@@ -20,6 +21,8 @@ export class UserFormComponent {
 
 mode: 'register' | 'login' | 'update' = 'register';
 
+  url: string = environment.apiUrl;
+
   userForm: FormGroup;
   loginForm: FormGroup;
   updateForm: FormGroup;
@@ -27,7 +30,7 @@ mode: 'register' | 'login' | 'update' = 'register';
 
   user: User | null = null;
   selectedPicture: File | null = null;
-  previewPicture: string | null = null;
+  pictureUrl: string | null = null;
 
 
   message: string = '';
@@ -87,6 +90,7 @@ mode: 'register' | 'login' | 'update' = 'register';
               mail: user.mail,
               statusId: user.status?.id,
           });
+        this.pictureUrl = this.url + user.linkPhoto;
       })
     }
 
@@ -164,20 +168,13 @@ mode: 'register' | 'login' | 'update' = 'register';
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length) {
       this.selectedPicture = input.files[0];
-
-      // Preview
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.previewPicture = reader.result as string;
-      };
-      reader.readAsDataURL(this.selectedPicture);
     }
   }
 
-    updateUser(){
+  updateUser(){
 
 
-    if (!this.selectedPicture) {
+    if (!this.selectedPicture && !this.pictureUrl) {
       this.message = 'Veuillez ajouter une photo de profil';
       this.success = false;
       return;

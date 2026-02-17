@@ -58,6 +58,15 @@ public class DemoController {
     @PostMapping("/create")
     public ResponseEntity<ResponseMessage> addDemo(@ModelAttribute DemoDTO demoDTO) throws IOException {
 
+        Project project = projectService.getProject(demoDTO.getProject().getId());
+
+        long demoCount = demoService.countDemosByProject(project);
+        if (demoCount >= 4) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(new ResponseMessage(false,
+                            "Vous avez atteint la limite de 4 vidéos maximum par projet."));
+        }
+
         String detectedType = tika.detect(demoDTO.getVideo().getInputStream());
         // Verfie si la video est bien un fichier video
         if (!detectedType.startsWith("video/")) {
@@ -70,7 +79,6 @@ public class DemoController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(validate);
         }
 
-        Project project = projectService.getProject(demoDTO.getProject().getId());
         String newVideo = uploads.saveFile(demoDTO.getVideo());
         String newThumbnail = uploads.saveFile(demoDTO.getThumbnail());
 

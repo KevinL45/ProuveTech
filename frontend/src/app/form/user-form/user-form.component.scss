@@ -131,15 +131,6 @@ $border-radius: 12px;
         min-height: 120px;
       }
 
-      .preview-picture {
-        margin-top: 0.75rem;
-        width: 80px;
-        height: 80px;
-        object-fit: cover;
-        border: 2px solid rgba(99, 102, 241, 0.15);
-        border-radius: 50%;
-      }
-
       .error {
         font-size: 0.85rem;
         color: $danger;

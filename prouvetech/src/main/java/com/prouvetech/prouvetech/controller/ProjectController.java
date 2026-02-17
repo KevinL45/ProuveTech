@@ -27,6 +27,8 @@ import com.prouvetech.prouvetech.dto.UserDTO;
 import com.prouvetech.prouvetech.model.Project;
 import com.prouvetech.prouvetech.model.Tool;
 import com.prouvetech.prouvetech.model.User;
+import com.prouvetech.prouvetech.model.Demo;
+import com.prouvetech.prouvetech.service.DemoService;
 import com.prouvetech.prouvetech.service.ProjectService;
 import com.prouvetech.prouvetech.service.ToolService;
 import com.prouvetech.prouvetech.service.UserService;
@@ -41,6 +43,9 @@ public class ProjectController {
         public ProjectController() {
 
         }
+
+        @Autowired
+        private DemoService demoService;
 
         @Autowired
         private ProjectService projectService;
@@ -60,6 +65,14 @@ public class ProjectController {
                 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                 String email = authentication.getName();
                 User user = userService.getUserByMail(email);
+
+                long projectCount = projectService.countProjectsByUser(user);
+                if (projectCount >= 3) {
+                        return ResponseEntity.status(HttpStatus.CONFLICT)
+                                        .body(new ResponseMessage(false,
+                                                        "Vous avez atteint la limite de 3 projets maximum."));
+                }
+
                 String newThumbnail = uploads.saveFile(projectDTO.getThumbnail());
                 List<Tool> selectedTools = toolService.getToolsByIds(projectDTO.getToolsIds());
 
@@ -261,6 +274,13 @@ public class ProjectController {
                         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                                         .body(new ResponseMessage(false,
                                                         "Vous n’êtes pas autorisé à supprimer ce projet."));
+                }
+
+                List<Demo> demos = demoService.getDemosByProjectId(project.getId());
+                for (Demo demo : demos) {
+                        uploads.deleteFile(demo.getThumbnail());
+                        uploads.deleteFile(demo.getVideo());
+                        demoService.deleteDemo(demo.getId());
                 }
 
                 uploads.deleteFile(project.getThumbnail());

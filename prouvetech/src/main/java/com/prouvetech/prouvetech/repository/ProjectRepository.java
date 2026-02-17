@@ -20,4 +20,6 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     List<Project> findDistinctByToolsIdIn(List<Long> toolIds);
 
     List<Project> findDistinctByNameContainingIgnoreCaseAndToolsIdIn(String name, List<Long> toolIds);
+
+    long countByUser(User user);
 }

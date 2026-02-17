@@ -177,10 +177,7 @@ public class Uploads {
     }
 
     private double getVideoDuration(File videoFile) throws IOException {
-        try {
-            // Utiliser NIOUtils pour créer un SeekableByteChannel
-            SeekableByteChannel channel = NIOUtils.readableChannel(videoFile);
-
+        try (SeekableByteChannel channel = NIOUtils.readableChannel(videoFile)) {
             MP4Demuxer demuxer = MP4Demuxer.createMP4Demuxer(channel);
             DemuxerTrack videoTrack = demuxer.getVideoTrack();
 
@@ -192,6 +189,8 @@ public class Uploads {
             DemuxerTrackMeta meta = videoTrack.getMeta();
             return meta.getTotalDuration();
 
+        } catch (IOException e) {
+            throw e;
         } catch (Exception e) {
             // Fallback: estimation basée sur la taille
             System.err.println("Erreur analyse vidéo, utilisation estimation: " + e.getMessage());

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.prouvetech.prouvetech.model.Demo;
+import com.prouvetech.prouvetech.model.Project;
 import com.prouvetech.prouvetech.repository.DemoRepository;
 import com.prouvetech.prouvetech.utils.ResponseMessage;
 
@@ -27,6 +28,14 @@ public class DemoService {
 
     public List<Demo> getAllDemos() {
         return demoRepository.findAll();
+    }
+
+    public long countDemosByUser(com.prouvetech.prouvetech.model.User user) {
+        return demoRepository.countByProjectUser(user);
+    }
+
+    public long countDemosByProject(Project project) {
+        return demoRepository.countByProject(project);
     }
 
     public ResponseMessage addDemo(Demo demo) {
@@ -51,6 +60,10 @@ public class DemoService {
         demoRepository.deleteById(id);
         return new ResponseMessage(true,
                 "La vidéo '" + demo.getName() + "'' avec l'ID " + demo.getId() + ", a été supprimé avec succès.");
+    }
+
+    public List<Demo> getDemosByProjectId(Long projectId) {
+        return demoRepository.findByProjectId(projectId);
     }
 
     public List<Demo> searchDemos(String name) {

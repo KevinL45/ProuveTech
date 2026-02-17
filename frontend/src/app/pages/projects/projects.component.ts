@@ -46,33 +46,30 @@ export class ProjectsComponent {
         return;
       }
 
-    this.mode =
-      this.router.url.includes('mes-projets') ? 'mes-projets' :
-        this.router.url.includes('les-projets') ? 'les-projets' :
-          this.router.url.includes('projets') ? 'projets' :
-            'projets';
+      this.mode =
+        this.router.url.includes('mes-projets') ? 'mes-projets' :
+          this.router.url.includes('les-projets') ? 'les-projets' :
+            this.router.url.includes('projets') ? 'projets' :
+              'projets';
 
-    if (this.mode === "mes-projets") {
-      if (!this.userService.isAuthenticated()) {
-        this.router.navigate(['/']);
-        return;
+      if (this.mode === "mes-projets") {
+        this.loadMyProjects()
+      } else if (this.mode === 'projets') {
+        this.allProjet();
+
+      } else if (this.mode === 'les-projets') {
+        this.route.paramMap.subscribe(params => {
+          const id = params.get("id");
+          if (id) {
+            this.id = Number(id);
+            this.SelectedMyProjects(this.id);
+          } else {
+            this.router.navigate(['/']);
+            return;
+          }
+        })
       }
-      this.loadMyProjects()
-    } else if (this.mode === 'projets') {
-      this.allProjet();
 
-    } else if (this.mode === 'les-projets') {
-      this.route.paramMap.subscribe(params => {
-        const id = params.get("id");
-        if (id) {
-          this.id = Number(id);
-          this.SelectedMyProjects(this.id);
-        } else {
-          this.router.navigate(['/']);
-          return;
-        }
-      })
-    }
 
   }
 

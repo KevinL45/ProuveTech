@@ -29,11 +29,8 @@ export class ProjectFormComponent implements OnInit {
   message: string = '';
   success: boolean = false;
 
-  // selectedVideo: File | null = null;
   selectedThumbnail: File | null = null;
-
   thumbnailUrl: string | null = null;
-  // videoUrl: string | null = null;
 
   id: number | null = null
 
@@ -142,7 +139,7 @@ export class ProjectFormComponent implements OnInit {
       next: (res) => {
         this.message = res.toString()
         this.success = true;
-        this.router.navigate(['/profil']);
+        this.router.navigate(['/creer-demo']);
       },
       error: (err) => {
         console.error('Erreur du projet :', err);

@@ -15,7 +15,6 @@ import com.prouvetech.prouvetech.utils.Uploads;
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -67,22 +66,15 @@ public class UserController {
 
         Status status = statusService.getStatus(userDTO.getStatusId());
 
-        Tika tika = new Tika();
-
-        String detectedTypePhoto = tika.detect(userDTO.getPhoto().getInputStream());
-
-        if (!detectedTypePhoto.startsWith("image/")) {
-            ResponseMessage message = new ResponseMessage(false, "Le fichier doit être une image");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+        if (userDTO.getPhoto() != null) {
+            String newphoto = uploads.updateFile(userDTO.getPhoto(), user.getPhoto());
+            user.setPhoto(newphoto);
         }
-
-        String newphoto = uploads.updateFile(userDTO.getPhoto(), user.getPhoto());
 
         user.setFirstname(userDTO.getFirstname());
         user.setLastname(userDTO.getLastname());
         user.setTitle(userDTO.getTitle());
         user.setDescription(userDTO.getDescription());
-        user.setPhoto(newphoto);
         user.setStatus(status);
         ResponseMessage result = userService.updateUser(user);
 

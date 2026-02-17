@@ -41,6 +41,10 @@ public class ProjectService {
         return projectRepository.findByUser(user);
     }
 
+    public long countProjectsByUser(User user) {
+        return projectRepository.countByUser(user);
+    }
+
     public ResponseMessage addProject(Project project) {
 
         projectRepository.save(project);

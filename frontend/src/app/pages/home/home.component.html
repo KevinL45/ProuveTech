@@ -22,7 +22,7 @@
 
     <!-- Subtitle -->
     <p class="hero-subtitle">
-      Fais-toi comprendre plus vite, sans CV ni tests hors-sol.
+      Fais-toi comprendre plus vite, sans CV ni tests techniques.
     </p>
 
     <!-- CTA Buttons -->
@@ -43,13 +43,22 @@
     </div>
 
     <div *ngIf="isAuthenticated()" class="hero-actions">
-      <a [routerLink]="['/acteurs-it']" class="btn-primary">
+      <a [routerLink]="['/profil']" class="btn-primary">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <polygon points="5 3 19 12 5 21 5 3"/>
         </svg>
-        <span>Voir les meilleurs talents</span>
+        <span>Voir mon profil</span>
+      </a>
+      <a [routerLink]="['/creer-projet']" class="btn-secondary">
+         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="23 7 16 12 23 17 23 7"/>
+            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+          </svg>
+        <span>Ajouter un projet</span>
       </a>
     </div>
+
+    
   </div>
 </section>
 
@@ -132,7 +141,7 @@
         <div class="video-preview">
           <div class="video-player">
             <video #videoElement muted autoplay loop playsinline (loadedmetadata)="onVideoLoaded()">
-              <source src="assets/videos/demo.mp4" type="video/mp4">
+              <source src="assets/videos/plateforme_prouvetech.mp4" type="video/mp4">
             </video>
           </div>
         </div>
