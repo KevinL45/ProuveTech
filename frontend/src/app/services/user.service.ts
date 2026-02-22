@@ -5,6 +5,7 @@ import { User } from '../models/User';
 import { environment } from '../../environments/environment';
 import { Project } from '../models/Project';
 import { ResponseMessage } from '../utils/ResponseMessage';
+import { Demo } from '../models/Demo';
 
 @Injectable({
   providedIn: 'root'
@@ -40,8 +41,22 @@ export class UserService {
   return null;
   }
 
+  saveRoles(roles: string[]): void {
+    localStorage.setItem('userRoles', JSON.stringify(roles));
+  }
+
+  getRoles(): string[] {
+    const roles = localStorage.getItem('userRoles');
+    return roles ? JSON.parse(roles) : [];
+  }
+
+  isAdmin(): boolean {
+    return this.getRoles().includes('ROLE_ADMIN');
+  }
+
   logout(): void {
     localStorage.removeItem('authToken');
+    localStorage.removeItem('userRoles');
   }
 
 isAuthenticated(): boolean {
@@ -92,6 +107,12 @@ isAuthenticated(): boolean {
 
   getMyProjects(): Observable<Project[]> {
     return this.http.get<Project[]>(`${this.apiUrl}/myprojects`, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
+  getMyDemos(): Observable<Demo[]> {
+    return this.http.get<Demo[]>(`${this.apiUrl}/mydemos`, {
       headers: this.getAuthHeaders()
     });
   }

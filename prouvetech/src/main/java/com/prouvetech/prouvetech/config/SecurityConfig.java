@@ -39,18 +39,18 @@ public class SecurityConfig {
                                                 )
                                                 .permitAll()
                                                 .requestMatchers(
-                                                                "/user/list",
+
                                                                 "/user/details/{id}",
                                                                 "/user/projects/{id}",
                                                                 "/user/search",
                                                                 "/user/update",
                                                                 "/user/profile",
                                                                 "/user/myprojects",
+                                                "/user/mydemos",
 
                                                                 "/tool/list",
                                                                 "/tool/details/{id}",
 
-                                                                "/project/list",
                                                                 "/project/details/{id}",
                                                                 "/project/search",
                                                                 "project/myproject/{id}",
@@ -66,7 +66,10 @@ public class SecurityConfig {
 
                                                                 "/status/create",
                                                                 "/status/update/{id}",
-                                                                "/status/delete/{id}")
+                                                                "/status/delete/{id}",
+
+                                                                "/user/list",
+                                                                "/project/list")
                                                 .hasAnyAuthority("ROLE_ADMIN")
                                                 .requestMatchers(
                                                                 "/project/create",

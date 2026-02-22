@@ -36,7 +36,7 @@ export class ActorItComponent {
     }
 
     ngOnInit(): void {
-      if (!this.userService.isAuthenticated()) {
+      if (!this.userService.isAdmin()) {
         this.router.navigate(['/']);
         return;
       }

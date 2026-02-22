@@ -1,11 +1,14 @@
 package com.prouvetech.prouvetech.controller;
 
+import com.prouvetech.prouvetech.dto.DemoDTO;
 import com.prouvetech.prouvetech.dto.ProjectDTO;
 import com.prouvetech.prouvetech.dto.StatusDTO;
 import com.prouvetech.prouvetech.dto.UserDTO;
+import com.prouvetech.prouvetech.model.Demo;
 import com.prouvetech.prouvetech.model.Project;
 import com.prouvetech.prouvetech.model.Status;
 import com.prouvetech.prouvetech.model.User;
+import com.prouvetech.prouvetech.service.DemoService;
 import com.prouvetech.prouvetech.service.ProjectService;
 import com.prouvetech.prouvetech.service.StatusService;
 import com.prouvetech.prouvetech.service.UserService;
@@ -34,6 +37,9 @@ public class UserController {
 
     @Autowired
     private ProjectService projectService;
+
+    @Autowired
+    private DemoService demoService;
 
     @Autowired
     private StatusService statusService;
@@ -154,6 +160,42 @@ public class UserController {
 
         return ResponseEntity.ok(projects_dto);
 
+    }
+
+    @GetMapping("/mydemos")
+    public ResponseEntity<List<DemoDTO>> getMyDemos() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.getUserByMail(authentication.getName());
+
+        StatusDTO statusDTO = new StatusDTO(user.getStatus().getId(), user.getStatus().getName());
+        UserDTO userDTO = new UserDTO(user.getId(),
+                user.getFirstname(),
+                user.getLastname(),
+                user.getMail(),
+                user.getTitle(),
+                user.getDescription(),
+                statusDTO,
+                user.getPhoto());
+
+        List<Demo> demos = demoService.getMyDemos(user);
+        List<DemoDTO> demos_dto = demos.stream()
+                .map(d -> new DemoDTO(
+                        d.getId(),
+                        d.getName(),
+                        d.getDescription(),
+                        d.getThumbnail(),
+                        d.getVideo(),
+                        new ProjectDTO(
+                                d.getProject().getId(),
+                                d.getProject().getName(),
+                                d.getProject().getDescription(),
+                                d.getProject().getThumbnail(),
+                                d.getProject().getSourceCode(),
+                                userDTO)))
+                .toList();
+
+        return ResponseEntity.ok(demos_dto);
     }
 
     @GetMapping("/projects/{id}")

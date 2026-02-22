@@ -1,4 +1,5 @@
 export interface ResponseMessage {
   success: boolean;
-  message: string; 
+  message: string;
+  roles?: string[];
 }

@@ -39,6 +39,10 @@ export class NavbarComponent {
     return this.userService.isAuthenticated()
   }
 
+  isAdmin():boolean{
+    return this.userService.isAdmin()
+  }
+
   closeMenu(): void {
     this.menuOpen = false;
     this.updateBodyScroll();

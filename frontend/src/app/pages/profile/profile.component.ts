@@ -85,8 +85,8 @@ export class ProfileComponent implements OnInit {
   }
 
     loadMyDemos(): void {
-    this.demoService.getAllDemos().subscribe((data) => {
-      this.demos =data
+    this.userService.getMyDemos().subscribe((data) => {
+      this.demos = data
     });
   }
 

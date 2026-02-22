@@ -30,13 +30,13 @@
             </a>
           </li>
           <li>
-            <a [routerLink]="['/acteurs-it']" class="footer-link" *ngIf="isAuthenticated()">
+            <a [routerLink]="['/acteurs-it']" class="footer-link" *ngIf="isAdmin()">
               <span class="link-icon">→</span>
               <span>Talents</span>
             </a>
           </li>
           <li>
-            <a [routerLink]="['/projets']" class="footer-link" *ngIf="isAuthenticated()">
+            <a [routerLink]="['/projets']" class="footer-link" *ngIf="isAdmin()">
               <span class="link-icon">→</span>
               <span>Projets</span>
             </a>

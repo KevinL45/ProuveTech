@@ -1,13 +1,13 @@
-<title *ngIf="mode === 'projets'">Projets</title>
+<title *ngIf="mode === 'projets'">Les projets</title>
 <title *ngIf="mode === 'mes-projets'">Mes projets</title>
-<title *ngIf="mode === 'les-projets'">Les projets</title>
+<title *ngIf="mode === 'les-projets'">Les projets de ...</title>
 
 <div class="projects-page">
   <!-- Section Header -->
   <div class="section-header">
     <span class="section-badge" *ngIf="mode === 'projets'">Explorez les projets</span>
     <span class="section-badge" *ngIf="mode === 'mes-projets'">Gérez vos projets</span>
-    <span class="section-badge" *ngIf="mode === 'les-projets'">Les projets</span>
+    <span class="section-badge" *ngIf="mode === 'les-projets'">Regarder ses projets pour découvrir sa vraie valeur</span>
     
     <h1 class="page-title" *ngIf="mode === 'projets'">Les <span class="gradient-text">positionnements</span> des développeurs</h1>
     <h1 class="page-title" *ngIf="mode === 'mes-projets'">Mon <span class="gradient-text">positionnement</span></h1>
@@ -15,7 +15,7 @@
     
     <p class="page-subtitle" *ngIf="mode === 'projets'">Découvrez comment les développeurs se positionnent à travers leurs projets</p>
     <p class="page-subtitle" *ngIf="mode === 'mes-projets'">Créez et gérez vos projets pour montrer votre vraie valeur</p>
-    <p class="page-subtitle" *ngIf="mode === 'les-projets'">Les projets de ce développeur</p>
+    <p class="page-subtitle" *ngIf="mode === 'les-projets'">Les projets de ...</p>
   </div>
 
   <!-- Add Project Button -->

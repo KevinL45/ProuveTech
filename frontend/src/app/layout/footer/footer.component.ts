@@ -18,4 +18,8 @@ export class FooterComponent {
   isAuthenticated():boolean{
     return this.userService.isAuthenticated()
   }
+
+  isAdmin():boolean{
+    return this.userService.isAdmin()
+  }
 }

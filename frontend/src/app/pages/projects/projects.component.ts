@@ -54,7 +54,8 @@ export class ProjectsComponent {
 
       if (this.mode === "mes-projets") {
         this.loadMyProjects()
-      } else if (this.mode === 'projets') {
+
+      } else if (this.mode === 'projets' && this.userService.isAdmin()) {
         this.allProjet();
 
       } else if (this.mode === 'les-projets') {
@@ -68,6 +69,8 @@ export class ProjectsComponent {
             return;
           }
         })
+      }else{
+        this.router.navigate(['/']);
       }
 
 

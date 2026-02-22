@@ -14,6 +14,8 @@ public interface DemoRepository extends JpaRepository<Demo, Long> {
 
     List<Demo> findByProjectId(Long projectId);
 
+    List<Demo> findByProjectUser(User user);
+
     long countByProjectUser(User user);
 
     long countByProject(Project project);

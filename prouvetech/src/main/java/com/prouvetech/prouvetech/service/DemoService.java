@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.prouvetech.prouvetech.model.Demo;
 import com.prouvetech.prouvetech.model.Project;
+import com.prouvetech.prouvetech.model.User;
 import com.prouvetech.prouvetech.repository.DemoRepository;
 import com.prouvetech.prouvetech.utils.ResponseMessage;
 
@@ -21,9 +22,8 @@ public class DemoService {
                 .orElseThrow(() -> new RuntimeException("Aucune vidéo trouvé avec l'ID : " + id));
     }
 
-    public Demo getMyDemos(Long projectId) {
-        return demoRepository.findById(projectId)
-                .orElseThrow(() -> new RuntimeException("Vidéo non trouvée pour cet utilisateur"));
+    public List<Demo> getMyDemos(User user) {
+        return demoRepository.findByProjectUser(user);
     }
 
     public List<Demo> getAllDemos() {

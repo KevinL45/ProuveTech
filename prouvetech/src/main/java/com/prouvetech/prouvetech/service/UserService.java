@@ -8,6 +8,7 @@ import com.prouvetech.prouvetech.repository.RoleRepository;
 import com.prouvetech.prouvetech.utils.ResponseMessage;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -55,7 +56,10 @@ public class UserService implements UserDetailsService {
 
         // Créer un token JWT si tout est OK
         String token = jwtTokenProvider.createToken(user.getMail());
-        return new ResponseMessage(true, token);
+        List<String> roles = user.getRoles().stream()
+                .map(Role::getName)
+                .collect(Collectors.toList());
+        return new ResponseMessage(true, token, roles);
     }
 
     public ResponseMessage createUser(User user) {
