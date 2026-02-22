@@ -65,9 +65,9 @@
       <!-- Actions utilisateur -->
       <ul class="nav-right">
         <!-- Non connecté -->
-        <li *ngIf="!isAuthenticated()">
+        <li *ngIf="isAdmin()">
           <a class="btn-outline" [routerLink]="['/inscription']">
-            <span>Inscription</span>
+            <span>Ajouter un bêta-testeur</span>
           </a>
         </li>
         <li *ngIf="!isAuthenticated()">

@@ -4,7 +4,6 @@ import com.prouvetech.prouvetech.config.JwtTokenProvider;
 import com.prouvetech.prouvetech.model.Role;
 import com.prouvetech.prouvetech.model.User;
 import com.prouvetech.prouvetech.repository.UserRepository;
-import com.prouvetech.prouvetech.repository.RoleRepository;
 import com.prouvetech.prouvetech.utils.ResponseMessage;
 
 import java.util.List;
@@ -24,10 +23,10 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Autowired
-    private RoleRepository roleRepository;
+    private JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+    private MailService mailService;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -69,13 +68,12 @@ public class UserService implements UserDetailsService {
         if (emailExist != null)
             return new ResponseMessage(false, "Vous avez déja un compte");
 
-        user.setPassword(hashPassword(user.getPassword()));
-
-        Role roleToAssign = roleRepository.findByName("ROLE_DEVELOPER")
-                .orElseThrow(() -> new RuntimeException("Rôle non trouvé"));
-
-        user.setRoles(List.of(roleToAssign));
+        String plainPassword = user.getPassword();
+        user.setPassword(hashPassword(plainPassword));
         userRepository.save(user);
+
+        mailService.sendWelcomeEmail(user.getMail(), user.getFirstname(), plainPassword);
+
         return new ResponseMessage(true, "Vous êtes inscrit. ");
     }
 

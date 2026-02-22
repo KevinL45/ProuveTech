@@ -21,7 +21,9 @@ export class UserService {
   }
 
   register(user: User): Observable<ResponseMessage> {
-    return this.http.post<ResponseMessage>(`${this.apiUrl}/register`, user);
+    return this.http.post<ResponseMessage>(`${this.apiUrl}/register`, user, {
+      headers: this.getAuthHeaders()
+    });
   }
 
   updateUser(formData: FormData): Observable<ResponseMessage> {
@@ -30,22 +32,24 @@ export class UserService {
     });
   }
 
+  private isBrowser(): boolean {
+    return typeof window !== 'undefined';
+  }
+
   saveToken(token: string): void {
-    localStorage.setItem('authToken', token);
+    if (this.isBrowser()) localStorage.setItem('authToken', token);
   }
 
   getToken(): string | null {
-  if (typeof window !== 'undefined') {
-    return localStorage.getItem('authToken');
-  }
-  return null;
+    return this.isBrowser() ? localStorage.getItem('authToken') : null;
   }
 
   saveRoles(roles: string[]): void {
-    localStorage.setItem('userRoles', JSON.stringify(roles));
+    if (this.isBrowser()) localStorage.setItem('userRoles', JSON.stringify(roles));
   }
 
   getRoles(): string[] {
+    if (!this.isBrowser()) return [];
     const roles = localStorage.getItem('userRoles');
     return roles ? JSON.parse(roles) : [];
   }
@@ -55,8 +59,10 @@ export class UserService {
   }
 
   logout(): void {
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('userRoles');
+    if (this.isBrowser()) {
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('userRoles');
+    }
   }
 
 isAuthenticated(): boolean {

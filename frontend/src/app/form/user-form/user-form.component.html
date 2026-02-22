@@ -70,11 +70,11 @@
       </select>
     </div>
 
-    <button type="submit" [disabled]="userForm.invalid">S'inscrire</button>
+    <button type="submit" [disabled]="userForm.invalid">Ajouter</button>
 
-    <p class="login-link">
+    <!-- <p class="login-link">
       Déjà un compte ? <a routerLink="/connexion">Se connecter</a>
-    </p>
+    </p> -->
   </form>
 
   <form class="form" *ngIf="mode === 'login'" [formGroup]="loginForm" (ngSubmit)="auth()">
@@ -103,9 +103,9 @@
     </div>
 
     <button type="submit" [disabled]="loginForm.invalid">Se connecter</button>
-    <p class="login-link">
+    <!-- <p class="login-link">
       Vous n'avez pas de compte ? <a routerLink="/connexion">S'inscrire</a>
-    </p>
+    </p> -->
   </form>
 
   <form class="form" *ngIf="mode === 'update'" [formGroup]="updateForm" (ngSubmit)="updateUser()">

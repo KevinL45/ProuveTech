@@ -30,11 +30,12 @@ public class SecurityConfig {
                                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS
                                 .authorizeHttpRequests(auth -> auth
                                                 .requestMatchers(
-                                                                "/user/register",
+
                                                                 "/user/login",
                                                                 "/status/list",
                                                                 "/status/details/{id}",
-                                                                "/uploads/**"
+                                                                "/uploads/**",
+                                                                "/user/register"
 
                                                 )
                                                 .permitAll()
@@ -46,7 +47,7 @@ public class SecurityConfig {
                                                                 "/user/update",
                                                                 "/user/profile",
                                                                 "/user/myprojects",
-                                                "/user/mydemos",
+                                                                "/user/mydemos",
 
                                                                 "/tool/list",
                                                                 "/tool/details/{id}",
@@ -54,11 +55,17 @@ public class SecurityConfig {
                                                                 "/project/details/{id}",
                                                                 "/project/search",
                                                                 "project/myproject/{id}",
+                                                                "/project/create",
+                                                                "/project/update/{id}",
+                                                                "/project/delete/{id}",
 
                                                                 "/demo/list",
                                                                 "/demo/details/{id}",
                                                                 "/demo/search",
-                                                                "/demo/mydemo/{id}")
+                                                                "/demo/mydemo/{id}",
+                                                                "/demo/create",
+                                                                "/demo/update/{id}",
+                                                                "/demo/delete/{id}")
                                                 .authenticated()
                                                 .requestMatchers("/tool/create",
                                                                 "/tool/update/{id}",
@@ -70,16 +77,7 @@ public class SecurityConfig {
 
                                                                 "/user/list",
                                                                 "/project/list")
-                                                .hasAnyAuthority("ROLE_ADMIN")
-                                                .requestMatchers(
-                                                                "/project/create",
-                                                                "/project/update/{id}",
-                                                                "/project/delete/{id}",
-
-                                                                "/demo/create",
-                                                                "/demo/update/{id}",
-                                                                "/demo/delete/{id}")
-                                                .hasAnyAuthority("ROLE_DEVELOPER"))
+                                                .hasAnyAuthority("ROLE_ADMIN"))
                                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
                 return http.build();
