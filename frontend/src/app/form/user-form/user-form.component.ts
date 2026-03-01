@@ -66,9 +66,9 @@ mode: 'register' | 'login' | 'update' = 'register';
     } 
 
     ngOnInit(): void {
-      // if(!this.userService.isAdmin()){
-      //   this.router.navigate(['/']);
-      // }
+      if(!this.userService.isAdmin()){
+        this.router.navigate(['/']);
+      }
 
       
       this.allStatus();
