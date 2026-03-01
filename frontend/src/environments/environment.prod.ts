@@ -1,5 +1,5 @@
 export const environment = {
     production: true,
-    apiUrl: 'api.prouvetech.fr'
+    apiUrl: 'https://api.prouvetech.fr'
   };
   
