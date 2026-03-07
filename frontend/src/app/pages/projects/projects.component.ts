@@ -177,7 +177,8 @@ export class ProjectsComponent {
   deleteProject(project: Project) {
     if (confirm('Êtes-vous sûr de vouloir supprimer la vidéo du projet ?')) {
       this.projectService.deleteProject(project).subscribe(() => {
-        this.filteredProjects = this.filteredProjects.filter(p => p.id !== project.id)
+        this.filteredProjects = this.filteredProjects.filter(p => p.id !== project.id);
+        this.updatePaginatedProject();
       });
     }
   }

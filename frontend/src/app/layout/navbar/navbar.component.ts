@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user.service';
 
@@ -31,8 +31,14 @@ export class NavbarComponent {
     this.router.navigate(["/accueil"])
   }
 
+  @HostListener('window:scroll')
+  onScroll(): void {
+    this.isScrolled = window.scrollY > 20;
+  }
+
   toggleMenu() {
     this.menuOpen = !this.menuOpen;
+    this.updateBodyScroll();
   }
 
   isAuthenticated():boolean{

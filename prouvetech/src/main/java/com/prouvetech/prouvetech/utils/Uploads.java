@@ -53,7 +53,9 @@ public class Uploads {
         }
 
         // Sauvegarder l'image avec un nom unique
-        String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+
+        String originalName = (file.getOriginalFilename() != null ? file.getOriginalFilename() : "fichier").replace(" ", "_");
+        String fileName = UUID.randomUUID().toString() + "_" + originalName;
         Path filePath = Paths.get(uploadDir + fileName);
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
@@ -97,7 +99,8 @@ public class Uploads {
         }
 
         // Sauvegarder la nouvelle image avec un nom unique
-        String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+        String originalName = (file.getOriginalFilename() != null ? file.getOriginalFilename() : "fichier").replace(" ", "_");
+        String fileName = UUID.randomUUID().toString() + "_" + originalName;
         Path filePath = Paths.get(uploadDir + fileName);
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
@@ -144,7 +147,7 @@ public class Uploads {
         }
 
         // Créer un fichier temporaire pour analyser la durée
-        String tempFileName = System.currentTimeMillis() + "_temp_" + file.getOriginalFilename();
+        String tempFileName = System.currentTimeMillis() + "_temp_" + (file.getOriginalFilename() != null ? file.getOriginalFilename() : "fichier").replace(" ", "_");
         Path tempPath = Paths.get(System.getProperty("java.io.tmpdir"), tempFileName);
 
         try {
