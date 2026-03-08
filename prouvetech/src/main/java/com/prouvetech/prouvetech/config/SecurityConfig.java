@@ -76,7 +76,8 @@ public class SecurityConfig {
                                                                 "/status/delete/{id}",
 
                                                                 "/user/list",
-                                                                "/project/list")
+                                                                "/project/list",
+                                                                "/user/register")
                                                 .hasAnyAuthority("ROLE_ADMIN"))
                                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
