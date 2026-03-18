@@ -20,11 +20,11 @@ public class MailService {
 
             helper.setFrom("kevin.lokoka@prouvetech.fr");
             helper.setTo(to);
-            helper.setSubject("Bienvenue sur la bêta de Prouve Tech !");
+            helper.setSubject("Bienvenue sur la bêta fermée de Prouve Tech !");
 
             String html = """
                     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 32px; background-color: #f9f9f9; border-radius: 8px;">
-                        <h1 style="color: #1a1a1a;">Bienvenue sur Prouve Tech, %s ! 🎉</h1>
+                        <h1 style="color: #1a1a1a;">Bienvenue sur Prouve Tech, %s !</h1>
                         <p style="color: #444; font-size: 16px;">
                             Tu fais partie des premiers testeurs de la bêta de <strong>Prouve Tech</strong>.<br>
                             Merci de nous rejoindre et d'aider à améliorer la plateforme !
@@ -38,11 +38,11 @@ public class MailService {
 
                         <p style="color: #444; font-size: 15px;">
                             Tu as des retours, des bugs à signaler ou des idées à partager ?<br>
-                            Rejoins notre serveur Discord et échange directement avec nous :
+                            Rejoins le serveur Discord pour échanger. :
                         </p>
 
                         <div style="text-align: center; margin: 24px 0;">
-                            <a href="https://discord.gg/MAb3rndc"
+                            <a href="https://discord.gg/NPqFRaGV9p"
                                style="background-color: #5865F2; color: #ffffff; text-decoration: none; padding: 12px 28px; border-radius: 6px; font-size: 15px; font-weight: bold;">
                                 Rejoindre le Discord
                             </a>
@@ -53,7 +53,7 @@ public class MailService {
                         </p>
 
                         <div style="text-align: center; margin: 16px 0;">
-                            <a href="#PROUVE_TECH_URL"
+                            <a href="https://app.prouvetech.fr/"
                                style="background-color: #1a1a1a; color: #ffffff; text-decoration: none; padding: 12px 28px; border-radius: 6px; font-size: 15px; font-weight: bold;">
                                 Accéder à Prouve Tech
                             </a>
