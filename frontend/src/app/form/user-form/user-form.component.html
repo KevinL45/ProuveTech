@@ -2,174 +2,272 @@
 <title *ngIf="mode === 'update'">Modifier votre profil</title>
 <title *ngIf="mode === 'login'">Connexion</title>
 
-
-
 <div class="page">
-  <form class="form" *ngIf="mode === 'register'" [formGroup]="userForm" (ngSubmit)="register()">
-    <div *ngIf="message" [ngClass]="{'error': !success}" class="message">
-      {{ message }}
-    </div>
-    <h2>Créer un compte</h2>
 
-    <div class="form-group">
-      <label for="firstname">Prénom -     
-        {{ userForm.get('firstname')?.value?.length || 0 }} / 50
-    </label>
-      <input type="text" id="firstname" formControlName="firstname" required />
-    </div>
-    <div class="error" *ngIf="userForm.get('firstname')?.hasError('maxlength')">
-      Maximum 50 caractères autorisés.
-    </div>
+  <!-- ==========================================
+       REGISTER — wizard 2 étapes
+  =========================================== -->
+  <div class="wizard-container" *ngIf="mode === 'register'">
 
-    <div class="form-group">
-      <label for="lastname">Nom -
-          {{ userForm.get('lastname')?.value?.length || 0 }} / 50
-      </label>
-      <input type="text" id="lastname" formControlName="lastname" required />
-    </div>
-    <div class="error" *ngIf="userForm.get('lastname')?.hasError('maxlength')">
-      Maximum 50 caractères autorisés.
+    <!-- Indicateurs d'étapes -->
+    <div class="steps-indicator">
+      <div class="step" [class.active]="registerStep >= 1" [class.completed]="registerStep > 1">
+        <div class="step-number">
+          <svg *ngIf="registerStep > 1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          <span *ngIf="registerStep <= 1">1</span>
+        </div>
+        <div class="step-label">Ton identité</div>
+      </div>
+      <div class="step-line" [class.active]="registerStep > 1"></div>
+      <div class="step" [class.active]="registerStep >= 2">
+        <div class="step-number">2</div>
+        <div class="step-label">Tes accès</div>
+      </div>
     </div>
 
+    <form class="form" [formGroup]="userForm" (ngSubmit)="register()">
 
+      <div *ngIf="message" [ngClass]="{'success': success, 'error': !success}" class="message">
+        {{ message }}
+      </div>
 
-    <div class="form-group">
-      <label for="email">Adresse e-mail -
-          {{ userForm.get('mail')?.value?.length || 0 }} / 255
-      </label>
-      <input type="email" id="email" formControlName="mail" required />
-    </div>
-    <div class="error" *ngIf="userForm.get('mail')?.hasError('maxlength')">
-      Maximum 255 caractères autorisés.
+      <!-- Étape 1 : Identité -->
+      <div class="step-content" *ngIf="registerStep === 1">
+        <div class="step-header">
+          <h2>Présente-toi</h2>
+          <p class="step-subtitle">Dis-nous qui tu es et ton domaine</p>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-firstname">
+            Prénom *
+            <span class="char-count">{{ userForm.get('firstname')?.value?.length || 0 }} / 50</span>
+          </label>
+          <input type="text" id="reg-firstname" formControlName="firstname" placeholder="Ton prénom" />
+          <div class="error" *ngIf="userForm.get('firstname')?.hasError('maxlength')">Maximum 50 caractères autorisés.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-lastname">
+            Nom *
+            <span class="char-count">{{ userForm.get('lastname')?.value?.length || 0 }} / 50</span>
+          </label>
+          <input type="text" id="reg-lastname" formControlName="lastname" placeholder="Ton nom de famille" />
+          <div class="error" *ngIf="userForm.get('lastname')?.hasError('maxlength')">Maximum 50 caractères autorisés.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-status">Statut *</label>
+          <select id="reg-status" formControlName="statusId">
+            <option value="" disabled selected>Sélectionne ton statut</option>
+            <option *ngFor="let status of listStatus" [value]="status.id">{{ status.name }}</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Étape 2 : Accès -->
+      <div class="step-content" *ngIf="registerStep === 2">
+        <div class="step-header">
+          <h2>Tes identifiants</h2>
+          <p class="step-subtitle">Crée ton accès sécurisé</p>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-email">
+            Adresse e-mail *
+            <span class="char-count">{{ userForm.get('mail')?.value?.length || 0 }} / 255</span>
+          </label>
+          <input type="email" id="reg-email" formControlName="mail" placeholder="ton@email.com" />
+          <div class="error" *ngIf="userForm.get('mail')?.hasError('email')">Adresse e-mail invalide.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-password">Mot de passe *</label>
+          <input type="password" id="reg-password" formControlName="password" placeholder="Au moins 6 caractères" />
+        </div>
+
+        <div class="form-group">
+          <label for="reg-confirmPassword">Confirmer le mot de passe *</label>
+          <input type="password" id="reg-confirmPassword" formControlName="confirmPassword" placeholder="Répète ton mot de passe" />
+          <div class="error" *ngIf="userForm.hasError('notMatching') && userForm.get('confirmPassword')?.dirty">
+            Les mots de passe ne correspondent pas.
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="nav-buttons">
+        <button type="button" class="btn-back" *ngIf="registerStep > 1" (click)="prevRegisterStep()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+          Précédent
+        </button>
+        <button type="button" class="btn-next" *ngIf="registerStep < 2" (click)="nextRegisterStep()" [disabled]="!isRegisterStepValid()">
+          Suivant
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <button type="submit" class="btn-submit" *ngIf="registerStep === 2" [disabled]="userForm.invalid">
+          Créer mon compte
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- ==========================================
+       LOGIN — formulaire simple
+  =========================================== -->
+  <div class="login-container" *ngIf="mode === 'login'">
+    <form class="form" [formGroup]="loginForm" (ngSubmit)="auth()">
+
+      <div class="login-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <h2>Bon retour !</h2>
+      <p class="login-subtitle">Connecte-toi pour accéder à ton espace</p>
+
+      <div *ngIf="message" [ngClass]="{'success': success, 'error': !success}" class="message">
+        {{ message }}
+      </div>
+
+      <div class="form-group">
+        <label for="login-email">Adresse e-mail</label>
+        <input type="email" id="login-email" formControlName="mail" placeholder="ton@email.com" />
+      </div>
+
+      <div class="form-group">
+        <label for="login-password">Mot de passe</label>
+        <input type="password" id="login-password" formControlName="password" placeholder="Ton mot de passe" />
+      </div>
+
+      <button type="submit" class="btn-login" [disabled]="loginForm.invalid">
+        Se connecter
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+
+    </form>
+  </div>
+
+  <!-- ==========================================
+       UPDATE — wizard 2 étapes
+  =========================================== -->
+  <div class="wizard-container" *ngIf="mode === 'update'">
+
+    <!-- Indicateurs d'étapes -->
+    <div class="steps-indicator">
+      <div class="step" [class.active]="updateStep >= 1" [class.completed]="updateStep > 1">
+        <div class="step-number">
+          <svg *ngIf="updateStep > 1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          <span *ngIf="updateStep <= 1">1</span>
+        </div>
+        <div class="step-label">Identité</div>
+      </div>
+      <div class="step-line" [class.active]="updateStep > 1"></div>
+      <div class="step" [class.active]="updateStep >= 2">
+        <div class="step-number">2</div>
+        <div class="step-label">Profil</div>
+      </div>
     </div>
 
-    <div class="form-group">
-      <label for="password">Mot de passe -
-            {{ userForm.get('password')?.value?.length || 0 }} / 255
-      </label>
-      <input type="password" id="password" formControlName="password" required minlength="6" />
-    </div>
-    <div class="error" *ngIf="userForm.get('password')?.hasError('maxlength')">
-      Maximum 255 caractères autorisés.
-    </div>
+    <form class="form" [formGroup]="updateForm" (ngSubmit)="updateUser()">
 
-    <div class="form-group">
-      <label for="confirmPassword">Retapez le mot de passe -
-          {{ userForm.get('confirmPassword')?.value?.length || 0 }} / 255
-      </label>
-      <input type="password" id="confirmPassword" formControlName="confirmPassword" required minlength="6" />
-    </div>
-    <div class="error" *ngIf="userForm.get('confirmPassword')?.hasError('maxlength')">
-      Maximum 255 caractères autorisés.
-    </div>
+      <div *ngIf="message" [ngClass]="{'success': success, 'error': !success}" class="message">
+        {{ message }}
+      </div>
 
-    <div class="form-group">
-      <label for="status">Statut</label>
-      <select id="status" name="status" formControlName="statusId" required>
-        <option *ngFor="let status of listStatus" [value]="status.id">{{status.name}}</option>
-      </select>
-    </div>
+      <!-- Étape 1 : Identité -->
+      <div class="step-content" *ngIf="updateStep === 1">
+        <div class="step-header">
+          <h2>Ton identité</h2>
+          <p class="step-subtitle">Mets à jour tes informations de base</p>
+        </div>
 
-    <button type="submit" [disabled]="userForm.invalid">Ajouter</button>
+        <div class="form-group">
+          <label for="upd-firstname">
+            Prénom *
+            <span class="char-count">{{ updateForm.get('firstname')?.value?.length || 0 }} / 50</span>
+          </label>
+          <input type="text" id="upd-firstname" formControlName="firstname" placeholder="Ton prénom" />
+          <div class="error" *ngIf="updateForm.get('firstname')?.hasError('maxlength')">Maximum 50 caractères autorisés.</div>
+        </div>
 
-    <!-- <p class="login-link">
-      Déjà un compte ? <a routerLink="/connexion">Se connecter</a>
-    </p> -->
-  </form>
+        <div class="form-group">
+          <label for="upd-lastname">
+            Nom *
+            <span class="char-count">{{ updateForm.get('lastname')?.value?.length || 0 }} / 50</span>
+          </label>
+          <input type="text" id="upd-lastname" formControlName="lastname" placeholder="Ton nom de famille" />
+          <div class="error" *ngIf="updateForm.get('lastname')?.hasError('maxlength')">Maximum 50 caractères autorisés.</div>
+        </div>
 
-  <form class="form" *ngIf="mode === 'login'" [formGroup]="loginForm" (ngSubmit)="auth()">
-    <div *ngIf="message" [ngClass]="{'error': !success}" class="message">
-      {{ message }}
-    </div>
-    <h2>Authentification</h2>
-    <div class="form-group">
-      <label for="email">Adresse e-mail -
-          {{ loginForm.get('mail')?.value?.length || 0 }} / 50
-      </label>
-      <input type="email" id="email" formControlName="mail" required />
-    </div>
-    <div class="error" *ngIf="loginForm.get('mail')?.hasError('maxlength')">
-      Maximum 255 caractères autorisés.
-    </div>
+        <div class="form-group">
+          <label for="upd-status">Statut *</label>
+          <select id="upd-status" formControlName="statusId">
+            <option value="" disabled>Sélectionne ton statut</option>
+            <option *ngFor="let status of listStatus" [value]="status.id">{{ status.name }}</option>
+          </select>
+        </div>
 
-    <div class="form-group">
-      <label for="password">Mot de passe -
-            {{ loginForm.get('password')?.value?.length || 0 }} / 50
-      </label>
-      <input type="password" id="password" formControlName="password" required minlength="6" />
-    </div>
-    <div class="error" *ngIf="loginForm.get('password')?.hasError('maxlength')">
-      Maximum 255 caractères autorisés.
-    </div>
+        <div class="form-group">
+          <label for="upd-title">
+            Titre *
+            <span class="char-count">{{ updateForm.get('title')?.value?.length || 0 }} / 100</span>
+          </label>
+          <input type="text" id="upd-title" formControlName="title" placeholder="Ex: Développeur Full-Stack passionné par l'IA" />
+          <div class="error" *ngIf="updateForm.get('title')?.hasError('maxlength')">Maximum 100 caractères autorisés.</div>
+        </div>
+      </div>
 
-    <button type="submit" [disabled]="loginForm.invalid">Se connecter</button>
-    <!-- <p class="login-link">
-      Vous n'avez pas de compte ? <a routerLink="/connexion">S'inscrire</a>
-    </p> -->
-  </form>
+      <!-- Étape 2 : Profil -->
+      <div class="step-content" *ngIf="updateStep === 2">
+        <div class="step-header">
+          <h2>Ton profil</h2>
+          <p class="step-subtitle">Montre qui tu es avec une description et une photo</p>
+        </div>
 
-  <form class="form" *ngIf="mode === 'update'" [formGroup]="updateForm" (ngSubmit)="updateUser()">
-    <h2>Modifier votre profil</h2>
-    
-    <div *ngIf="message" [ngClass]="{'error': !success}" class="message">
-      {{ message }}
-    </div>
+        <div class="form-group">
+          <label for="upd-description">
+            Description *
+            <span class="char-count">{{ updateForm.get('description')?.value?.length || 0 }} / 5000</span>
+          </label>
+          <textarea id="upd-description" formControlName="description" placeholder="Parle de toi, de tes compétences, de tes projets..."></textarea>
+          <div class="error" *ngIf="updateForm.get('description')?.hasError('maxlength')">Maximum 5000 caractères autorisés.</div>
+        </div>
 
-    <div class="form-group">
-      <label for="photo">Photo du profil</label>
-      <input type="file" id="photo" (change)="onPictureSelected($event)" accept="image/*"
-        placeholder="Votre photo profil" />
-    </div>
+        <div class="form-group">
+          <label for="upd-photo">Photo de profil</label>
+          <input type="file" id="upd-photo" (change)="onPictureSelected($event)" accept="image/*" />
+        </div>
 
-    <div class="form-group">
-      <label for="firstname">Prénom -
-          {{ updateForm.get('firstname')?.value?.length || 0 }} / 50
-      </label>
-      <input type="text" id="firstname" formControlName="firstname" placeholder="Votre prénom" required />
-    </div>
-    <div class="error" *ngIf="updateForm.get('firstname')?.hasError('maxlength')">
-      Maximum 50 caractères autorisés.
-    </div>
+        <!-- Aperçu photo -->
+        <div class="preview-section">
+          <div class="preview-label">Aperçu</div>
+          <div class="preview-avatar-card">
+            <img *ngIf="picturePreview" [src]="picturePreview" alt="Aperçu photo" />
+            <img *ngIf="!picturePreview && pictureUrl" [src]="pictureUrl" alt="Photo actuelle" />
+            <div *ngIf="!picturePreview && !pictureUrl" class="preview-placeholder">
+              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <span>Ajoute une photo</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
-    <div class="form-group">
-      <label for="lastname">Nom
-          {{ updateForm.get('lastname')?.value?.length || 0 }} / 50
-      </label>
-      <input type="text" id="lastname" formControlName="lastname" placeholder="Votre nom" required />
-    </div>
-    <div class="error" *ngIf="updateForm.get('lastname')?.hasError('maxlength')">
-      Maximum 50 caractères autorisés.
-    </div>
+      <!-- Navigation -->
+      <div class="nav-buttons">
+        <button type="button" class="btn-back" *ngIf="updateStep > 1" (click)="prevUpdateStep()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+          Précédent
+        </button>
+        <button type="button" class="btn-next" *ngIf="updateStep < 2" (click)="nextUpdateStep()" [disabled]="!isUpdateStepValid()">
+          Suivant
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <button type="submit" class="btn-submit" *ngIf="updateStep === 2" [disabled]="updateForm.invalid">
+          Enregistrer les modifications
+        </button>
+      </div>
 
-    <div class="form-group">
-      <label for="status">Statut</label>
-      <select id="status" name="status" formControlName="statusId" required>
-        <option *ngFor="let status of listStatus" [value]="status.id">{{status.name}}</option>
-      </select>
-    </div>
+    </form>
+  </div>
 
-    <div class="form-group">
-      <label for="title">Titre -
-              {{ updateForm.get('title')?.value?.length || 0 }} / 100
-      </label>
-      <input type="text" id="title" formControlName="title" required
-        placeholder="Votre positionnement unique" />
-    </div>
-    <div class="error" *ngIf="loginForm.get('title')?.hasError('maxlength')">
-      Maximum 100 caractères autorisés.
-    </div>
-
-    <div class="form-group">
-      <label for="description">Description -
-          {{ updateForm.get('description')?.value?.length || 0 }} / 5000
-      </label>
-      <textarea type="text" id="description" formControlName="description" required
-        placeholder="Description de votre profil"></textarea>
-    </div>
-    <div class="error" *ngIf="updateForm.get('description')?.hasError('maxlength')">
-      Maximum 5000 caractères autorisés.
-    </div>
-
-    <button type="submit" [disabled]="updateForm.invalid">Modifier</button>
-  </form>
 </div>

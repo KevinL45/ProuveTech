@@ -1,71 +1,146 @@
 <div class="page">
-  <form class="form" [formGroup]="projectForm" (ngSubmit)="submit()" enctype="multipart/form-data">
+  <div class="wizard-container">
 
-    <div *ngIf="message" [ngClass]="{'success': success, 'error': !success}" class="message">
-      {{ message }}
-    </div>
-
-    <h2 *ngIf="mode === 'create-project'">Ajouter un projet</h2>
-    <title *ngIf="mode === 'create-project'">Ajouter un projet</title>
-
-    <h2 *ngIf="mode === 'update-project'">Modifier le projet</h2>
-    <title *ngIf="mode === 'update-project'">Modifier le projet</title>
-
-
-    <div class="form-group">
-      <label for="name">*Nom -
-        {{ projectForm.get('name')?.value?.length || 0 }} / 50
-      </label>
-      <input type="text" id="name" formControlName="name" required />
-      <div class="error" *ngIf="projectForm.get('name')?.hasError('maxlength')">
-        Maximum 50 caractères autorisés.
+    <!-- Indicateurs d'étapes -->
+    <div class="steps-indicator">
+      <div class="step" [class.active]="currentStep >= 1" [class.completed]="currentStep > 1">
+        <div class="step-number">
+          <svg *ngIf="currentStep > 1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          <span *ngIf="currentStep <= 1">1</span>
+        </div>
+        <div class="step-label">L'essentiel</div>
+      </div>
+      <div class="step-line" [class.active]="currentStep > 1"></div>
+      <div class="step" [class.active]="currentStep >= 2" [class.completed]="currentStep > 2">
+        <div class="step-number">
+          <svg *ngIf="currentStep > 2" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          <span *ngIf="currentStep <= 2">2</span>
+        </div>
+        <div class="step-label">Stack</div>
+      </div>
+      <div class="step-line" [class.active]="currentStep > 2"></div>
+      <div class="step" [class.active]="currentStep >= 3">
+        <div class="step-number">3</div>
+        <div class="step-label">Miniature</div>
       </div>
     </div>
 
-    <div class="form-group">
-      <label for="description">*Description -
-        {{ projectForm.get('description')?.value?.length || 0 }} / 1000
-      </label>
-      <textarea id="description" formControlName="description" required></textarea>
-      <div class="error" *ngIf="projectForm.get('description')?.hasError('maxlength')">
-        Maximum 1000 caractères autorisés.
-      </div>
-    </div>
+    <!-- Formulaire -->
+    <form class="form" [formGroup]="projectForm" (ngSubmit)="submit()" enctype="multipart/form-data">
 
-    <div class="form-group">
-      <label for="sourcecode">Lien du code source</label>
-      <input type="text" id="sourcecode" formControlName="sourcecode" />
-      <div class="char-count">
-        {{ projectForm.get('sourcecode')?.value?.length || 0 }} / 255
+      <div *ngIf="message" [ngClass]="{'success': success, 'error': !success}" class="message">
+        {{ message }}
       </div>
-      <div class="error" *ngIf="projectForm.get('sourcecode')?.hasError('maxlength')">
-        Maximum 255 caractères autorisés.
+
+      <!-- Étape 1 : Nom + Description -->
+      <div class="step-content" *ngIf="currentStep === 1">
+        <div class="step-header">
+          <h2>Décris ton projet</h2>
+          <p class="step-subtitle">Donne envie aux recruteurs de regarder ton projet.</p>
+        </div>
+
+        <div class="form-group">
+          <label for="name">
+            Nom du projet *
+            <span class="char-count">{{ projectForm.get('name')?.value?.length || 0 }} / 50</span>
+          </label>
+          <input type="text" id="name" formControlName="name" placeholder="Ex: AppTracker, DevPortfolio..." required />
+          <div class="error" *ngIf="projectForm.get('name')?.hasError('maxlength')">
+            Maximum 50 caractères autorisés.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="description">
+            Description *
+            <span class="char-count">{{ projectForm.get('description')?.value?.length || 0 }} / 1000</span>
+          </label>
+          <textarea id="description" formControlName="description" placeholder="Explique le problème que tu résous, les fonctionnalités clés, ce que tu as appris..." required></textarea>
+          <div class="error" *ngIf="projectForm.get('description')?.hasError('maxlength')">
+            Maximum 1000 caractères autorisés.
+          </div>
+        </div>
       </div>
-    </div>
 
-    <div class="form-group">
-      <label for="tools">*Outils utilisés -
-          {{ projectForm.get('tools')?.value?.length || 0 }} / 3
-      </label>
-      <ng-select [items]="listTools" bindLabel="name" bindValue="id" [multiple]="true" [searchable]="true"
-        [maxSelectedItems]="3" formControlName="tools">
-      </ng-select>
-      <div class="error" *ngIf="projectForm.get('tools')?.hasError('maxTools')">
-        Maximum 3 outils autorisés.
+      <!-- Étape 2 : Outils + Source code -->
+      <div class="step-content" *ngIf="currentStep === 2">
+        <div class="step-header">
+          <h2>Stack technique</h2>
+          <p class="step-subtitle">Montre les technologies que tu maîtrises</p>
+        </div>
+
+        <div class="form-group">
+          <label for="tools">
+            Outils utilisés *
+            <span class="char-count">{{ projectForm.get('tools')?.value?.length || 0 }} / 3</span>
+          </label>
+          <ng-select [items]="listTools" bindLabel="name" bindValue="id" [multiple]="true" [searchable]="true"
+            [maxSelectedItems]="3" formControlName="tools" placeholder="Sélectionne jusqu'à 3 outils">
+          </ng-select>
+          <div class="error" *ngIf="projectForm.get('tools')?.hasError('maxTools')">
+            Maximum 3 outils autorisés.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="sourcecode">
+            Lien du code source
+            <span class="optional">optionnel</span>
+          </label>
+          <input type="text" id="sourcecode" formControlName="sourcecode" placeholder="https://github.com/..." />
+          <div class="error" *ngIf="projectForm.get('sourcecode')?.hasError('maxlength')">
+            Maximum 255 caractères autorisés.
+          </div>
+        </div>
       </div>
-    </div>
 
-    <div class="form-group">
-      <label for="video">*Miniature</label>
-      <input class="uploads" type="file" id="thumbnail" (change)="onThumbnailChange($event)" accept="image/*" />
-    </div>
-    <div *ngIf="thumbnailUrl" class="form-group">
-      <label>Miniature actuelle :</label><br>
-      <img [src]="thumbnailUrl" alt="Miniature">
-    </div>
+      <!-- Étape 3 : Miniature + Aperçu -->
+      <div class="step-content" *ngIf="currentStep === 3">
+        <div class="step-header">
+          <h2>Miniature du projet</h2>
+          <p class="step-subtitle">Une bonne image attire bien plus de clics</p>
+        </div>
 
-    <button type="submit" [disabled]="projectForm.invalid">
-      {{ mode === 'create-project' ? 'Ajouter le projet' : 'Mettre à jour' }}
-    </button>
-  </form>
+        <div class="form-group">
+          <label for="thumbnail">Miniature *</label>
+          <input class="uploads" type="file" id="thumbnail" (change)="onThumbnailChange($event)" accept="image/*" />
+        </div>
+
+        <!-- Aperçu carte projet -->
+        <div class="preview-section">
+          <div class="preview-label">Aperçu de ta carte projet</div>
+          <div class="preview-card">
+            <div class="preview-thumbnail">
+              <img *ngIf="thumbnailPreview" [src]="thumbnailPreview" alt="Miniature" />
+              <img *ngIf="!thumbnailPreview && thumbnailUrl" [src]="thumbnailUrl" alt="Miniature actuelle" />
+              <div *ngIf="!thumbnailPreview && !thumbnailUrl" class="preview-placeholder">
+                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+                <span>Ajoute une image</span>
+              </div>
+            </div>
+            <div class="preview-body">
+              <h3>{{ projectForm.get('name')?.value || 'Nom du projet' }}</h3>
+              <p>{{ (projectForm.get('description')?.value | slice:0:120) || 'Ta description apparaîtra ici...' }}{{ (projectForm.get('description')?.value?.length || 0) > 120 ? '...' : '' }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Boutons de navigation -->
+      <div class="nav-buttons">
+        <button type="button" class="btn-back" *ngIf="currentStep > 1" (click)="prevStep()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+          Précédent
+        </button>
+        <button type="button" class="btn-next" *ngIf="currentStep < 3" (click)="nextStep()" [disabled]="!isStepValid()">
+          Suivant
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <button type="submit" class="btn-submit" *ngIf="currentStep === 3" [disabled]="projectForm.invalid || (!selectedThumbnail && !thumbnailUrl)">
+          {{ mode === 'create-project' ? 'Publier le projet' : 'Mettre à jour' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
 </div>

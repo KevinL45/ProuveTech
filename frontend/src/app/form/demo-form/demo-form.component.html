@@ -1,65 +1,138 @@
 <div class="page">
-  <form class="form" [formGroup]="demoForm" (ngSubmit)="submit()" enctype="multipart/form-data">
+  <div class="wizard-container">
 
-    <div *ngIf="message" [ngClass]="{'success': success, 'error': !success}" class="message">
-      {{ message }}
-    </div>
-
-    <h2 *ngIf="mode === 'create-demo'">Ajouter une démo</h2>
-    <title *ngIf="mode === 'create-demo'">Ajouter une démo</title>
-
-    <h2 *ngIf="mode === 'update-demo'">Modifier une démo</h2>
-    <title *ngIf="mode === 'update-demo'">Modifier une démo</title>
-
-
-    <div class="form-group">
-      <label for="name">*Nom -
-        {{ demoForm.get('name')?.value?.length || 0 }} / 50
-      </label>
-      <input type="text" id="name" formControlName="name" required />
-      <div class="error" *ngIf="demoForm.get('name')?.hasError('maxlength')">
-        Maximum 50 caractères autorisés.
+    <!-- Indicateurs d'étapes -->
+    <div class="steps-indicator">
+      <div class="step" [class.active]="currentStep >= 1" [class.completed]="currentStep > 1">
+        <div class="step-number">
+          <svg *ngIf="currentStep > 1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          <span *ngIf="currentStep <= 1">1</span>
+        </div>
+        <div class="step-label">L'essentiel</div>
+      </div>
+      <div class="step-line" [class.active]="currentStep > 1"></div>
+      <div class="step" [class.active]="currentStep >= 2" [class.completed]="currentStep > 2">
+        <div class="step-number">
+          <svg *ngIf="currentStep > 2" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          <span *ngIf="currentStep <= 2">2</span>
+        </div>
+        <div class="step-label">Miniature</div>
+      </div>
+      <div class="step-line" [class.active]="currentStep > 2"></div>
+      <div class="step" [class.active]="currentStep >= 3">
+        <div class="step-number">3</div>
+        <div class="step-label">Vidéo</div>
       </div>
     </div>
 
-    <div class="form-group">
-      <label for="description">*Description -
-        {{ demoForm.get('description')?.value?.length || 0 }} / 1000
-      </label>
-      <textarea id="description" formControlName="description" required></textarea>
-      <div class="error" *ngIf="demoForm.get('description')?.hasError('maxlength')">
-        Maximum 1000 caractères autorisés.
+    <!-- Formulaire -->
+    <form class="form" [formGroup]="demoForm" (ngSubmit)="submit()" enctype="multipart/form-data">
+
+      <div *ngIf="message" [ngClass]="{'success': success, 'error': !success}" class="message">
+        {{ message }}
       </div>
-    </div>
 
-    <div class="form-group">
-    <label for="projects">Liste des projets</label>
-      <select id="projects" name="projetcs" formControlName="projectId" required>
-        <option *ngFor="let p of projects" [value]="p.id">{{p.name}}</option>
-      </select>
-    </div>
+      <!-- Étape 1 : Nom + Description + Projet -->
+      <div class="step-content" *ngIf="currentStep === 1">
+        <div class="step-header">
+          <h2>Décris ta démo</h2>
+          <p class="step-subtitle">Explique ce que tu vas montrer dans la vidéo</p>
+        </div>
 
-    <div class="form-group">
-      <label for="video">*Miniature</label>
-      <input class="uploads" type="file" id="thumbnail" (change)="onThumbnailChange($event)" accept="image/*" />
-    </div>
-    <div *ngIf="thumbnailUrl" class="form-group">
-      <label>Miniature actuelle :</label><br>
-      <img [src]="thumbnailUrl" alt="Miniature">
-    </div>
-    
+        <div class="form-group">
+          <label for="name">
+            Nom de la démo *
+            <span class="char-count">{{ demoForm.get('name')?.value?.length || 0 }} / 50</span>
+          </label>
+          <input type="text" id="name" formControlName="name" placeholder="Ex: Démo inscription, Tableau de bord..." required />
+          <div class="error" *ngIf="demoForm.get('name')?.hasError('maxlength')">
+            Maximum 50 caractères autorisés.
+          </div>
+        </div>
 
-    <div class="form-group">
-      <label for="video">*Video (Pas plus de 2 minutes)</label>
-      <input class="uploads" type="file" id="video" (change)="onVideoChange($event)" accept="video/*" />
-    </div>
-    <div *ngIf="videoUrl" class="form-group">
-      <label>Video actuelle :</label><br>
-      <video [src]="videoUrl" alt="Miniature"></video>
-    </div>
+        <div class="form-group">
+          <label for="description">
+            Description *
+            <span class="char-count">{{ demoForm.get('description')?.value?.length || 0 }} / 1000</span>
+          </label>
+          <textarea id="description" formControlName="description" placeholder="Décris ce que tu montres dans cette démo, les fonctionnalités présentées..." required></textarea>
+          <div class="error" *ngIf="demoForm.get('description')?.hasError('maxlength')">
+            Maximum 1000 caractères autorisés.
+          </div>
+        </div>
 
-    <button type="submit" [disabled]="demoForm.invalid">
-      {{ mode === 'create-demo' ? 'Ajouter une demo' : 'Mettre à jour' }}
-    </button>
-  </form>
+        <div class="form-group">
+          <label for="projects">Projet associé *</label>
+          <select id="projects" formControlName="projectId" required>
+            <option value="" disabled selected>Sélectionne un projet</option>
+            <option *ngFor="let p of projects" [value]="p.id">{{ p.name }}</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Étape 2 : Miniature -->
+      <div class="step-content" *ngIf="currentStep === 2">
+        <div class="step-header">
+          <h2>Miniature de la démo</h2>
+          <p class="step-subtitle">L'image qui donnera envie de lancer la vidéo</p>
+        </div>
+
+        <div class="form-group">
+          <label for="thumbnail">Miniature *</label>
+          <input class="uploads" type="file" id="thumbnail" (change)="onThumbnailChange($event)" accept="image/*" />
+        </div>
+
+        <!-- Aperçu miniature -->
+        <div class="preview-section">
+          <div class="preview-label">Aperçu</div>
+          <div class="preview-thumbnail-card">
+            <img *ngIf="thumbnailPreview" [src]="thumbnailPreview" alt="Aperçu miniature" />
+            <img *ngIf="!thumbnailPreview && thumbnailUrl" [src]="thumbnailUrl" alt="Miniature actuelle" />
+            <div *ngIf="!thumbnailPreview && !thumbnailUrl" class="preview-placeholder">
+              <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+              <span>Ajoute une image</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Étape 3 : Vidéo -->
+      <div class="step-content" *ngIf="currentStep === 3">
+        <div class="step-header">
+          <h2>Vidéo de démonstration</h2>
+          <p class="step-subtitle">Maximum 2 minutes — montre ton projet en action</p>
+        </div>
+
+        <div class="form-group">
+          <label for="video">Vidéo *</label>
+          <input class="uploads" type="file" id="video" (change)="onVideoChange($event)" accept="video/*" />
+        </div>
+
+        <!-- Aperçu vidéo -->
+        <div class="preview-section" *ngIf="videoPreview || videoUrl">
+          <div class="preview-label">Aperçu</div>
+          <div class="preview-video-card">
+            <video *ngIf="videoPreview" [src]="videoPreview" controls></video>
+            <video *ngIf="!videoPreview && videoUrl" [src]="videoUrl" controls></video>
+          </div>
+        </div>
+      </div>
+
+      <!-- Boutons de navigation -->
+      <div class="nav-buttons">
+        <button type="button" class="btn-back" *ngIf="currentStep > 1" (click)="prevStep()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+          Précédent
+        </button>
+        <button type="button" class="btn-next" *ngIf="currentStep < 3" (click)="nextStep()" [disabled]="!isStepValid()">
+          Suivant
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <button type="submit" class="btn-submit" *ngIf="currentStep === 3" [disabled]="demoForm.invalid || (!selectedVideo && !videoUrl)">
+          {{ mode === 'create-demo' ? 'Publier la démo' : 'Mettre à jour' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
 </div>
