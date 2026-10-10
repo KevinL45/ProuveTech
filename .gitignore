@@ -1,5 +1,6 @@
 # Secrets et config locale
 .env
 .env.*
+!.env.example
 .vscode/launch.json
 uploads
