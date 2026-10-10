@@ -18,7 +18,7 @@ public class MailService {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
-            helper.setFrom("kevin.lokoka@prouvetech.fr");
+            helper.setFrom("...");
             helper.setTo(to);
             helper.setSubject("Bienvenue sur la bêta fermée de Prouve Tech !");
 
@@ -53,7 +53,7 @@ public class MailService {
                         </p>
 
                         <div style="text-align: center; margin: 16px 0;">
-                            <a href="https://app.prouvetech.fr/"
+                            <a href="https://www.prouvetech.fr/"
                                style="background-color: #1a1a1a; color: #ffffff; text-decoration: none; padding: 12px 28px; border-radius: 6px; font-size: 15px; font-weight: bold;">
                                 Accéder à Prouve Tech
                             </a>
